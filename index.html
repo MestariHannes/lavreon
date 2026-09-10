@@ -10,12 +10,13 @@
     content="LAVREON is a private intelligence office for founders, principals and family offices."
   >
 
-  <title>LAVREON | Private Intelligence Office</title>
+  <title>LAVREON — Private Intelligence Office</title>
 
-  <link rel="stylesheet" href="styles.css?v=89335c0">
+  <link rel="stylesheet" href="styles.css?v=prospect-ready-1">
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Header -->
   <header class="site-header">
@@ -31,12 +32,12 @@
     </nav>
 
     <a class="header-cta" href="#contact">
-      Private Introduction
+      Introduction
     </a>
   </header>
 
 
-  <main>
+  <main id="main">
 
     <!-- Hero -->
     <section class="hero" id="top">
@@ -61,7 +62,7 @@
 
         <div class="hero-actions">
           <a class="button button-primary" href="#contact">
-            Request a private introduction
+            Discuss your priorities
           </a>
 
           <a class="button button-secondary" href="#method">
@@ -93,7 +94,7 @@
 
         <p>
           Lavreon identifies the signals that matter, determines
-          what they mean for the client and converts them into
+          what they mean for your priorities and converts them into
           clear next actions.
         </p>
       </div>
@@ -208,70 +209,65 @@
     </section>
 
 
-    <!-- Sample Brief -->
-    <section class="section brief-section" id="brief">
-
+    <!-- Public adaptation of the existing intelligence note. -->
+    <section class="section brief-section" id="brief" aria-labelledby="brief-heading">
       <div class="brief-copy">
-
-        <p class="eyebrow">INTELLIGENCE NOTE</p>
-
-        <h2>
-          Intelligence you can act on.
-        </h2>
-
-        <p>
-          Lavreon briefs are designed for speed and clarity:
-          what happened, why it matters and what deserves
-          attention next.
-        </p>
-
-        <span class="coming-soon">
-          Sample Intelligence Brief — coming soon
-        </span>
-
+        <p class="eyebrow">PRIVATE INTELLIGENCE NOTE · 001</p>
+        <h2 id="brief-heading">Intelligence you can act on.</h2>
+        <p>A public preview of <em>Edge AI Beyond the Hype</em>:
+          why deploying and operating AI across physical devices
+          may matter as much as the models themselves.</p>
+        <p class="brief-context">Adapted from our <time datetime="2026-09-10">10 September 2026</time>
+          research note. This preview covers the sector thesis only;
+          company-specific analysis is omitted.</p>
+        <a class="button button-secondary" href="#note-preview">Read the note preview <span aria-hidden="true">↗</span></a>
       </div>
 
-
-      <div class="brief-preview">
-
+      <article class="brief-preview" id="note-preview" aria-labelledby="note-title" tabindex="-1">
         <div class="brief-preview-top">
           <span>LAVREON</span>
-          <span>PRIVATE INTELLIGENCE</span>
+          <span>PUBLIC PREVIEW</span>
         </div>
-
-        <p class="brief-label">
-          EXECUTIVE INTELLIGENCE NOTE
-        </p>
-
-        <h3>
-          The signal beneath the headline.
-        </h3>
-
-        <div class="brief-line"></div>
-        <div class="brief-line short"></div>
-        <div class="brief-line"></div>
-
-        <div class="brief-verdict">
-          SIGNAL → IMPLICATION → ACTION
-        </div>
-
-      </div>
-
+        <p class="brief-label">EDGE AI · RESEARCH NOTE</p>
+        <h3 id="note-title">Edge AI beyond the hype.</h3>
+        <p class="note-deck">From model capability to operational control.</p>
+        <dl class="note-findings">
+          <div>
+            <dt>01 / Signal</dt>
+            <dd>Arm identifies integration friction and repeatable deployment
+              as practical challenges for taking embedded AI into production.</dd>
+          </div>
+          <div>
+            <dt>02 / Implication</dt>
+            <dd>Our thesis: value may shift toward the software that deploys,
+              updates and manages AI across device fleets. This remains a
+              hypothesis to test, not a forecast of individual winners.</dd>
+          </div>
+          <div>
+            <dt>03 / Action</dt>
+            <dd>Look for evidence of repeatable production rollouts,
+              support across hardware types and reliable update processes.
+              Watch whether larger platforms absorb these capabilities.</dd>
+          </div>
+        </dl>
+        <p class="note-source">Source context:
+          <a href="https://newsroom.arm.com/blog/arm-embedded-world-2026">Arm · Embedded World 2026</a>,
+          9 March 2026. Vendor perspective; interpretation is LAVREON’s.</p>
+      </article>
     </section>
-
 
     <!-- Who we serve -->
     <section class="section" id="about">
 
       <div class="section-heading">
-        <p class="eyebrow">WHO WE SERVE</p>
+        <p class="eyebrow">DESIGNED FOR</p>
 
         <h2>
           Intelligence for consequential decisions.
         </h2>
 
         <p>
-          Lavreon is being built for founders, principals,
+          LAVREON is designed for founders, principals,
           investors and family offices operating across complex,
           fast-moving environments.
         </p>
@@ -279,6 +275,30 @@
 
     </section>
 
+
+    <section class="section section-dark principles-section" id="principles" aria-labelledby="principles-heading">
+      <div class="section-heading">
+        <p class="eyebrow">OUR PRINCIPLES</p>
+        <h2 id="principles-heading">Clarity. Evidence. Discretion.</h2>
+      </div>
+      <div class="principles-grid">
+        <article>
+          <h3>Independent research</h3>
+          <p>Start with the question. Examine competing explanations
+            and make room for evidence that challenges the initial view.</p>
+        </article>
+        <article>
+          <h3>Source-backed intelligence</h3>
+          <p>Make the evidence traceable. Distinguish reported facts
+            from interpretation, and state uncertainty where it matters.</p>
+        </article>
+        <article>
+          <h3>Confidential by design</h3>
+          <p>Keep initial discussions high-level. Agree the scope and
+            information-handling arrangements before sensitive material is shared.</p>
+        </article>
+      </div>
+    </section>
 
     <!-- CTA -->
     <section class="contact-section" id="contact">
@@ -292,16 +312,18 @@
       </h2>
 
       <p>
-        Lavreon works with a limited number of relationships
-        where bespoke intelligence can create meaningful value.
+        Start with the decision you face, the questions you need answered
+        and the timeframe that matters.
       </p>
 
-      <a
-        class="button button-primary"
-        href="mailto:contact@lavreon.com"
-      >
-        Request an introduction
-      </a>
+      <div class="contact-guidance">
+        <h3>Arrange a private introduction</h3>
+        <p>If you received this page directly, reply through the same
+          channel to discuss your priorities.</p>
+        <p class="contact-status">Direct enquiries are not enabled on this website.
+          Please keep sensitive information out of an initial message.</p>
+        <a class="button button-primary" href="#brief">Explore the intelligence note</a>
+      </div>
 
     </section>
 

@@ -501,16 +501,7 @@ h3 {
   font-size: 18px;
 }
 
-.coming-soon {
-  display: inline-block;
 
-  margin-top: 32px;
-
-  color: var(--gold);
-  font-size: 11px;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
 
 .brief-preview {
   position: relative;
@@ -875,4 +866,65 @@ html { scroll-padding-top: 110px; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
   .button:hover, .brief-preview:hover { transform: none; }
+}
+
+/* Prospect-ready editorial layout, preserving the existing brand palette. */
+.skip-link { position: fixed; top: 12px; left: 24px; z-index: 1100; padding: 12px 18px; background: var(--text); color: var(--bg); transform: translateY(-160%); }
+.skip-link:focus { transform: none; }
+.navigation a { color: var(--text); font-size: 16px; letter-spacing: .025em; }
+.header-cta { min-height: 44px; display: inline-flex; align-items: center; font-size: 14px; }
+.hero { min-height: auto; padding-top: clamp(60px, 6vw, 88px); }
+.hero-content { margin-left: 0; max-width: 100%; }
+.hero-description { margin-top: 36px; }
+.hero-meta { margin-top: 44px; }
+.section { padding-block: clamp(64px, 7vw, 100px); }
+.method-grid, .services-grid { margin-top: 44px; }
+.method-card { min-height: auto; }
+.number { margin-bottom: 36px; }
+.service-card { min-height: auto; }
+.service-label { margin-bottom: 40px; }
+.brief-section { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(36px, 5vw, 72px); }
+.brief-copy .brief-context { font-size: 15px; color: var(--text-muted); margin-bottom: 28px; }
+.brief-copy .button { gap: 18px; }
+.brief-preview { min-height: 0; padding: clamp(26px, 3vw, 44px); }
+.brief-preview:hover { transform: none; }
+.brief-label { margin-top: 32px; margin-bottom: 14px; color: #625638; font-size: 11px; }
+.brief-preview h3 { font-size: clamp(32px, 3.4vw, 48px); margin-top: 0; margin-bottom: 16px; }
+.brief-preview-top { font-size: 10px; flex-wrap: wrap; }
+.note-deck { color: #55524d; line-height: 1.5; }
+.note-findings { margin: 24px 0 0; }
+.note-findings > div { padding: 18px 0; border-top: 1px solid rgba(0,0,0,.18); }
+.note-findings dt { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #625638; margin-bottom: 8px; }
+.note-findings dd { margin: 0; font-size: 15px; line-height: 1.6; }
+.note-source { padding-top: 18px; margin-bottom: 0; border-top: 1px solid rgba(0,0,0,.18); font-size: 12px; color: #55524d; }
+.note-source a { text-decoration: underline; text-underline-offset: 3px; }
+.brief-preview a:focus-visible, .brief-preview:focus-visible { outline: 2px solid #625638; outline-offset: 5px; }
+#about { border-top: 1px solid var(--border); }
+.principles-section h2 { font-size: clamp(32px, 4.5vw, 56px); }
+.principles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 40px; }
+.principles-grid article { padding-top: 24px; border-top: 1px solid var(--border-gold); }
+.principles-grid h3 { font-size: 23px; }
+.principles-grid p { color: var(--text-soft); margin-bottom: 0; }
+.contact-section { padding-block: clamp(68px, 7vw, 100px); }
+.contact-guidance { max-width: 650px; margin: 0 auto; padding-top: 28px; border-top: 1px solid rgba(0,0,0,.2); }
+.contact-guidance h3 { margin-bottom: 16px; }
+.contact-guidance p { color: #55524d; }
+.contact-status { font-size: 14px; }
+.contact-guidance .button { margin-top: 14px; }
+@media (max-width: 900px) {
+  .navigation a { font-size: 14px; }
+  .header-cta { font-size: 13px; }
+  .brief-section { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .principles-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+@media (max-width: 560px) {
+  .site-header { gap: 0 12px; }
+  .header-cta { max-width: none; font-size: 12px; padding-inline: 12px; }
+  .navigation { gap: 8px; }
+  .navigation a { font-size: 13px; letter-spacing: 0; }
+  .hero { padding-top: 48px; }
+  .hero h1 { font-size: clamp(39px, 10.7vw, 60px); }
+  .hero-meta { margin-top: 30px; }
+  .brief-preview-top { font-size: 9px; gap: 8px; }
+  .contact-section h2 { font-size: clamp(38px, 10vw, 56px); }
 }
