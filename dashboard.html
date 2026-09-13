@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore the LAVREON client portal visual prototype. All figures and insights are fictional sample data.">
+<meta name="robots" content="noindex">
+<title>Client Portal — LAVREON Demo</title>
+<link rel="stylesheet" href="dashboard.css?v=1">
+<script src="dashboard.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip" href="#overview">Skip to overview</a>
+<aside class="sidebar">
+<a class="brand" href="./index.html">LAVREON<span>PRIVATE INTELLIGENCE OFFICE</span></a>
+<p class="nav-label">YOUR OFFICE</p>
+<nav aria-label="Client portal">
+<a href="#overview" aria-current="location"><i aria-hidden="true">◈</i> Overview</a>
+<a href="#wealth"><i aria-hidden="true">◇</i> Wealth overview</a>
+<a href="#performance"><i aria-hidden="true">↗</i> Investments</a>
+<a href="#real-estate"><i aria-hidden="true">⌂</i> Real estate</a>
+<a href="#insights"><i aria-hidden="true">✧</i> Intelligence</a>
+<a href="#activity"><i aria-hidden="true">≡</i> Activity</a>
+<a href="#upcoming"><i aria-hidden="true">▦</i> Your agenda</a>
+<a href="#markets"><i aria-hidden="true">◎</i> Global markets</a>
+</nav>
+<div class="sidebar-bottom"><p>See beyond.<br>Know sooner.<br><em>Move first.</em></p><a href="./index.html">Visit public website <span aria-hidden="true">↗</span></a><span class="small">CLIENT PORTAL · PROTOTYPE 01</span></div>
+</aside>
+<div class="workspace">
+<header class="topbar">
+<span class="breadcrumb">Your office <span>/</span> Overview</span>
+<div class="search-wrap"><label class="sr-only" for="search">Find a dashboard section</label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Find a section…" autocomplete="off" aria-controls="search-results"><div id="search-results" class="search-results" hidden></div><span id="search-status" class="sr-only" role="status"></span></div>
+<details class="profile"><summary><span class="avatar">D</span><span>Demo principal<small>Sample workspace</small></span></summary><div class="profile-info">This is a public visual prototype. No account is signed in. All content is fictional sample data.</div></details>
+</header>
+<main id="overview">
+<div class="demo-banner"><span class="badge">DEMO EXPERIENCE</span><p>Fictional sample data throughout. No connected accounts, live prices or personalised advice.</p></div>
+<section class="hero" aria-labelledby="greeting">
+<div><p class="eyebrow">THE COMPLETE PICTURE</p><h1 id="greeting">Welcome to your office.</h1><p>Your wealth. Your priorities. A clearer perspective.</p></div>
+<div class="hero-note"><span>CLARITY, BY DESIGN.</span><p>More perspective.<br><em>More possibility.</em></p><span>Sample snapshot · 13 September 2026</span></div>
+</section>
+<section id="wealth" class="stats" aria-label="Sample wealth overview">
+<article class="stat featured"><div class="card-top"><h2>Total Net Worth</h2><span aria-hidden="true">◈</span></div><p class="value">€12,430,000</p><div class="stat-bottom"><div><span class="positive">↗ +6.8%</span><small>Sample · vs. last quarter</small></div><svg viewBox="0 0 130 45" aria-hidden="true"><path d="M1 40 14 35 24 37 38 26 49 29 62 15 74 19 88 10 100 14 115 6 129 2"/></svg></div></article>
+<article class="stat"><div class="card-top"><h2>Investments</h2><span aria-hidden="true">↗</span></div><p class="value">€8,210,000</p><div class="stat-bottom"><div><span class="positive">↗ +7.4%</span><small>Sample · vs. last quarter</small></div><svg viewBox="0 0 130 45" aria-hidden="true"><path d="M1 40 15 35 26 39 40 29 51 30 65 20 78 25 89 14 104 17 116 7 129 4"/></svg></div></article>
+<article class="stat"><div class="card-top"><h2>Liquid Assets</h2><span aria-hidden="true">◇</span></div><p class="value">€1,340,000</p><div class="stat-bottom"><div><span class="positive">↗ +2.1%</span><small>Sample · vs. last quarter</small></div><svg viewBox="0 0 130 45" aria-hidden="true"><path d="M1 39 16 36 28 29 40 32 54 24 66 27 80 18 93 20 106 10 118 13 129 7"/></svg></div></article>
+<article class="stat" id="real-estate"><div class="card-top"><h2>Real Estate</h2><span aria-hidden="true">⌂</span></div><p class="value">€2,880,000</p><div class="stat-bottom"><div><span class="positive">↗ +5.6%</span><small>Sample · vs. last quarter</small></div><svg viewBox="0 0 130 45" aria-hidden="true"><path d="M1 39 14 33 26 34 39 23 52 30 66 21 80 24 94 12 108 16 119 5 129 7"/></svg></div></article>
+</section>
+<div class="main-grid">
+<section class="panel allocation" id="allocation"><div class="section-top"><h2>Asset allocation</h2><span class="small">SAMPLE</span></div><div class="allocation-body"><div class="donut" role="img" aria-label="Sample allocation: equities 42%, private equity 17.05%, alternatives 7%, real estate 23.17%, cash 10.78%. Total 12.43 million euros."><div><span>€12.43M</span><small>Total assets</small></div></div><ul class="legend"><li><span><i style="--swatch:#cbb47d"></i>Equities</span><b>42.00%</b></li><li><span><i style="--swatch:#8e9f92"></i>Private equity</span><b>17.05%</b></li><li><span><i style="--swatch:#71828f"></i>Alternatives</span><b>7.00%</b></li><li><span><i style="--swatch:#ded8c9"></i>Real estate</span><b>23.17%</b></li><li><span><i style="--swatch:#6a604a"></i>Cash</span><b>10.78%</b></li></ul></div><p class="panel-foot">A consolidated view of a fictional asset mix.</p></section>
+<section class="panel performance" id="performance"><div class="section-top"><h2>Portfolio performance</h2><span class="small">SAMPLE</span></div><div class="performance-controls"><div><strong id="chart-value">€8.21M</strong><span class="positive" id="chart-change">+18.3% · 1 year</span></div><div class="periods" role="group" aria-label="Sample chart period"><button type="button" data-period="1M" aria-pressed="false">1M</button><button type="button" data-period="3M" aria-pressed="false">3M</button><button type="button" data-period="1Y" aria-pressed="true">1Y</button><button type="button" data-period="ALL" aria-pressed="false">All</button></div></div>
+<svg class="chart" viewBox="0 0 480 170" role="img" aria-labelledby="chart-title"><title id="chart-title">Fictional investment values over one year, ending at 8.21 million euros</title><defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b8a06a" stop-opacity=".2"/><stop offset="1" stop-color="#b8a06a" stop-opacity="0"/></linearGradient></defs><g class="gridlines"><path d="M40 20H470M40 60H470M40 100H470M40 140H470"/></g><g class="axis"><text x="0" y="24">€9M</text><text x="0" y="64">€8M</text><text x="0" y="104">€7M</text><text x="0" y="144">€6M</text></g><path id="chart-area" fill="url(#chart-fill)"/><path id="chart-line" fill="none" stroke="#cbb47d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><g class="axis"><text id="chart-start" x="40" y="167">Sep '25</text><text id="chart-mid" x="225" y="167">Mar '26</text><text x="425" y="167">Sep '26</text></g></svg><p class="panel-foot" id="chart-caption" aria-live="polite">Illustrative value history · includes sample cash flows.</p></section>
+<section class="panel insights" id="insights"><div class="section-top"><h2><span class="gold">✧</span> AI Insights</h2><span class="badge">3 SAMPLE NOTES</span></div><p class="muted">Illustrative prompts, not AI analysis of your finances.</p><details><summary><span class="insight-num">01</span><span>Concentration in focus<small>Portfolio perspective</small></span><span class="expand">+</span></summary><p>In this fictional allocation, equities account for 42% of assets. A sample review could explore exposure across regions and sectors. No recommendation is being made.</p></details><details><summary><span class="insight-num">02</span><span>Liquidity on the horizon<small>Planning perspective</small></span><span class="expand">+</span></summary><p>The sample cash balance is €1.34M. An illustrative planning discussion could compare liquidity with anticipated commitments. No real obligations are represented.</p></details><details><summary><span class="insight-num">03</span><span>The signal beneath the noise<small>Intelligence perspective</small></span><span class="expand">+</span></summary><p>A sample research workflow: identify a signal, examine its implications and frame the next questions. These notes are prewritten demonstration content.</p></details></section>
+<section class="panel" id="activity"><div class="section-top"><h2>Recent activity</h2><span class="small">SAMPLE</span></div><ul class="rows"><li><span class="row-icon">↗</span><span>Investment contribution<small>Global equity fund · 08 Sep</small></span><b>+€250,000<small>Transfer in</small></b></li><li><span class="row-icon">⌂</span><span>Property acquisition<small>Example residence · 05 Sep</small></span><b>−€1,200,000<small>Purchase</small></b></li><li><span class="row-icon">◇</span><span>Dividend received<small>Equity portfolio · 03 Sep</small></span><b>+€42,000<small>Income</small></b></li></ul><p class="panel-foot">Fictional transactions · September 2026</p></section>
+<section class="panel" id="upcoming"><div class="section-top"><h2>Upcoming</h2><span class="small">SAMPLE AGENDA</span></div><ul class="rows agenda"><li><span class="date">15<small>SEP</small></span><span>Planning conversation<small>Illustrative quarterly check-in</small></span><span class="muted">10:00</span></li><li><span class="date">22<small>SEP</small></span><span>Investment review<small>Sample portfolio discussion</small></span><span class="muted">14:30</span></li><li><span class="date">03<small>OCT</small></span><span>Structure &amp; priorities<small>Illustrative office meeting</small></span><span class="muted">11:00</span></li></ul><p class="panel-foot">Example dates and times · no meetings booked</p></section>
+<article class="editorial"><div class="radar" aria-hidden="true"></div><p class="eyebrow">THE LAVREON PERSPECTIVE</p><h2>A clearer tomorrow<br>begins with<br><em>better information.</em></h2><a href="./index.html#brief">Explore our intelligence note <span aria-hidden="true">↗</span></a><span class="editorial-brand">LAVREON</span></article>
+<section class="panel markets" id="markets"><div class="section-top"><h2>Global markets</h2><span class="small">SAMPLE QUOTES · NOT LIVE</span></div><div class="market-grid"><div><span>S&amp;P 500</span><strong>5,483.00</strong><small class="positive">+0.8%</small><span class="market-line" aria-hidden="true">▁▂▂▃▂▄▃▅▆▅▇</span></div><div><span>Nasdaq</span><strong>17,421.00</strong><small class="positive">+1.1%</small><span class="market-line" aria-hidden="true">▁▂▃▂▄▃▄▅▄▆▇</span></div><div><span>DAX</span><strong>18,932.00</strong><small class="positive">+0.6%</small><span class="market-line" aria-hidden="true">▁▂▁▃▂▄▃▅▄▆▇</span></div><div><span>Bitcoin / EUR</span><strong>€52,880</strong><small class="negative">−0.4%</small><span class="market-line down" aria-hidden="true">▇▆▇▅▆▄▅▃▄▂▁</span></div></div><p class="panel-foot">Fictional prices and daily changes for visual demonstration.</p></section>
+<section class="panel" id="currencies"><div class="section-top"><h2>Currencies</h2><span class="small">SAMPLE · NOT LIVE</span></div><table><caption class="sr-only">Fictional currency rates, quote currency per euro, and daily changes</caption><thead><tr><th scope="col">Pair</th><th scope="col">Rate</th><th scope="col">Change</th></tr></thead><tbody><tr><th scope="row">EUR / USD</th><td>1.078</td><td class="positive">+0.3%</td></tr><tr><th scope="row">EUR / GBP</th><td>0.861</td><td class="positive">+0.2%</td></tr><tr><th scope="row">EUR / SEK</th><td>11.240</td><td class="positive">+0.1%</td></tr><tr><th scope="row">EUR / CHF</th><td>0.944</td><td class="negative">−0.1%</td></tr></tbody></table></section>
+</div>
+<footer><span>LAVREON <span class="muted">/ Private Intelligence Office</span></span><p>Public visual prototype. All people, assets, values, insights and events are fictional examples. No authentication or financial services are provided.</p><span class="small">SEE BEYOND. KNOW SOONER. MOVE FIRST.</span></footer>
+</main></div>
+</body></html>
+
