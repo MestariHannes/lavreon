@@ -965,3 +965,7 @@ html { scroll-padding-top: 110px; }
 @keyframes entry-backdrop { 0%, 52% { opacity: 1; } 92%, 100% { opacity: 0; } }
 .intro-running .entry-wordmark { animation-name: entry-type-transfer; }
 @keyframes entry-type-transfer { 0%, 20% { opacity: 0; } 52% { opacity: 1; } 72%, 100% { opacity: 0; } }
+
+/* Keep the first frame dark until cold-load assets and layout are ready. */
+.intro-pending .page-entry { animation: none; background: var(--bg); }
+.intro-pending .entry-symbol, .intro-pending .entry-wordmark { animation: none; opacity: 0; }
