@@ -27,10 +27,10 @@
     mark.style.height = `${width * 260 / 480}px`;
     document.documentElement.classList.add('intro-running');
     animation = mark.animate([
-      {offset: 0, transform: start, opacity: .06, clipPath: 'circle(75% at 50% 39.61538%)'},
-      {offset: .18, transform: start, opacity: .3, clipPath: 'circle(75% at 50% 39.61538%)'},
-      {offset: .44, transform: start, opacity: 1, clipPath: 'circle(75% at 50% 39.61538%)'},
-      {offset: .56, transform: start, opacity: 1, clipPath: 'circle(75% at 50% 39.61538%)', easing: 'cubic-bezier(.4,0,.2,1)'},
+      {offset: 0, transform: start, opacity: 0, clipPath: 'circle(75% at 50% 39.61538%)'},
+      {offset: .06, transform: start, opacity: 0, clipPath: 'circle(75% at 50% 39.61538%)'},
+      {offset: .26, transform: start, opacity: .3, clipPath: 'circle(75% at 50% 39.61538%)'},
+      {offset: .52, transform: start, opacity: 1, clipPath: 'circle(75% at 50% 39.61538%)', easing: 'cubic-bezier(.4,0,.2,1)'},
       {offset: 1, transform: end, opacity: Number(getComputedStyle(destination.parentElement).opacity), clipPath: 'circle(75% at 50% 39.61538%)'}
     ], {duration: 5000, fill: 'both'});
     animation.onfinish = finish;

@@ -942,8 +942,8 @@ html { scroll-padding-top: 110px; }
   .entry-wordmark { animation: entry-type 5s ease both; }
 }
 @keyframes entry-mark {
-  0% { opacity: .06; clip-path: circle(75% at 50% 39.61538%); }
-  58%, 100% { opacity: 1; clip-path: circle(75% at 50% 39.61538%); }
+  0%, 6% { opacity: 0; clip-path: circle(75% at 50% 39.61538%); }
+  52%, 100% { opacity: 1; clip-path: circle(75% at 50% 39.61538%); }
 }
 @keyframes entry-type { 0%, 40% { opacity: 0; } 65%, 100% { opacity: 1; } }
 @media (max-width: 900px) { .hero-emblem { opacity: .11; --emblem-size: 650px; } .hero-emblem img { left: 85%; } }
@@ -962,6 +962,6 @@ html { scroll-padding-top: 110px; }
 .intro-running .entry-symbol { animation: none; left: 0; top: 0; transform-origin: top left; }
 .intro-running .hero-emblem img { visibility: hidden; }
 .intro-running .entry-wordmark { top: calc(50% + min(136px, 31vw)); }
-@keyframes entry-backdrop { 0%, 58% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes entry-backdrop { 0%, 52% { opacity: 1; } 92%, 100% { opacity: 0; } }
 .intro-running .entry-wordmark { animation-name: entry-type-transfer; }
-@keyframes entry-type-transfer { 0%, 28% { opacity: 0; } 44%, 56% { opacity: 1; } 72%, 100% { opacity: 0; } }
+@keyframes entry-type-transfer { 0%, 20% { opacity: 0; } 52% { opacity: 1; } 72%, 100% { opacity: 0; } }
