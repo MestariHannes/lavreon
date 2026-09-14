@@ -909,13 +909,13 @@ html { scroll-padding-top: 110px; }
   .contact-section h2 { font-size: clamp(38px, 10vw, 56px); }
 }
 
-/* One 3.5-second reveal: a dim point warms, illuminates the mark, then opens the page. */
+/* One 5-second reveal: a dim point warms, illuminates the mark, then opens the page. */
 .page-entry { display: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .page-entry { display: grid; place-items: center; position: fixed; inset: 0; z-index: 1050; pointer-events: none; background: var(--bg); animation: entry-reveal 3.5s ease both; }
-  .entry-glint { position: relative; width: 12px; height: 12px; border-radius: 50%; background: var(--gold-light); animation: entry-glint 3.5s ease both; }
-  .entry-glint::before { content: ''; position: absolute; width: 180px; height: 180px; top: 50%; left: 50%; margin: -90px; background: radial-gradient(circle, rgba(212,192,143,.28), rgba(184,160,106,.08) 28%, transparent 68%); animation: entry-halo 3.5s ease both; }
-  .entry-glint::after { content: ''; position: absolute; top: 50%; left: 50%; width: 150px; height: 1px; margin-left: -75px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); animation: entry-halo 3.5s ease both; }
+  .page-entry { display: grid; place-items: center; position: fixed; inset: 0; z-index: 1050; pointer-events: none; background: var(--bg); animation: entry-reveal 5s ease both; }
+  .entry-glint { position: relative; width: 12px; height: 12px; border-radius: 50%; background: var(--gold-light); animation: entry-glint 5s ease both; }
+  .entry-glint::before { content: ''; position: absolute; width: 180px; height: 180px; top: 50%; left: 50%; margin: -90px; background: radial-gradient(circle, rgba(212,192,143,.28), rgba(184,160,106,.08) 28%, transparent 68%); animation: entry-halo 5s ease both; }
+  .entry-glint::after { content: ''; position: absolute; top: 50%; left: 50%; width: 150px; height: 1px; margin-left: -75px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); animation: entry-halo 5s ease both; }
   body:focus-within .page-entry { display: none; }
 }
 @keyframes entry-glint {
@@ -951,8 +951,8 @@ html { scroll-padding-top: 110px; }
 .entry-wordmark { position: absolute; top: calc(50% + 102px); left: 0; right: 0; text-align: center; font: 24px Georgia, 'Times New Roman', serif; letter-spacing: .28em; padding-left: .28em; color: var(--text); opacity: 0; }
 .entry-wordmark small { display: block; margin-top: 16px; font: 8px 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: .2em; color: var(--gold-light); }
 @media (prefers-reduced-motion: no-preference) {
-  .entry-symbol { animation: entry-mark 3.5s ease both; }
-  .entry-wordmark { animation: entry-type 3.5s ease both; }
+  .entry-symbol { animation: entry-mark 5s ease both; }
+  .entry-wordmark { animation: entry-type 5s ease both; }
 }
 @keyframes entry-mark {
   0%, 22% { opacity: 0; clip-path: circle(0% at 50% 39.61538%); }
@@ -968,3 +968,19 @@ html { scroll-padding-top: 110px; }
   .header-cta { font-size: 10px; padding-inline: 8px; }
   .hero-emblem { --emblem-size: 530px; --horizon: 30%; opacity: .09; }
 }
+
+/* During the handoff only the dark backdrop fades; the mark keeps moving. */
+.intro-running .page-entry { animation: none; background: transparent; overflow: hidden; }
+.intro-running .page-entry::before { content: ''; position: absolute; inset: 0; background: var(--bg); animation: entry-backdrop 5s ease both; }
+.intro-running .entry-symbol { animation: none; left: 0; top: 0; transform-origin: top left; }
+.intro-running .hero-emblem img { visibility: hidden; }
+.intro-running .entry-glint { width: min(16px, 3.75vw); height: min(16px, 3.75vw); }
+.intro-running .entry-wordmark { top: calc(50% + min(136px, 31vw)); }
+.intro-running .entry-glint, .intro-running .entry-wordmark { animation-duration: 5s; }
+@keyframes entry-backdrop { 0%, 58% { opacity: 1; } 92%, 100% { opacity: 0; } }
+.intro-running .entry-wordmark { animation-name: entry-type-transfer; }
+@keyframes entry-type-transfer { 0%, 28% { opacity: 0; } 44%, 56% { opacity: 1; } 72%, 100% { opacity: 0; } }
+.intro-running .entry-glint { animation-name: entry-point-transfer; }
+.intro-running .entry-glint::before, .intro-running .entry-glint::after { animation-name: entry-halo-transfer; }
+@keyframes entry-point-transfer { 0% { opacity: .08; transform: scale(.45); } 20% { opacity: .3; transform: scale(.65); } 38% { opacity: 1; transform: scale(1); } 54%, 100% { opacity: 0; transform: scale(1); } }
+@keyframes entry-halo-transfer { 0%, 15% { opacity: 0; transform: scale(.3); } 38% { opacity: 1; transform: scale(1); } 56%, 100% { opacity: 0; transform: scale(1.25); } }

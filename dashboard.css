@@ -20,3 +20,18 @@ main{padding:22px 36px 0;max-width:1720px;margin:auto}.demo-banner{display:flex;
 .editorial-symbol { position: absolute; width: 360px; height: auto; right: -175px; top: 35px; opacity: .14; pointer-events: none; }
 .editorial-brand { font-family: Georgia, 'Times New Roman', serif; }
 @media (max-width: 850px) { .brand .brand-symbol { display: inline-block; width: 52px; height: 29px; margin: 0 14px 0 0; vertical-align: middle; } .brand span { margin-top: 10px; } }
+
+/* Independent, keyboard-accessible privacy controls; card dimensions stay stable. */
+.privacy-toggle { display: inline-grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; padding: 10px; margin: -10px -8px -10px auto; color: var(--gold); border-radius: 4px; }
+.privacy-toggle:hover { background: #b8a06a17; color: var(--text); }
+.privacy-toggle svg { width: 22px; height: 22px; max-width: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.stat .privacy-toggle svg path { stroke: currentColor; }
+.eye-slash { display: none; }
+[aria-pressed=true] .eye-slash { display: block; }
+.privacy-wrap { position: relative; display: flow-root; }
+.privacy-content { display: flow-root; }
+.details-hidden .privacy-content { visibility: hidden; }
+.privacy-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 28px; letter-spacing: .18em; }
+.privacy-placeholder[hidden] { display: none; }
+@media (max-width: 560px) { .stat .privacy-toggle { width: 36px; padding: 7px; } .card-top { gap: 4px; } }
+.privacy-toggle svg { display: block; }

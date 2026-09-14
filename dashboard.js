@@ -1,6 +1,42 @@
 'use strict';
 // This prototype uses only fictional in-memory data. No accounts, storage or APIs.
 (() => {
+  // Each card can independently conceal its contents, including accessible text.
+  document.querySelectorAll('.stat, .panel').forEach((card, index) => {
+    const heading = card.querySelector('.card-top, .section-top');
+    const name = heading.querySelector('h2').textContent.trim();
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'privacy-toggle';
+    button.setAttribute('aria-label', `Hide ${name} details`);
+    button.setAttribute('aria-pressed', 'false');
+    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3 21 21"/></svg>';
+    if (card.matches('.stat')) heading.querySelector(':scope > span')?.remove();
+    heading.append(button);
+    const wrap = document.createElement('div');
+    wrap.className = 'privacy-wrap';
+    const content = document.createElement('div');
+    content.className = 'privacy-content';
+    content.id = `card-details-${index}`;
+    button.setAttribute('aria-controls', content.id);
+    while (heading.nextSibling) content.append(heading.nextSibling);
+    const placeholder = document.createElement('span');
+    placeholder.className = 'privacy-placeholder';
+    placeholder.textContent = '••••';
+    placeholder.setAttribute('aria-label', `${name} details hidden`);
+    placeholder.hidden = true;
+    wrap.append(content, placeholder);
+    card.append(wrap);
+    button.addEventListener('click', () => {
+      const hidden = button.getAttribute('aria-pressed') !== 'true';
+      button.setAttribute('aria-pressed', String(hidden));
+      button.setAttribute('aria-label', `${hidden ? 'Show' : 'Hide'} ${name} details`);
+      card.classList.toggle('details-hidden', hidden);
+      content.inert = hidden;
+      content.setAttribute('aria-hidden', String(hidden));
+      placeholder.hidden = !hidden;
+    });
+  });
   const samples = {
     '1M': {values:[8.04,8.06,8.02,8.08,8.10,8.07,8.12,8.16,8.13,8.18,8.21],change:'+2.1% · 1 month',start:"Aug '26",mid:'Late Aug',name:'one month'},
     '3M': {values:[7.64,7.70,7.67,7.78,7.73,7.86,7.94,7.89,8.02,7.98,8.10,8.21],change:'+7.4% · 3 months',start:"Jun '26",mid:"Jul '26",name:'three months'},
