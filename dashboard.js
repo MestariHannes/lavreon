@@ -77,12 +77,11 @@
       const link = document.createElement('a');
       link.href = '#' + id;
       link.textContent = name;
-      link.addEventListener('click',() => {
+      link.addEventListener('click',event => {
+        event.preventDefault();
         results.hidden = true;
         input.value = '';
-        const target = document.getElementById(id);
-        target.setAttribute('tabindex','-1');
-        target.focus({preventScroll:true});
+        navigateTo(id);
       });
       results.append(link);
     }
@@ -111,14 +110,60 @@
     if (!event.target.closest('.search-wrap')) results.hidden = true;
     if (!event.target.closest('.profile')) document.querySelector('.profile').open = false;
   });
-  function updateNavigation() {
-    const hash = location.hash || '#overview';
+  const views = {
+    overview: {title: 'Welcome to your office.', description: 'Your wealth. Your priorities. A clearer perspective.', cards: null},
+    wealth: {title: 'Wealth overview', description: 'A consolidated view of your sample wealth.', cards: ['wealth']},
+    'real-estate': {title: 'Real Estate', description: 'Your sample property value and quarterly change.', cards: ['real-estate']},
+    performance: {title: 'Investments', description: 'Explore your sample portfolio performance over time.', cards: ['performance']},
+    allocation: {title: 'Asset allocation', description: 'The composition of your sample asset mix.', cards: ['allocation'], nav: 'wealth'},
+    insights: {title: 'Intelligence', description: 'Illustrative insights and planning perspectives.', cards: ['insights']},
+    activity: {title: 'Activity', description: 'Your fictional transaction history.', cards: ['activity']},
+    upcoming: {title: 'Your agenda', description: 'Upcoming sample conversations and reviews.', cards: ['upcoming']},
+    markets: {title: 'Global markets', description: 'Sample market quotes and currency rates.', cards: ['markets', 'currencies']},
+    currencies: {title: 'Currencies', description: 'Sample exchange rates and daily changes.', cards: ['currencies'], nav: 'markets'}
+  };
+  const stats = document.querySelector('.stats');
+  const grid = document.querySelector('.main-grid');
+  const title = document.querySelector('#greeting');
+  title.tabIndex = -1;
+  function renderView(focus = false) {
+    const requested = location.hash.slice(1) || 'overview';
+    const id = Object.hasOwn(views, requested) ? requested : 'overview';
+    const view = views[id];
+    const overview = id === 'overview';
+    document.querySelector('.workspace').classList.toggle('focused-view', !overview);
+    stats.hidden = !(overview || id === 'wealth' || id === 'real-estate');
+    stats.querySelectorAll('.stat').forEach(card => {
+      card.hidden = !overview && id !== 'wealth' && card.id !== id;
+    });
+    stats.classList.toggle('single-card', id === 'real-estate');
+    [...grid.children].forEach(card => { card.hidden = !overview && !view.cards.includes(card.id); });
+    grid.hidden = [...grid.children].every(card => card.hidden);
+    title.textContent = view.title;
+    title.nextElementSibling.textContent = view.description;
+    document.querySelector('.hero-note').hidden = !overview;
+    document.querySelector('.breadcrumb').replaceChildren(document.createTextNode(`Your office / ${overview ? 'Overview' : view.title}`));
+    document.title = `${overview ? 'Client Portal' : view.title} — LAVREON Demo`;
     document.querySelectorAll('nav a').forEach(link => {
-      if (link.getAttribute('href') === hash) link.setAttribute('aria-current','location');
+      if (link.hash === '#' + (view.nav || id)) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
+    if (focus) {
+      title.focus({preventScroll: true});
+      window.scrollTo({top: 0, behavior: 'instant'});
+    }
   }
-  window.addEventListener('hashchange',updateNavigation);
-  updateNavigation();
+  function navigateTo(id) {
+    if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+    renderView(true);
+  }
+  document.querySelectorAll('nav a, .skip').forEach(link => link.addEventListener('click', event => {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    navigateTo(link.hash.slice(1));
+  }));
+  window.addEventListener('hashchange', () => renderView(true));
+  window.addEventListener('popstate', () => renderView(true));
+  renderView();
 })();
 
