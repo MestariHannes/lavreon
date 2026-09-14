@@ -28,11 +28,9 @@ main{padding:22px 36px 0;max-width:1720px;margin:auto}.demo-banner{display:flex;
 .stat .privacy-toggle svg path { stroke: currentColor; }
 .eye-slash { display: none; }
 [aria-pressed=true] .eye-slash { display: block; }
-.privacy-wrap { position: relative; display: flow-root; }
-.privacy-content { display: flow-root; }
-.details-hidden .privacy-content { visibility: hidden; }
-.privacy-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 28px; letter-spacing: .18em; }
-.privacy-placeholder[hidden] { display: none; }
+.balance-amount { position: relative; display: inline-block; }
+.balance-hidden .balance-original { visibility: hidden; }
+.balance-dots { position: absolute; inset: 0; color: inherit; }
 @media (max-width: 560px) { .stat .privacy-toggle { width: 36px; padding: 7px; } .card-top { gap: 4px; } }
 .privacy-toggle svg { display: block; }
 

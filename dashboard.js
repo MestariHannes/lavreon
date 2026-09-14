@@ -1,40 +1,50 @@
 'use strict';
 // This prototype uses only fictional in-memory data. No accounts, storage or APIs.
 (() => {
-  // Each card can independently conceal its contents, including accessible text.
-  document.querySelectorAll('.stat, .panel').forEach((card, index) => {
+  // Mask monetary amounts only; percentages, charts and labels stay available.
+  document.querySelectorAll('.stat, #allocation, #performance, #activity').forEach((card, index) => {
     const heading = card.querySelector('.card-top, .section-top');
     const name = heading.querySelector('h2').textContent.trim();
+    const amounts = [...card.querySelectorAll('.value, #chart-value, .donut > div > span, .rows b')];
+    const balances = amounts.map((amount, amountIndex) => {
+      const wrapper = document.createElement('span');
+      wrapper.className = 'balance-amount';
+      wrapper.id = `balance-${index}-${amountIndex}`;
+      const original = document.createElement('span');
+      original.className = 'balance-original';
+      // Keep transaction descriptions and other child elements in place.
+      [...amount.childNodes].filter(node => node.nodeType === Node.TEXT_NODE).forEach(node => original.append(node));
+      const dots = document.createElement('span');
+      dots.className = 'balance-dots';
+      dots.textContent = '...';
+      dots.setAttribute('aria-label', 'Balance hidden');
+      dots.hidden = true;
+      wrapper.append(original, dots);
+      amount.prepend(wrapper);
+      return {wrapper, original, dots};
+    });
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'privacy-toggle';
-    button.setAttribute('aria-label', `Hide ${name} details`);
+    button.setAttribute('aria-label', `Hide ${name} balances`);
     button.setAttribute('aria-pressed', 'false');
+    button.setAttribute('aria-controls', balances.map(({wrapper}) => wrapper.id).join(' '));
     button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3 21 21"/></svg>';
     if (card.matches('.stat')) heading.querySelector(':scope > span')?.remove();
     heading.append(button);
-    const wrap = document.createElement('div');
-    wrap.className = 'privacy-wrap';
-    const content = document.createElement('div');
-    content.className = 'privacy-content';
-    content.id = `card-details-${index}`;
-    button.setAttribute('aria-controls', content.id);
-    while (heading.nextSibling) content.append(heading.nextSibling);
-    const placeholder = document.createElement('span');
-    placeholder.className = 'privacy-placeholder';
-    placeholder.textContent = '••••';
-    placeholder.setAttribute('aria-label', `${name} details hidden`);
-    placeholder.hidden = true;
-    wrap.append(content, placeholder);
-    card.append(wrap);
+    const donut = card.querySelector('.donut');
+    const allocationLabel = donut?.getAttribute('aria-label');
     button.addEventListener('click', () => {
       const hidden = button.getAttribute('aria-pressed') !== 'true';
       button.setAttribute('aria-pressed', String(hidden));
-      button.setAttribute('aria-label', `${hidden ? 'Show' : 'Hide'} ${name} details`);
-      card.classList.toggle('details-hidden', hidden);
-      content.inert = hidden;
-      content.setAttribute('aria-hidden', String(hidden));
-      placeholder.hidden = !hidden;
+      button.setAttribute('aria-label', `${hidden ? 'Show' : 'Hide'} ${name} balances`);
+      balances.forEach(({wrapper, original, dots}) => {
+        wrapper.classList.toggle('balance-hidden', hidden);
+        original.setAttribute('aria-hidden', String(hidden));
+        dots.hidden = !hidden;
+      });
+      if (donut) donut.setAttribute('aria-label', hidden ? allocationLabel.replace(/Total .+$/, 'Total balance hidden.') : allocationLabel);
+      if (card.id === 'performance') draw(card.querySelector('[data-period][aria-pressed="true"]').dataset.period);
     });
   });
   const samples = {
@@ -52,7 +62,7 @@
     document.querySelector('#chart-change').textContent = sample.change;
     document.querySelector('#chart-start').textContent = sample.start;
     document.querySelector('#chart-mid').textContent = sample.mid;
-    document.querySelector('#chart-title').textContent = 'Fictional investment values over ' + sample.name + ', ending at 8.21 million euros.';
+    document.querySelector('#chart-title').textContent = 'Fictional investment values over ' + sample.name + (document.querySelector('#performance .privacy-toggle').getAttribute('aria-pressed') === 'true' ? '. Current balance hidden.' : ', ending at 8.21 million euros.');
     document.querySelector('#chart-caption').textContent = 'Sample ' + sample.name + ' value history · includes sample cash flows.';
     document.querySelectorAll('[data-period]').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.period === period)));
   }
