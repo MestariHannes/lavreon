@@ -1,0 +1,63 @@
+/* A restrained gold glow, using only the established LAVREON palette. */
+:root {
+  --glow-gold: #d4c08f;
+  --glow-text: 0 0 12px rgba(184, 160, 106, .18);
+  --glow-edge: 0 0 18px rgba(184, 160, 106, .045);
+}
+.site-header .brand-wordmark, .sidebar .brand, .editorial-brand {
+  color: var(--glow-gold);
+  text-shadow: var(--glow-text);
+}
+.brand-symbol { filter: drop-shadow(0 0 5px rgba(184, 160, 106, .16)); }
+.hero h1 {
+  color: #f1ede4;
+  text-shadow: 0 0 22px rgba(184, 160, 106, .14);
+}
+.hero h1 span:last-child {
+  color: var(--glow-gold);
+  text-shadow: 0 0 18px rgba(184, 160, 106, .24), 0 0 44px rgba(184, 160, 106, .07);
+}
+.hero .eyebrow, .section .eyebrow, .section-heading h2,
+.panel h2, .card-top h2, .editorial em, .hero-note em {
+  color: var(--glow-gold);
+  text-shadow: var(--glow-text);
+}
+/* Editorial content on ivory retains its original dark, unblurred typography. */
+.brief-preview .eyebrow, .brief-preview h2 { color: #15171b; text-shadow: none; }
+.value, .performance-controls strong, .donut > div > span {
+  color: #f1ede4;
+  text-shadow: 0 0 16px rgba(184, 160, 106, .16);
+}
+.stat, .panel, .editorial {
+  border-color: rgba(184, 160, 106, .27);
+  box-shadow: inset 0 1px 0 rgba(212, 192, 143, .035), var(--glow-edge);
+}
+.stat.featured {
+  border-color: rgba(184, 160, 106, .46);
+  box-shadow: inset 0 1px 0 rgba(212, 192, 143, .07), 0 0 22px rgba(184, 160, 106, .07);
+}
+.services-grid, .method-grid { border-color: rgba(184, 160, 106, .25); }
+.service-card, .method-card { border-color: rgba(184, 160, 106, .2); }
+.service-card h3, .method-card h3 { text-shadow: var(--glow-text); }
+.header-cta, .hero .button-secondary, .language-switch {
+  border-color: rgba(184, 160, 106, .4);
+  box-shadow: 0 0 12px rgba(184, 160, 106, .045);
+}
+.sidebar nav a[aria-current], .periods button[aria-pressed="true"] {
+  color: var(--glow-gold);
+  text-shadow: var(--glow-text);
+  box-shadow: inset 0 0 12px rgba(184, 160, 106, .04);
+}
+#chart-line { filter: drop-shadow(0 0 3px rgba(184, 160, 106, .3)); }
+.stat:focus-within, .panel:focus-within { border-color: rgba(184, 160, 106, .55); }
+@media (hover: hover) {
+  .stat:hover, .panel:hover, .editorial:hover {
+    border-color: rgba(184, 160, 106, .48);
+    box-shadow: inset 0 1px 0 rgba(212, 192, 143, .05), 0 0 22px rgba(184, 160, 106, .075);
+  }
+  .service-card:hover { background: rgba(184, 160, 106, .025); }
+}
+@media (max-width: 600px) {
+  .hero h1 { text-shadow: 0 0 16px rgba(184, 160, 106, .13); }
+  .hero h1 span:last-child { text-shadow: 0 0 15px rgba(184, 160, 106, .2); }
+}
