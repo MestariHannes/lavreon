@@ -1,5 +1,5 @@
 'use strict';
-// This prototype uses only fictional in-memory data. No accounts, storage or APIs.
+// Financial demo data stays in memory. Only the language preference is stored separately.
 (() => {
   // Mask monetary amounts only; percentages, charts and labels stay available.
   document.querySelectorAll('.stat, #allocation, #performance, #activity').forEach((card, index) => {
@@ -82,7 +82,7 @@
     results.replaceChildren();
     results.hidden = !query;
     if (!query) { status.textContent = ''; return; }
-    const matches = sections.filter(([name]) => name.toLowerCase().includes(query));
+    const matches = sections.filter(([name]) => (window.LavreonLanguage?.translate(name) || name).toLowerCase().includes(query) || name.toLowerCase().includes(query));
     for (const [name,id] of matches) {
       const link = document.createElement('a');
       link.href = '#' + id;
@@ -172,6 +172,9 @@
     event.preventDefault();
     navigateTo(link.hash.slice(1));
   }));
+  document.addEventListener('lavreon-languagechange', () => {
+    if (input.value.trim()) input.dispatchEvent(new Event('input'));
+  });
   window.addEventListener('hashchange', () => renderView(true));
   window.addEventListener('popstate', () => renderView(true));
   renderView();
