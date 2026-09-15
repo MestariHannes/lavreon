@@ -1,5 +1,5 @@
 'use strict';
-// Financial demo data stays in memory. Only the language preference is stored separately.
+// Financial demo data stays static. Only language and module presentation preferences persist.
 (() => {
   // Mask monetary amounts only; percentages, charts and labels stay available.
   document.querySelectorAll('.stat, #allocation, #performance, #activity').forEach((card, index) => {
@@ -68,12 +68,60 @@
   }
   document.querySelectorAll('[data-period]').forEach(button => button.addEventListener('click',() => draw(button.dataset.period)));
   draw('1Y');
-  const sections = [
-    ['Overview','overview'],['Wealth overview','wealth'],['Real estate','real-estate'],
-    ['Asset allocation','allocation'],['Investments · Portfolio performance','performance'],
-    ['AI Insights · Intelligence','insights'],['Recent activity','activity'],['Upcoming · Your agenda','upcoming'],
-    ['Global markets','markets'],['Currencies','currencies']
+  const modules = [
+    {id:'overview', label:'Overview', group:'HOME', cards:[], enabled:true},
+    {id:'wealth', label:'Wealth', group:'YOUR WORLD', cards:['allocation','activity'], enabled:true},
+    {id:'investments', label:'Investments', group:'YOUR WORLD', route:'performance', cards:['performance'], enabled:true},
+    {id:'real-estate', label:'Real Estate', group:'YOUR WORLD', cards:[], enabled:true},
+    {id:'insurance', label:'Insurance', group:'YOUR WORLD', cards:['insurance'], enabled:true},
+    {id:'intelligence', label:'AI Signal Brief', group:'INTELLIGENCE', route:'insights', cards:['insights'], enabled:true},
+    {id:'opportunities', label:'Opportunities', group:'INTELLIGENCE', cards:['opportunities'], enabled:false},
+    {id:'documents', label:'Documents', group:'OFFICE', cards:['documents'], enabled:true},
+    {id:'reports', label:'Reports', group:'OFFICE', cards:['reports'], enabled:true},
+    {id:'agenda', label:'Agenda', group:'OFFICE', route:'upcoming', cards:['upcoming'], enabled:true},
+    {id:'markets', label:'Markets / Currencies', group:'OFFICE', cards:['markets','currencies'], enabled:true},
+    {id:'companies', label:'Companies', group:'ADMIN ONLY', cards:['companies'], enabled:false},
+    {id:'expenses', label:'Expenses', group:'ADMIN ONLY', cards:['expenses'], enabled:false},
+    {id:'tax-legal', label:'Tax & Legal', group:'ADMIN ONLY', cards:['tax-legal'], enabled:false}
   ];
+  const preferenceKey = 'lavreon-modules-v1';
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(preferenceKey) || '{}') || {}; } catch {}
+  let visibility = Object.fromEntries(modules.map(m => [m.id, typeof saved[m.id] === 'boolean' ? saved[m.id] : m.enabled]));
+  let mode = new URLSearchParams(location.search).get('mode') === 'admin' ? 'admin' : 'client';
+  const allowed = id => mode === 'admin' || visibility[id];
+  const route = m => m.route || m.id;
+  const owner = id => modules.find(m => route(m) === id || m.cards.includes(id));
+  const sections = modules.map(m => [m.label, route(m)]).concat([['Asset allocation','allocation'],['Recent activity','activity'],['Currencies','currencies']]);
+  const nav = document.querySelector('#module-nav');
+  const menuToggle = document.querySelector('.mobile-nav-toggle');
+  menuToggle.addEventListener('click',()=>{const expanded=menuToggle.getAttribute('aria-expanded')!=='true';menuToggle.setAttribute('aria-expanded',String(expanded));});
+  nav.addEventListener('keydown',event=>{if(event.key==='Escape' && matchMedia('(max-width:850px)').matches){menuToggle.setAttribute('aria-expanded','false');menuToggle.focus();}});
+  for (const group of ['HOME','YOUR WORLD','INTELLIGENCE','OFFICE','ADMIN ONLY']) {
+    const section = document.createElement('div'); section.className = 'nav-group'; section.dataset.group = group;
+    const label = document.createElement('p'); label.className='nav-label'; label.textContent=group; section.append(label);
+    for (const m of modules.filter(m => m.group === group)) {
+      const link = document.createElement('a'); link.href='#'+route(m); link.textContent=m.label; link.dataset.module=m.id; section.append(link);
+    }
+    if(group === 'ADMIN ONLY') { const link=document.createElement('a'); link.href='#client-setup'; link.textContent='Module controls / Client setup'; link.dataset.admin='true'; section.append(link); }
+    nav.append(section);
+  }
+  const controls=document.querySelector('#module-controls');
+  for(const m of modules) {
+    const label=document.createElement('label'); const checkbox=document.createElement('input'); checkbox.type='checkbox'; checkbox.dataset.module=m.id; checkbox.checked=visibility[m.id];
+    const text=document.createElement('span'); text.textContent=m.label; label.append(checkbox,text); controls.append(label);
+    checkbox.addEventListener('change',()=>{visibility[m.id]=checkbox.checked; persist(); renderView();});
+  }
+  function persist(){try{localStorage.setItem(preferenceKey,JSON.stringify(visibility));document.querySelector('#storage-status').textContent='Saved in this browser only.';}catch{document.querySelector('#storage-status').textContent='Browser storage unavailable. Changes apply for this visit only.';}}
+  document.querySelector('#reset-modules').addEventListener('click',()=>{visibility=Object.fromEntries(modules.map(m=>[m.id,m.enabled]));controls.querySelectorAll('input').forEach(c=>c.checked=visibility[c.dataset.module]);persist();renderView();});
+  document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{mode=button.dataset.mode;const url=new URL(location.href);url.searchParams.set('mode',mode);url.hash='overview';history.pushState(null,'',url);renderView(true);}));
+  const signals = [
+    {title:'AI forecasting moves into operational infrastructure', summary:'Google says WeatherNext 3 adds satellite observations, hourly refreshes and higher-resolution forecasts, with integration across its consumer and cloud products.', why:'More granular forecasts could support energy and property-risk planning; reliability still needs validation in each use case.', source:'Google DeepMind',date:'2026-09-03',url:'https://blog.google/innovation-and-ai/models-and-research/google-deepmind/introducing-weathernext-3/'},
+    {title:'Personal AI gains memory and visual assistance', summary:'Google announced forthcoming Android features that let Gemini remember item locations in Find Hub and provide camera-based Guided vision assistance. Availability depends on device and country.', why:'AI is becoming part of everyday workflows, making consent, accessibility and useful memory central product questions.',source:'Google / Android',date:'2026-09-01',url:'https://blog.google/products-and-platforms/platforms/android/android-drop-september-2026/'},
+    {title:'Agent capability puts containment under scrutiny',summary:'Anthropic described stronger monitoring and isolation after incidents involving evaluation models running with reduced cyber safeguards. It paused some testing and training while improving controls.',why:'Organisations adopting autonomous agents need scoped permissions, independent checks and clear accountability alongside model capability.',source:'Anthropic',date:'2026-08-31',url:'https://www.anthropic.com/news/improving-alignment-security-efforts'}
+  ];
+  const signalRoot=document.querySelector('#signal-items');
+  signals.forEach((s,i)=>{const article=document.createElement('article');article.className='signal-item';const num=document.createElement('span');num.className='insight-num';num.textContent='0'+(i+1);const body=document.createElement('div');const h=document.createElement('h3');h.textContent=s.title;const p=document.createElement('p');p.textContent=s.summary;const implication=document.createElement('p');implication.className='implication';const label=document.createElement('strong');label.textContent='Why it matters · ';implication.append(label,s.why);const link=document.createElement('a');link.href=s.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=s.source+' ↗';const time=document.createElement('time');time.dateTime=s.date;time.textContent=s.date;const meta=document.createElement('div');meta.className='signal-meta';meta.append(link,time);body.append(h,p,implication,meta);article.append(num,body);signalRoot.append(article);});
   const input = document.querySelector('#search');
   const results = document.querySelector('#search-results');
   const status = document.querySelector('#search-status');
@@ -82,7 +130,7 @@
     results.replaceChildren();
     results.hidden = !query;
     if (!query) { status.textContent = ''; return; }
-    const matches = sections.filter(([name]) => (window.LavreonLanguage?.translate(name) || name).toLowerCase().includes(query) || name.toLowerCase().includes(query));
+    const matches = sections.filter(([,id]) => allowed(owner(id)?.id)).filter(([name]) => (window.LavreonLanguage?.translate(name) || name).toLowerCase().includes(query) || name.toLowerCase().includes(query));
     for (const [name,id] of matches) {
       const link = document.createElement('a');
       link.href = '#' + id;
@@ -120,54 +168,55 @@
     if (!event.target.closest('.search-wrap')) results.hidden = true;
     if (!event.target.closest('.profile')) document.querySelector('.profile').open = false;
   });
-  const views = {
-    overview: {title: 'Welcome to your office.', description: 'Your wealth. Your priorities. A clearer perspective.', cards: null},
-    wealth: {title: 'Wealth overview', description: 'A consolidated view of your sample wealth.', cards: ['wealth']},
-    'real-estate': {title: 'Real Estate', description: 'Your sample property value and quarterly change.', cards: ['real-estate']},
-    performance: {title: 'Investments', description: 'Explore your sample portfolio performance over time.', cards: ['performance']},
-    allocation: {title: 'Asset allocation', description: 'The composition of your sample asset mix.', cards: ['allocation'], nav: 'wealth'},
-    insights: {title: 'Intelligence', description: 'Illustrative insights and planning perspectives.', cards: ['insights']},
-    activity: {title: 'Activity', description: 'Your fictional transaction history.', cards: ['activity']},
-    upcoming: {title: 'Your agenda', description: 'Upcoming sample conversations and reviews.', cards: ['upcoming']},
-    markets: {title: 'Global markets', description: 'Sample market quotes and currency rates.', cards: ['markets', 'currencies']},
-    currencies: {title: 'Currencies', description: 'Sample exchange rates and daily changes.', cards: ['currencies'], nav: 'markets'}
-  };
   const stats = document.querySelector('.stats');
   const grid = document.querySelector('.main-grid');
   const title = document.querySelector('#greeting');
   title.tabIndex = -1;
   function renderView(focus = false) {
-    const requested = location.hash.slice(1) || 'overview';
-    const id = Object.hasOwn(views, requested) ? requested : 'overview';
-    const view = views[id];
-    const overview = id === 'overview';
-    document.querySelector('.workspace').classList.toggle('focused-view', !overview);
-    stats.hidden = !(overview || id === 'wealth' || id === 'real-estate');
-    stats.querySelectorAll('.stat').forEach(card => {
-      card.hidden = !overview && id !== 'wealth' && card.id !== id;
-    });
-    stats.classList.toggle('single-card', id === 'real-estate');
-    [...grid.children].forEach(card => { card.hidden = !overview && !view.cards.includes(card.id); });
-    grid.hidden = [...grid.children].every(card => card.hidden);
-    title.textContent = view.title;
-    title.nextElementSibling.textContent = view.description;
-    document.querySelector('.hero-note').hidden = !overview;
-    document.querySelector('.breadcrumb').replaceChildren(document.createTextNode(`Your office / ${overview ? 'Overview' : view.title}`));
-    document.title = `${overview ? 'Client Portal' : view.title} — LAVREON Demo`;
-    document.querySelectorAll('nav a').forEach(link => {
-      if (link.hash === '#' + (view.nav || id)) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    });
+    mode = new URLSearchParams(location.search).get('mode') === 'admin' ? 'admin' : 'client';
+    const requested=location.hash.slice(1)||'overview';
+    const match=owner(requested);
+    const setup=requested==='client-setup' && mode==='admin';
+    const selected=match && allowed(match.id) ? match : modules.find(m=>allowed(m.id));
+    const id=setup ? 'client-setup' : selected ? (match===selected ? requested : route(selected)) : 'empty';
+    const overview=id==='overview';
+    const heading=setup?'Client setup':id==='empty'?'Your office is being curated.':overview?'Welcome to your office.':selected.label;
+    document.querySelector('.workspace').classList.toggle('focused-view',!overview);
+    document.body.dataset.mode=mode;
+    document.querySelector('#mode-label').textContent=mode==='admin'?'Admin / Editor preview':'Client preview';
+    document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+    document.querySelector('#client-setup').hidden=mode!=='admin';
+    const shown=modules.filter(m=>visibility[m.id]);
+    document.querySelector('#visibility-summary').textContent='Client preview · '+shown.length+' / '+modules.length+' modules: '+(shown.map(m=>m.label).join(', ')||'None selected');
+    document.querySelectorAll('a[data-module]').forEach(link=>link.hidden=!allowed(link.dataset.module));
+    document.querySelectorAll('[data-admin]').forEach(link=>link.hidden=mode!=='admin');
+    nav.querySelectorAll('.nav-group').forEach(group=>{group.hidden=[...group.querySelectorAll('a')].every(a=>a.hidden);group.querySelector('.nav-label').textContent=group.dataset.group==='ADMIN ONLY'&&mode==='client'?'YOUR WORLD':group.dataset.group;});
+    const statModules=['wealth','investments','wealth','real-estate'];
+    stats.querySelectorAll('.stat').forEach((card,i)=>{card.hidden=!allowed(statModules[i]) || !(overview || selected?.id===statModules[i]);});
+    stats.hidden=[...stats.children].every(c=>c.hidden);
+    stats.classList.toggle('single-card',!overview);
+    [...grid.children].forEach(card=>{const m=owner(card.id);card.hidden=m ? !allowed(m.id)||!(overview||selected===m) : !overview;});
+    grid.hidden=[...grid.children].every(c=>c.hidden);
+    document.querySelector('#attention').hidden=!overview;
+    document.querySelector('.quick-actions').hidden=!overview;
+    title.textContent=heading;
+    title.nextElementSibling.textContent=id==='empty'?'No modules are selected for this demo. Use Admin / Editor preview to curate the presentation.':overview?'Your wealth. Your priorities. A clearer perspective.':'A curated perspective for Alex Morgan · fictional sample client.';
+    document.querySelector('.hero-note').hidden=!overview;
+    document.querySelector('.breadcrumb').textContent='Your office / '+(overview?'Overview':heading);
+    document.title=(overview?'Client Portal':heading)+' — LAVREON Demo';
+    nav.querySelectorAll('a').forEach(link=>{if(link.hash==='#'+(setup?'client-setup':selected?route(selected):id))link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
+    if(input.value.trim())input.dispatchEvent(new Event('input'));
     if (focus) {
       title.focus({preventScroll: true});
       window.scrollTo({top: 0, behavior: 'instant'});
     }
   }
   function navigateTo(id) {
+    menuToggle.setAttribute('aria-expanded', 'false');
     if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
     renderView(true);
   }
-  document.querySelectorAll('nav a, .skip').forEach(link => link.addEventListener('click', event => {
+  document.querySelectorAll('nav a, .skip, .quick-actions a, .attention-strip a').forEach(link => link.addEventListener('click', event => {
     if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     navigateTo(link.hash.slice(1));

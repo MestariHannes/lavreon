@@ -80,3 +80,14 @@ window.LAVREON_FI = {
 "Balance hidden": "Saldo piilotettu", "No sections found. Try “markets” or “wealth”.": "Näkymiä ei löytynyt. Kokeile hakua ”markkinat” tai ”varallisuus”.",
 "A consolidated view of your sample wealth.": "Esimerkkivarallisuutesi koottuna.", "Your sample property value and quarterly change.": "Kiinteistöjen esimerkkiarvo ja neljännesvuosimuutos.", "Explore your sample portfolio performance over time.": "Tutustu esimerkkisalkkusi kehitykseen eri ajanjaksoilla.", "The composition of your sample asset mix.": "Esimerkkivarallisuutesi koostumus.", "Illustrative insights and planning perspectives.": "Esimerkkihavaintoja ja suunnittelun näkökulmia.", "Your fictional transaction history.": "Kuvitteellinen tapahtumahistoriasi.", "Upcoming sample conversations and reviews.": "Tulevat esimerkkikeskustelut ja katsaukset.", "Sample market quotes and currency rates.": "Esimerkkihinnat markkinoilta ja valuuttakurssit.", "Sample exchange rates and daily changes.": "Esimerkkivaluuttakurssit ja päivämuutokset.", "Investments · Portfolio performance": "Sijoitukset · Salkun kehitys", "AI Insights · Intelligence": "Tekoälyhavainnot · Analyysi", "Upcoming · Your agenda": "Tulossa · Kalenteri", "Language": "Kieli"
 };
+
+Object.assign(window.LAVREON_FI, {
+  'Fictional financial data · curated public-source AI brief · no connected accounts or live prices.':'Kuvitteelliset taloustiedot · kuratoitu tekoälykatsaus · ei yhdistettyjä tilejä tai live-hintoja.',
+  'Sample snapshot · 15 September 2026':'Esimerkkitilanne · 15. syyskuuta 2026',
+  'Active policies':'Voimassa olevat vakuutukset', 'Annual premium · sample':'Vuosimaksu · esimerkki', 'Next renewal · sample':'Seuraava uusiminen · esimerkki',
+  'Needs review':'Tarkistettava', 'Property coverage':'Kiinteistön vakuutusturva', 'Home / Property':'Koti / Kiinteistö', 'Vehicles':'Ajoneuvot', 'Travel':'Matkat', 'Liability':'Vastuuvakuutus', 'Life / Health':'Henki / Terveys', 'Business':'Yritystoiminta',
+  '3 developments shaping the future of AI':'3 tekoälyn tulevaisuutta muovaavaa kehityskulkua', 'CURATED · NOT LIVE':'KURATOITU · EI REAALIAIKAINEN', 'ILLUSTRATIVE':'HAVAINNOLLISTAVA',
+  'Demo modes · no authentication':'Demotilat · ei tunnistautumista', 'Prototype controls · local only':'Prototyypin ohjaimet · vain paikallisesti', 'NEEDS ATTENTION · SAMPLE':'HUOMIOTA VAATIVAT · ESIMERKKI'
+});
+
+Object.assign(window.LAVREON_FI, {'Browse modules':'Selaa moduuleja'});
