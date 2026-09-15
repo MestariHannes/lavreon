@@ -5,7 +5,7 @@
   const mark = overlay.querySelector('.entry-symbol');
   const destination = document.querySelector('.hero-emblem img');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  if (motion.matches || location.hash || !mark.animate) { overlay.remove(); return; }
+  if (motion.matches || location.hash || !mark.animate) { overlay.remove(); root.classList.add('intro-complete'); return; }
   let animation;
   let observer;
   let frame;
@@ -19,6 +19,7 @@
     finished = true;
     root.classList.remove('intro-running', 'intro-pending');
     overlay.remove();
+    root.classList.add('intro-complete');
     animation?.cancel();
     observer?.disconnect();
     cancelAnimationFrame(frame);

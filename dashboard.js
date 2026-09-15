@@ -1,6 +1,10 @@
 'use strict';
 // Financial demo data stays static. Only language and module presentation preferences persist.
 (() => {
+  function renderEye(button, hidden) {
+    // The slash does not exist in the visible state. No ancestor can activate it.
+    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>' + (hidden ? '<path class="eye-slash" d="M3 3 21 21"/>' : '') + '</svg>';
+  }
   // Mask monetary amounts only; percentages, charts and labels stay available.
   document.querySelectorAll('.stat, #allocation, #performance, #activity').forEach((card, index) => {
     const heading = card.querySelector('.card-top, .section-top');
@@ -29,7 +33,7 @@
     button.setAttribute('aria-label', `Hide ${name} balances`);
     button.setAttribute('aria-pressed', 'false');
     button.setAttribute('aria-controls', balances.map(({wrapper}) => wrapper.id).join(' '));
-    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="M3 3 21 21"/></svg>';
+    renderEye(button, false);
     if (card.matches('.stat')) heading.querySelector(':scope > span')?.remove();
     heading.append(button);
     const donut = card.querySelector('.donut');
@@ -37,6 +41,7 @@
     button.addEventListener('click', () => {
       const hidden = button.getAttribute('aria-pressed') !== 'true';
       button.setAttribute('aria-pressed', String(hidden));
+      renderEye(button, hidden);
       button.setAttribute('aria-label', `${hidden ? 'Show' : 'Hide'} ${name} balances`);
       balances.forEach(({wrapper, original, dots}) => {
         wrapper.classList.toggle('balance-hidden', hidden);
@@ -114,14 +119,14 @@
   }
   function persist(){try{localStorage.setItem(preferenceKey,JSON.stringify(visibility));document.querySelector('#storage-status').textContent='Saved in this browser only.';}catch{document.querySelector('#storage-status').textContent='Browser storage unavailable. Changes apply for this visit only.';}}
   document.querySelector('#reset-modules').addEventListener('click',()=>{visibility=Object.fromEntries(modules.map(m=>[m.id,m.enabled]));controls.querySelectorAll('input').forEach(c=>c.checked=visibility[c.dataset.module]);persist();renderView();});
-  document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>{mode=button.dataset.mode;const url=new URL(location.href);url.searchParams.set('mode',mode);url.hash='overview';history.pushState(null,'',url);renderView(true);}));
+  document.querySelectorAll('button[data-mode]').forEach(button=>button.addEventListener('click',()=>{mode=button.dataset.mode;const url=new URL(location.href);url.searchParams.set('mode',mode);url.hash='overview';history.pushState(null,'',url);renderView(true);}));
   const signals = [
     {title:'AI forecasting moves into operational infrastructure', summary:'Google says WeatherNext 3 adds satellite observations, hourly refreshes and higher-resolution forecasts, with integration across its consumer and cloud products.', why:'More granular forecasts could support energy and property-risk planning; reliability still needs validation in each use case.', source:'Google DeepMind',date:'2026-09-03',url:'https://blog.google/innovation-and-ai/models-and-research/google-deepmind/introducing-weathernext-3/'},
     {title:'Personal AI gains memory and visual assistance', summary:'Google announced forthcoming Android features that let Gemini remember item locations in Find Hub and provide camera-based Guided vision assistance. Availability depends on device and country.', why:'AI is becoming part of everyday workflows, making consent, accessibility and useful memory central product questions.',source:'Google / Android',date:'2026-09-01',url:'https://blog.google/products-and-platforms/platforms/android/android-drop-september-2026/'},
     {title:'Agent capability puts containment under scrutiny',summary:'Anthropic described stronger monitoring and isolation after incidents involving evaluation models running with reduced cyber safeguards. It paused some testing and training while improving controls.',why:'Organisations adopting autonomous agents need scoped permissions, independent checks and clear accountability alongside model capability.',source:'Anthropic',date:'2026-08-31',url:'https://www.anthropic.com/news/improving-alignment-security-efforts'}
   ];
   const signalRoot=document.querySelector('#signal-items');
-  signals.forEach((s,i)=>{const article=document.createElement('article');article.className='signal-item';const num=document.createElement('span');num.className='insight-num';num.textContent='0'+(i+1);const body=document.createElement('div');const h=document.createElement('h3');h.textContent=s.title;const p=document.createElement('p');p.textContent=s.summary;const implication=document.createElement('p');implication.className='implication';const label=document.createElement('strong');label.textContent='Why it matters · ';implication.append(label,s.why);const link=document.createElement('a');link.href=s.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=s.source+' ↗';const time=document.createElement('time');time.dateTime=s.date;time.textContent=s.date;const meta=document.createElement('div');meta.className='signal-meta';meta.append(link,time);body.append(h,p,implication,meta);article.append(num,body);signalRoot.append(article);});
+  signals.forEach((s,i)=>{const article=document.createElement('article');article.className='signal-item';const num=document.createElement('span');num.className='insight-num';num.textContent='0'+(i+1);const body=document.createElement('div');const h=document.createElement('h3');h.textContent=s.title;const p=document.createElement('p');p.textContent=s.summary;const implication=document.createElement('p');implication.className='implication';const label=document.createElement('strong');label.textContent='Why it matters · ';implication.append(label,s.why);const link=document.createElement('a');link.href=s.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=s.source+' ↗';const time=document.createElement('time');time.dateTime=s.date;time.textContent=s.date;const meta=document.createElement('div');meta.className='signal-meta';meta.append(link,time);body.append(meta,h,p,implication);article.append(num,body);signalRoot.append(article);});
   const input = document.querySelector('#search');
   const results = document.querySelector('#search-results');
   const status = document.querySelector('#search-status');
@@ -180,11 +185,11 @@
     const selected=match && allowed(match.id) ? match : modules.find(m=>allowed(m.id));
     const id=setup ? 'client-setup' : selected ? (match===selected ? requested : route(selected)) : 'empty';
     const overview=id==='overview';
-    const heading=setup?'Client setup':id==='empty'?'Your office is being curated.':overview?'Welcome to your office.':selected.label;
+    const heading=setup?'Client setup':id==='empty'?'Your office is being curated.':overview?'Welcome, Alex.':selected.label;
     document.querySelector('.workspace').classList.toggle('focused-view',!overview);
     document.body.dataset.mode=mode;
     document.querySelector('#mode-label').textContent=mode==='admin'?'Admin / Editor preview':'Client preview';
-    document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+    document.querySelectorAll('button[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
     document.querySelector('#client-setup').hidden=mode!=='admin';
     const shown=modules.filter(m=>visibility[m.id]);
     document.querySelector('#visibility-summary').textContent='Client preview · '+shown.length+' / '+modules.length+' modules: '+(shown.map(m=>m.label).join(', ')||'None selected');
