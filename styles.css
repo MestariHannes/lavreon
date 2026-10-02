@@ -909,10 +909,10 @@ html { scroll-padding-top: 110px; }
   .contact-section h2 { font-size: clamp(38px, 10vw, 56px); }
 }
 
-/* One 5-second reveal: a dim point warms, illuminates the mark, then opens the page. */
+/* One short reveal (2.4s, once per session): a dim point warms, illuminates the mark, then opens the page. */
 .page-entry { display: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .page-entry { display: grid; place-items: center; position: fixed; inset: 0; z-index: 1050; pointer-events: none; background: var(--bg); animation: entry-reveal 5s ease both; }
+  .page-entry { display: grid; place-items: center; position: fixed; inset: 0; z-index: 1050; pointer-events: none; background: var(--bg); animation: entry-reveal 2.4s ease both; }
   body:focus-within .page-entry { display: none; }
 }
 
@@ -938,8 +938,8 @@ html { scroll-padding-top: 110px; }
 .entry-wordmark { position: absolute; top: calc(50% + 102px); left: 0; right: 0; text-align: center; font: 24px Georgia, 'Times New Roman', serif; letter-spacing: .28em; padding-left: .28em; color: var(--text); opacity: 0; }
 .entry-wordmark small { display: block; margin-top: 16px; font: 8px 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: .2em; color: var(--gold-light); }
 @media (prefers-reduced-motion: no-preference) {
-  .entry-symbol { animation: entry-mark 5s ease both; }
-  .entry-wordmark { animation: entry-type 5s ease both; }
+  .entry-symbol { animation: entry-mark 2.4s ease both; }
+  .entry-wordmark { animation: entry-type 2.4s ease both; }
 }
 @keyframes entry-mark {
   0%, 6% { opacity: 0; clip-path: circle(75% at 50% 39.61538%); }
@@ -958,7 +958,7 @@ html { scroll-padding-top: 110px; }
 
 /* During the handoff only the dark backdrop fades; the mark keeps moving. */
 .intro-running .page-entry { animation: none; background: transparent; overflow: hidden; }
-.intro-running .page-entry::before { content: ''; position: absolute; inset: 0; background: var(--bg); animation: entry-backdrop 5s ease both; }
+.intro-running .page-entry::before { content: ''; position: absolute; inset: 0; background: var(--bg); animation: entry-backdrop 2.4s ease both; }
 .intro-running .entry-symbol { animation: none; left: 0; top: 0; transform-origin: top left; }
 .intro-running .hero-emblem img { visibility: hidden; }
 .intro-running .entry-wordmark { top: calc(50% + min(136px, 31vw)); }
@@ -969,3 +969,5 @@ html { scroll-padding-top: 110px; }
 /* Keep the first frame dark until cold-load assets and layout are ready. */
 .intro-pending .page-entry { animation: none; background: var(--bg); }
 .intro-pending .entry-symbol, .intro-pending .entry-wordmark { animation: none; opacity: 0; }
+/* Returning visitors in the same session skip the reveal before first paint. */
+.intro-skip .page-entry { display: none; }
