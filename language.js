@@ -1,20 +1,10 @@
 'use strict';
 (() => {
   const fi = window.LAVREON_FI || {};
-  const languages = [['en','English'],['fi','Suomi'],['es','Español'],['zh','中文'],['hi','हिन्दी'],['ar','العربية'],['fr','Français'],['bn','বাংলা'],['pt','Português'],['ru','Русский'],['ur','اردو'],['id','Bahasa Indonesia']];
+  const languages = [['en','English'],['fi','Suomi']];
   const keys=['Overview','Wealth','Investments','Real Estate','Insurance','AI Signal Brief','Opportunities','Documents','Reports','Agenda','Markets / Currencies','Companies','Expenses','Tax & Legal','Client preview','Admin / Editor preview','Method','Intelligence','Brief','About','Open latest report','View documents','Review intelligence brief','Welcome to your office.'];
   const rows={
     fi:['Yhteenveto','Varallisuus','Sijoitukset','Kiinteistöt','Vakuutukset','Tekoälykatsaus','Mahdollisuudet','Asiakirjat','Raportit','Kalenteri','Markkinat / Valuutat','Yritykset','Kulut','Vero- ja lakiasiat','Asiakasnäkymä','Ylläpito / Editorinäkymä','Menetelmä','Analyysi','Katsaus','Meistä','Avaa uusin raportti','Näytä asiakirjat','Lue tekoälykatsaus','Tervetuloa toimistoosi.'],
-    es:['Resumen','Patrimonio','Inversiones','Inmuebles','Seguros','Actualidad de IA','Oportunidades','Documentos','Informes','Agenda','Mercados / Divisas','Empresas','Gastos','Fiscal y legal','Vista del cliente','Vista de administración','Método','Inteligencia','Boletín','Nosotros','Abrir último informe','Ver documentos','Revisar actualidad de IA','Bienvenido a su oficina.'],
-    zh:['总览','财富','投资','房地产','保险','人工智能简报','机遇','文件','报告','日程','市场 / 货币','公司','支出','税务与法律','客户预览','管理 / 编辑预览','方法','情报','简报','关于','打开最新报告','查看文件','查看人工智能简报','欢迎来到您的办公室。'],
-    hi:['अवलोकन','संपत्ति','निवेश','अचल संपत्ति','बीमा','एआई संक्षेप','अवसर','दस्तावेज़','रिपोर्ट','कार्यसूची','बाज़ार / मुद्राएँ','कंपनियाँ','खर्च','कर और कानून','ग्राहक पूर्वावलोकन','प्रशासन / संपादक पूर्वावलोकन','तरीका','जानकारी','संक्षेप','परिचय','नवीनतम रिपोर्ट खोलें','दस्तावेज़ देखें','एआई संक्षेप देखें','आपके कार्यालय में स्वागत है।'],
-    ar:['نظرة عامة','الثروة','الاستثمارات','العقارات','التأمين','موجز الذكاء الاصطناعي','الفرص','المستندات','التقارير','جدول الأعمال','الأسواق / العملات','الشركات','المصروفات','الضرائب والقانون','معاينة العميل','معاينة الإدارة / المحرر','المنهج','المعلومات','الموجز','نبذة عنا','افتح أحدث تقرير','عرض المستندات','مراجعة موجز الذكاء الاصطناعي','مرحبًا بك في مكتبك.'],
-    fr:['Vue d’ensemble','Patrimoine','Investissements','Immobilier','Assurances','Veille IA','Opportunités','Documents','Rapports','Agenda','Marchés / Devises','Entreprises','Dépenses','Fiscalité et droit','Aperçu client','Aperçu administration','Méthode','Intelligence','Note','À propos','Ouvrir le dernier rapport','Voir les documents','Consulter la veille IA','Bienvenue dans votre bureau.'],
-    bn:['সারসংক্ষেপ','সম্পদ','বিনিয়োগ','স্থাবর সম্পত্তি','বীমা','এআই সংক্ষিপ্তসার','সুযোগ','নথি','প্রতিবেদন','কর্মসূচি','বাজার / মুদ্রা','কোম্পানি','ব্যয়','কর ও আইন','গ্রাহক প্রিভিউ','প্রশাসক / সম্পাদক প্রিভিউ','পদ্ধতি','তথ্য','সংক্ষিপ্তসার','পরিচিতি','সর্বশেষ প্রতিবেদন খুলুন','নথি দেখুন','এআই সংক্ষিপ্তসার দেখুন','আপনার অফিসে স্বাগতম।'],
-    pt:['Visão geral','Património','Investimentos','Imóveis','Seguros','Boletim de IA','Oportunidades','Documentos','Relatórios','Agenda','Mercados / Moedas','Empresas','Despesas','Fiscal e jurídico','Prévia do cliente','Prévia de administração','Método','Inteligência','Boletim','Sobre','Abrir último relatório','Ver documentos','Rever boletim de IA','Bem-vindo ao seu escritório.'],
-    ru:['Обзор','Капитал','Инвестиции','Недвижимость','Страхование','Обзор ИИ','Возможности','Документы','Отчёты','Календарь','Рынки / Валюты','Компании','Расходы','Налоги и право','Просмотр клиента','Просмотр редактора','Метод','Аналитика','Обзор','О нас','Открыть последний отчёт','Посмотреть документы','Читать обзор ИИ','Добро пожаловать в ваш офис.'],
-    ur:['جائزہ','دولت','سرمایہ کاری','جائیداد','بیمہ','اے آئی خلاصہ','مواقع','دستاویزات','رپورٹس','شیڈول','بازار / کرنسیاں','کمپنیاں','اخراجات','ٹیکس اور قانون','کلائنٹ پیش نظارہ','منتظم / ایڈیٹر پیش نظارہ','طریقہ','معلومات','خلاصہ','تعارف','تازہ ترین رپورٹ کھولیں','دستاویزات دیکھیں','اے آئی خلاصہ دیکھیں','آپ کے دفتر میں خوش آمدید۔'],
-    id:['Ringkasan','Kekayaan','Investasi','Properti','Asuransi','Ringkasan AI','Peluang','Dokumen','Laporan','Agenda','Pasar / Mata uang','Perusahaan','Pengeluaran','Pajak & Hukum','Pratinjau klien','Pratinjau admin / editor','Metode','Intelijen','Ringkasan','Tentang','Buka laporan terbaru','Lihat dokumen','Tinjau ringkasan AI','Selamat datang di kantor Anda.']
   };
   const dictionaries={fi};
   for(const [code,values] of Object.entries(rows)) {
@@ -75,7 +65,7 @@
     const title = document.querySelector('title');
     renderValue(title, 'title', document.title, value => { document.title = value; }, attributes);
     document.documentElement.lang = language;
-    document.documentElement.dir = ['ar','ur'].includes(language) ? 'rtl' : 'ltr';
+    document.documentElement.dir = 'ltr';
     document.querySelectorAll('.language-switch').forEach(group => {
       group.dataset.language = language;
       group.setAttribute('aria-label', language === 'fi' ? 'Kieli' : 'Language');
