@@ -13,12 +13,13 @@
   <title>LAVREON — Private Intelligence Office</title>
 
   <script>try{if(sessionStorage.getItem('lavreon-intro-seen'))document.documentElement.classList.add('intro-skip')}catch{}</script>
-  <link rel="stylesheet" href="styles.css?v=intro-short-1">
-<link rel="stylesheet" href="language.css?v=presentation-v1">
+  <link rel="stylesheet" href="styles.css?v=mobile-header-1">
+<link rel="stylesheet" href="language.css?v=mobile-header-1">
 <link rel="stylesheet" href="gold-glow.css?v=refinement-2">
-<script src="translations-fi.js?v=refinement-2" defer></script>
+<script src="translations-fi.js?v=mobile-header-1" defer></script>
 <script src="language.js?v=en-fi-only" defer></script>
   <script src="intro.js?v=intro-short-1" defer></script>
+  <script src="site.js?v=mobile-header-1" defer></script>
 <link rel="stylesheet" href="premium.css?v=refinement-2">
 </head>
 
@@ -32,11 +33,14 @@
       <img class="brand-symbol" src="assets/lavreon-symbol.svg" width="54" height="30" alt=""><span class="brand-wordmark">LAVREON</span>
     </a>
 
-    <nav class="navigation" aria-label="Main navigation">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu<span class="nav-toggle-icon" aria-hidden="true"></span></button>
+
+    <nav class="navigation" id="site-menu" aria-label="Main navigation">
       <a href="#method">Method</a>
       <a href="#services">Intelligence</a>
       <a href="#brief">Brief</a>
       <a href="#pricing">Retainers</a>
+      <a class="nav-portal" href="dashboard.html">Client Portal · Demo</a>
     </nav>
 
     <a class="header-cta" href="dashboard.html">

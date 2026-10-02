@@ -971,3 +971,32 @@ html { scroll-padding-top: 110px; }
 .intro-pending .entry-symbol, .intro-pending .entry-wordmark { animation: none; opacity: 0; }
 /* Returning visitors in the same session skip the reveal before first paint. */
 .intro-skip .page-entry { display: none; }
+
+/* Compact mobile header: brand, language and menu share one row; the menu opens on demand. */
+.nav-toggle { display: none; }
+@media (max-width: 900px) {
+  html { scroll-padding-top: 84px; }
+  .site-header { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px 10px; min-height: 64px; padding-block: 10px; }
+  .site-header .brand { grid-column: 1; grid-row: 1; margin-right: 0; }
+  .site-header .language-switch { grid-column: 2; grid-row: 1; }
+  .site-header .navigation { grid-column: 1 / -1; grid-row: 2; }
+  .site-header .header-cta { grid-column: 1 / -1; grid-row: 3; justify-self: end; }
+  .has-menu .nav-toggle { grid-column: 3; grid-row: 1; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 14px; font: 500 12px/1.4 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: .08em; color: var(--text); background: var(--bg-soft); border: 1px solid #b8a06a66; border-radius: 4px; cursor: pointer; }
+  .nav-toggle-icon { position: relative; width: 14px; height: 9px; border-block: 1px solid var(--gold-light); }
+  .menu-open .nav-toggle-icon { height: 1px; border-bottom: 0; }
+  .nav-toggle:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+  /* The open menu overlays the page, so anchor targets never shift while it closes. */
+  .has-menu .header-cta, .has-menu:not(.menu-open) .navigation { display: none; }
+  .has-menu .navigation { grid-area: auto; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 6px var(--side-padding) 18px; background: var(--bg); border-bottom: 1px solid #b8a06a40; box-shadow: 0 24px 40px #0a0b0d99; }
+  .has-menu .navigation a { min-height: 48px; border-bottom: 1px solid var(--border); font-size: 16px; }
+  .has-menu .navigation a::after { display: none; }
+  .has-menu .navigation .nav-portal { justify-content: center; margin-top: 14px; border: 1px solid var(--border-gold); color: var(--gold-light); font-size: 13px; letter-spacing: .08em; }
+}
+.nav-portal { display: none !important; }
+@media (max-width: 900px) { .has-menu .nav-portal { display: inline-flex !important; } }
+@media (max-width: 420px) {
+  .site-header { padding-inline: 16px; gap: 8px 8px; }
+  .site-header .language-trigger { min-width: 0; padding-inline: 11px; }
+  .has-menu .nav-toggle { gap: 8px; padding-inline: 12px; }
+  .brand-wordmark { font-size: 16px; letter-spacing: .13em; }
+}

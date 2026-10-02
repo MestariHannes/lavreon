@@ -90,7 +90,7 @@ Object.assign(window.LAVREON_FI, {
   'Demo modes · no authentication':'Demotilat · ei tunnistautumista', 'Prototype controls · local only':'Prototyypin ohjaimet · vain paikallisesti', 'NEEDS ATTENTION · SAMPLE':'HUOMIOTA VAATIVAT · ESIMERKKI'
 });
 
-Object.assign(window.LAVREON_FI, {'Browse modules':'Selaa moduuleja'});
+Object.assign(window.LAVREON_FI, {'Browse modules':'Selaa moduuleja', 'Menu':'Valikko'});
 
 // Public retainers and refinement labels; other body copy keeps English fallback.
 Object.assign(window.LAVREON_FI, {
