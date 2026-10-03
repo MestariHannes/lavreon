@@ -18,14 +18,25 @@
   let language = 'en';
   try { language = localStorage.getItem('lavreon-language') || 'en'; } catch {}
   if (!languages.some(([code]) => code === language)) language = 'en';
-  const translate = value => dictionaries[language]?.[normalize(value)] ?? value;
+  // Composite portal labels ("Your office / Insurance", "Insurance — LAVREON Demo") translate their parts.
+  const patterns = [
+    [/^Your office \/ (.+)$/, (dict, part) => dict['Your office'] && `${dict['Your office']} / ${dict[part] ?? part}`],
+    [/^(.+) — LAVREON Demo$/, (dict, part) => dict[part] && `${dict[part]} — LAVREON Demo`]
+  ];
+  const translate = value => {
+    const dict = dictionaries[language];
+    if (!dict) return value;
+    const key = normalize(value);
+    if (key in dict) return dict[key];
+    for (const [pattern, build] of patterns) {
+      const match = key.match(pattern);
+      if (match) return build(dict, match[1]) || value;
+    }
+    return value;
+  };
   // Dynamic labels retain an English source, including when controls update after a language switch.
   const names = ['Total Net Worth', 'Investments', 'Liquid Assets', 'Real Estate', 'Asset allocation', 'Portfolio performance', 'Recent activity'];
   for (const name of names) for (const action of ['Hide', 'Show']) fi[`${action} ${name} balances`] = `${action === 'Hide' ? 'Piilota' : 'Näytä'} saldot: ${fi[name]}`;
-  for (const name of ['Overview', 'Welcome to your office.', 'Wealth overview', 'Real Estate', 'Investments', 'Asset allocation', 'Intelligence', 'Activity', 'Your agenda', 'Global markets', 'Currencies', 'Client Portal']) {
-    fi[`Your office / ${name}`] = `Oma toimistosi / ${fi[name]}`;
-    fi[`${name} — LAVREON Demo`] = `${fi[name]} — LAVREON Demo`;
-  }
   for (let n = 0; n <= 10; n++) fi[`${n} matching sections.`] = `${n} vastaavaa näkymää.`;
   for (const [en, finnish] of [['one month', 'yhden kuukauden'], ['three months', 'kolmen kuukauden'], ['one year', 'yhden vuoden'], ['three years', 'kolmen vuoden']]) {
     fi[`Sample ${en} value history · includes sample cash flows.`] = `Esimerkkikehitys ${finnish} ajalta · sisältää kuvitteellisia rahavirtoja.`;
@@ -52,7 +63,7 @@
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let node;
     while ((node = walker.nextNode())) {
-      if (!node.parentElement || node.parentElement.closest('script, style, .language-switch, .brand, .entry-wordmark')) continue;
+      if (!node.parentElement || node.parentElement.closest('script, style, noscript, .language-switch, .brand, .entry-wordmark')) continue;
       const textNode = node;
       renderValue(node, 'text', node.nodeValue, value => { textNode.nodeValue = value; }, sources);
     }
@@ -70,7 +81,12 @@
       group.dataset.language = language;
       group.setAttribute('aria-label', language === 'fi' ? 'Kieli' : 'Language');
       group.querySelectorAll('[data-lang]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.lang === language)));
-      group.querySelector('.language-trigger').textContent='◎ '+language.toUpperCase()+' ▾';
+      const trigger = group.querySelector('.language-trigger');
+      const current = document.createElement('span');
+      current.textContent = language.toUpperCase();
+      const icon = glyph => { const span = document.createElement('span'); span.setAttribute('aria-hidden', 'true'); span.textContent = glyph; return span; };
+      trigger.replaceChildren(icon('◎ '), current, icon(' ▾'));
+      trigger.setAttribute('aria-label', `${translate('Choose language')} · ${languages.find(([code]) => code === language)[1]}`);
     });
     observer?.observe(document.body, {subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['aria-label', 'placeholder']});
   }

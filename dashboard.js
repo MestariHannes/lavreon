@@ -196,7 +196,8 @@
     document.querySelectorAll('button[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
     document.querySelector('#client-setup').hidden=mode!=='admin';
     const shown=modules.filter(m=>visibility[m.id]);
-    document.querySelector('#visibility-summary').textContent='Client preview · '+shown.length+' / '+modules.length+' modules: '+(shown.map(m=>m.label).join(', ')||'None selected');
+    const t=text=>window.LavreonLanguage?.translate(text) ?? text;
+    document.querySelector('#visibility-summary').textContent=t('Client preview')+' · '+shown.length+' / '+modules.length+' '+t('modules')+': '+(shown.map(m=>t(m.label)).join(', ')||t('None selected'));
     document.querySelectorAll('a[data-module]').forEach(link=>link.hidden=!allowed(link.dataset.module));
     document.querySelectorAll('[data-admin]').forEach(link=>link.hidden=mode!=='admin');
     nav.querySelectorAll('.nav-group').forEach(group=>{group.hidden=[...group.querySelectorAll('a')].every(a=>a.hidden);group.querySelector('.nav-label').textContent=group.dataset.group==='ADMIN ONLY'&&mode==='client'?'YOUR WORLD':group.dataset.group;});
@@ -231,7 +232,7 @@
     navigateTo(link.hash.slice(1));
   }));
   document.addEventListener('lavreon-languagechange', () => {
-    if (input.value.trim()) input.dispatchEvent(new Event('input'));
+    renderView();
     draw(document.querySelector('[data-period][aria-pressed="true"]').dataset.period);
   });
   window.addEventListener('hashchange', () => renderView(true));
