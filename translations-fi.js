@@ -92,6 +92,40 @@ Object.assign(window.LAVREON_FI, {
 
 Object.assign(window.LAVREON_FI, {'Browse modules':'Selaa moduuleja', 'Menu':'Valikko'});
 
+// Priority intelligence and opportunities (intelligence-feed.js).
+Object.assign(window.LAVREON_FI, {
+  'DATA → CONTEXT → INTELLIGENCE → ACTION': 'DATA → KONTEKSTI → ANALYYSI → TOIMINTA',
+  'Priority intelligence': 'Tärkeimmät havainnot',
+  'FICTIONAL SCENARIOS': 'KUVITTEELLISIA SKENAARIOITA',
+  'What changed, how it touches this sample client’s world, and the next step.': 'Mikä muuttui, miten se koskettaa esimerkkiasiakkaan kokonaisuutta ja mikä on seuraava askel.',
+  'Fictional scenarios derived from the sample data on this page. No accounts are connected and no recommendation is made.': 'Kuvitteellisia skenaarioita, jotka perustuvat tämän sivun esimerkkitietoihin. Tilejä ei ole yhdistetty eikä suosituksia anneta.',
+  'Each entry separates evidence, context and questions for review. Questions for advisers, not recommendations.': 'Jokainen kohta erottaa näytön, kontekstin ja tarkasteltavat kysymykset. Kysymyksiä neuvonantajille, ei suosituksia.',
+  'Risk': 'Riski', 'Deadline': 'Määräaika', 'Opportunity': 'Mahdollisuus', 'Act by': 'Toimi viimeistään',
+  'Property cover may lag the property value': 'Vakuutusturva voi jäädä kiinteistön arvosta',
+  'The Home / Property policy renews soon, with a sum insured of €2.10M.': 'Koti- ja kiinteistövakuutus uusiutuu pian, vakuutusmäärä 2,10 M€.',
+  'The real-estate register values the same property at €2.88M.': 'Kiinteistörekisterissä saman kiinteistön arvo on 2,88 M€.',
+  'A possible gap of about €0.78M between cover and value.': 'Vakuutusturvan ja arvon välillä voi olla noin 0,78 M€:n ero.',
+  'Ask the insurer for an updated valuation and quote before the renewal date.': 'Pyydä vakuutusyhtiöltä päivitetty arvio ja tarjous ennen uusimispäivää.',
+  'Review insurance ↗': 'Tarkastele vakuutuksia ↗',
+  'Holding company accounts and board meeting': 'Holdingyhtiön tilinpäätös ja hallituksen kokous',
+  'Example Holding Ltd has annual accounts and a board meeting due.': 'Example Holding Oy:n tilinpäätös ja hallituksen kokous ovat tulossa.',
+  'The company holds the sample private-equity positions, 17% of total assets.': 'Yhtiö omistaa esimerkkisalkun pääomasijoitukset, 17 % kokonaisvarallisuudesta.',
+  'Next year’s dividend and cash planning depends on the approved accounts.': 'Ensi vuoden osinko- ja kassasuunnittelu riippuu vahvistetusta tilinpäätöksestä.',
+  'Confirm the timetable with your accountant and book the board meeting.': 'Vahvista aikataulu kirjanpitäjäsi kanssa ja varaa hallituksen kokous.',
+  'Open agenda ↗': 'Avaa kalenteri ↗',
+  'Liquidity above the sample reserve': 'Likviditeettiä yli esimerkkivarannon',
+  'Liquid assets of €1.34M.': 'Likvidit varat 1,34 M€.',
+  'The sample reserve target is six months of planned spending, about €0.60M.': 'Esimerkin varantotavoite on kuuden kuukauden suunnitellut menot, noin 0,60 M€.',
+  'Around €0.74M sits above the target without a defined purpose.': 'Noin 0,74 M€ ylittää tavoitteen ilman määriteltyä käyttötarkoitusta.',
+  'A question for your adviser: what should this liquidity be for? No recommendation is made.': 'Kysymys neuvonantajallesi: mihin tämä likviditeetti on tarkoitettu? Suositusta ei anneta.',
+  'Open wealth ↗': 'Avaa varallisuus ↗',
+  'Policies renewing at different times': 'Vakuutukset uusiutuvat eri aikoina',
+  'Six sample policies renew at different points in the year.': 'Kuusi esimerkkivakuutusta uusiutuu eri aikoina vuoden mittaan.',
+  'Home, vehicles, liability and business cover each have their own renewal date.': 'Koti-, ajoneuvo-, vastuu- ja yritysvakuutuksilla on kullakin oma uusimispäivänsä.',
+  'Aligning renewals could give one annual review instead of six separate ones.': 'Uusimisten yhdistäminen voisi korvata kuusi erillistä tarkistusta yhdellä vuosikatsauksella.',
+  'Discuss aligning renewal dates at the next planning conversation.': 'Keskustele uusimispäivien yhdistämisestä seuraavassa suunnittelukeskustelussa.'
+});
+
 // Demo labels around dates that demo-dates.js keeps relative to today.
 Object.assign(window.LAVREON_FI, {
   'Sample financial snapshot ·': 'Taloustietojen esimerkkitilanne ·',
