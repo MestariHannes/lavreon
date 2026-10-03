@@ -1,4 +1,17 @@
 'use strict';
+// Retainer scope lists: open on wide screens, collapsed on phones so the section stays readable.
+(() => {
+  const scopes = document.querySelectorAll('.tier-scope');
+  if (!scopes.length) return;
+  const narrow = matchMedia('(max-width: 900px)');
+  const sync = () => scopes.forEach(scope => {
+    scope.open = !narrow.matches;
+    scope.querySelector('summary').tabIndex = narrow.matches ? 0 : -1;
+  });
+  narrow.addEventListener('change', sync);
+  sync();
+})();
+
 // Public site behaviour: the compact mobile menu. Without JavaScript the navigation stays visible.
 (() => {
   const header = document.querySelector('.site-header');

@@ -257,6 +257,18 @@
   .portal-site .hero .mobile-freshness { display: block; font-size: 9px; color: #99958c; margin-top: 15px; line-height: 1.7; }
 }
 
+/* Retainer scope: a fixed heading on wide screens, a disclosure on phones. */
+.tier-scope > summary { list-style: none; }
+.tier-scope > summary::-webkit-details-marker { display: none; }
+@media (min-width: 901px) { .tier-scope > summary { pointer-events: none; } }
+@media (max-width: 900px) {
+  .tier-scope > summary { display: flex; justify-content: space-between; align-items: center; min-height: 48px; margin: -12px 0 0; border-bottom: 1px solid #b8a06a33; cursor: pointer; }
+  .tier-scope > summary::after { content: '+'; font-size: 16px; color: #d4c08f; }
+  .tier-scope[open] > summary::after { content: '−'; }
+  .tier-scope[open] > summary { margin-bottom: 12px; }
+  .tier-scope > summary:focus-visible { outline: 2px solid #d4c08f; outline-offset: 3px; }
+}
+
 /* Gold accents without glow (formerly gold-glow.css): colour and hairlines carry the brand, no blurred light. */
 .site-header .brand-wordmark, .sidebar .brand, .editorial-brand { color: #d4c08f; }
 .hero h1 { color: #f1ede4; }
