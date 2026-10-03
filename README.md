@@ -1,38 +1,43 @@
-# LAVREON presentation V1
+# LAVREON
 
-The existing plain HTML/CSS/JS site is preserved. Start a static server in this folder and open index.html or dashboard.html.
+Public presentation site and client-portal prototype for LAVREON, a private intelligence office. Plain HTML, CSS and JavaScript with no build step. Published with GitHub Pages: https://mestarihannes.github.io/lavreon/
 
-## Preview modes
-Client is the default. Use the labelled buttons or dashboard.html?mode=admin for the editor. These modes are NOT authentication. All source and demo content is public. The fictional client is Alex Morgan, and financial/policy values are invented.
+## Files
+| File | Purpose |
+|---|---|
+| `index.html` | Public presentation page |
+| `dashboard.html` | Client portal demo (fictional client Alex Morgan) |
+| `styles.css`, `premium.css` | Public page styles; `premium.css` also holds shared gold accents |
+| `dashboard.css` | Portal styles |
+| `language.css`, `language.js`, `translations-fi.js` | EN/FI language switch and Finnish dictionary |
+| `intro.js` | Opening logo reveal (2.4 s, once per browser session) |
+| `site.js` | Mobile menu and collapsible retainer scope on the public page |
+| `dashboard.js` | Portal module registry, routing, search, chart and balance masking |
+| `intelligence-feed.js` | Fictional priority intelligence and opportunities (DATA → CONTEXT → INTELLIGENCE → ACTION) |
+| `demo-dates.js` | Keeps fictional demo dates relative to today |
+| `assets/` | Official symbol, favicon, touch icon and link-preview image |
 
-The single module registry in dashboard.js controls routes, sidebar, search, cards and quick actions. The editor always sees all 14 modules. Toggle settings are stored as lavreon-modules-v1 in localStorage on this browser/origin; they do not sync to a server or another device. If storage is unavailable, changes last for the current page visit. Reset restores 10 default client modules. Empty selections get an explicit empty state; hidden routes fall back to an available module. Companies, Expenses and Tax & Legal start hidden and appear under Your World when selected for a client; configuration controls remain editor-only.
-
-## Curated AI Signal Brief
-Exactly three manually selected developments, checked 15 September 2026. No live AI search, backend fetch, API keys or automatic refresh. Publication dates are separate from the editorial update date. Primary-source links are embedded in each item. Implications are editorial interpretations.
-
-1. Google DeepMind WeatherNext 3 — 3 September 2026.
-2. Google Android: item-location memory and Guided vision — 1 September 2026; announced/coming soon, device and country limits apply.
-3. Anthropic: alignment and agent-containment changes — 31 August 2026; incidents concerned evaluation models with reduced safeguards.
-
-Future architecture: server-side search/fetch -> rank -> summarise -> editorial checks -> cache -> client feed. Keep keys on the server. Store source URL, publication time, verification/update time, provenance and stale/error state. Never fabricate headlines while a source is unavailable.
+## Local preview
+Serve the folder with any static server and open `index.html` or `dashboard.html`. When a CSS or JS file changes, update its `?v=` query in both HTML files so returning visitors get the new version.
 
 ## Languages
-The existing translation engine and lavreon-language key are retained. English, Finnish, Spanish, Chinese, Hindi, Arabic, French, Bengali, Portuguese, Russian, Urdu and Indonesian. Finnish retains the existing broader dictionary; other languages cover core navigation, main headings and actions with English fallback for body/demo text. The dropdown supports Tab, arrows, Home/End, Enter/Space, Escape, outside click and focus leaving. Arabic and Urdu use RTL layout. Brand names remain unchanged.
+English and Finnish. The language switch stores `lavreon-language` in localStorage. Translation works on visible text, `aria-label`, `placeholder`, the meta description and the page title. Finnish strings live in `translations-fi.js`; new visible text needs a Finnish entry there. In Finnish, standalone figures are shown in Finnish format (12 430 000 €, +6,8 %). Brand and tier names stay in English.
+
+## Client portal demo
+Client view is the default; `dashboard.html?mode=admin` shows the editor view. These modes are not authentication: all source and demo content is public.
+
+The module registry in `dashboard.js` drives the sidebar, routes, search, cards and quick actions. The editor always sees all modules. Visibility choices are stored as `lavreon-modules-v1` in this browser only. Reset restores the 12 default client modules; Companies, Expenses and Tax & Legal start hidden.
+
+All financial values, policies, companies, meetings and scenarios are fictional and labelled as such. Fictional dates are rendered relative to the visit date by `demo-dates.js`. Priority intelligence and opportunities derive only from the sample figures on the page and make no recommendation.
+
+### Curated AI Signal Brief
+Three manually selected developments from public sources, checked 15 September 2026. No live search, backend, API keys or automatic refresh. Publication dates are real and stay static; implications are editorial interpretations.
+
+## Pricing
+The public page shows illustrative launch retainers (Personal from €990, Signature €9,500 and Private Office €18,000 per month). They are not final and nothing can be purchased on the site.
 
 ## Production gaps
-Real authentication, server-enforced authorisation and row-level security (RLS), client provisioning, protected document storage, audit logging, live financial/policy integrations, licensed market feeds and a monitored news pipeline are not implemented. Local presentation preferences are not security. Do not insert real client information into these public files.
+Not implemented: real authentication, server-enforced authorisation and row-level security, client provisioning, protected document storage, audit logging, live financial or policy integrations, licensed market data, a monitored news pipeline, a contact channel and a privacy notice. Local presentation preferences are not security. Never put real client information into these public files.
 
-## Verification
-Use desktop 1440px and mobile 390px, check all routes and preview modes, toggle persistence/reset, empty selection, search filtering, chart periods, balance masking, document/report disclosure and language keyboard controls. Check both pages and RTL for overflow. Intro and symbol assets are unchanged. Reduced motion disables lift and preserves the existing intro bypass.
-
-### V1 verification completed — 15 September 2026
-Browser checks at 1440 × 1000 and 390 × 844: homepage, intro completion, portal link, client/editor modes and visual review passed with no horizontal overflow. Verified module persistence after reload, search/link/card filtering, enabling Companies for the client, all-off empty state and restoring defaults. Checked existing chart period and balance masking, document/report disclosures, internal routes, all 12 language selections, Finnish persistence, Arabic/Urdu direction, keyboard language selection, Escape/outside close and mobile navigation. No browser error/warning logs were recorded. JavaScript syntax and git diff checks passed. Reduced-motion behaviour was reviewed in CSS and the preserved intro source; it was not separately emulated in the browser.
-
-## Visual refinement and illustrative retainers
-The public homepage adds Why LAVREON, proposed Personal (from EUR 990/month), Signature (EUR 9,500/month) and Private Office (EUR 18,000/month) retainers. Scope is illustrative, not activated in the prototype. No checkout or promises of performance are added. Privacy/Terms are clearly labelled non-link placeholders; Contact and Disclaimer point to existing content.
-
-The balance-eye bug was caused by the broad [data-mode] update selecting body after data-mode was set, giving body aria-pressed=true. The broad ancestor eye-slash CSS then displayed every slash. Mode updates now select button[data-mode] only; SVG slash elements exist only while that card is masked. Monetary masking remains per-card, in memory only as before, and keeps chart/percentage labels visible.
-
-premium.css contains the scoped visual refinement layer for the existing public and portal pages. The official mark and intro geometry are retained. Intro completion only adds a class for subtle staggered headline motion; reduced-motion users see the heading immediately.
-
-Refinement validation: visually reviewed at 1440px desktop and 390px mobile; no horizontal page overflow. All seven balance controls hide/restore correctly, including after preview switching. Module visibility persists across reload; client controls stay hidden. Language keyboard selection, Escape closing, Finnish copy and Arabic layout checked. Homepage anchors, pricing comparison, insurance details and three curated signals checked. JavaScript syntax checks and git diff --check passed. Reduced-motion rules reviewed in source.
+## Verification checklist
+Desktop (1440 px) and mobile (375 px), English and Finnish: no console errors, no horizontal overflow, the intro plays once and never blocks the page, the mobile menu opens and closes, every anchor lands below the header, the language switch translates both pages, portal routes, editor toggles and reset work, balance masking hides amounts only, and chart periods redraw.
