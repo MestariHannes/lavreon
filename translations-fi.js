@@ -92,6 +92,27 @@ Object.assign(window.LAVREON_FI, {
 
 Object.assign(window.LAVREON_FI, {'Browse modules':'Selaa moduuleja', 'Menu':'Valikko'});
 
+// Demo labels around dates that demo-dates.js keeps relative to today.
+Object.assign(window.LAVREON_FI, {
+  'Sample financial snapshot ·': 'Taloustietojen esimerkkitilanne ·',
+  'Last sample review': 'Viimeisin esimerkkikatsaus',
+  'Property renewal ·': 'Kiinteistövakuutuksen uusiminen ·',
+  'Latest office report': 'Uusin toimistoraportti',
+  'Ready to read ↗': 'Valmis luettavaksi ↗',
+  'Sample reminder: review the fictional property schedule ahead of the upcoming renewal. No coverage assessment or recommendation has been made.': 'Esimerkkimuistutus: tarkista kuvitteellisen kiinteistön vakuutuserittely ennen tulevaa uusimista. Vakuutusturvaa ei ole arvioitu eikä suosituksia annettu.',
+  'Fictional policies and premiums · Not insurance advice.': 'Kuvitteelliset vakuutukset ja maksut · Ei vakuutusneuvontaa.',
+  'Illustrative document': 'Havainnollistava asiakirja',
+  'Example register: Home / Property policy with an upcoming renewal. This is a text preview, not an issued policy or proof of coverage.': 'Esimerkkirekisteri: koti- ja kiinteistövakuutus, jonka uusiminen on tulossa. Tämä on tekstiesikatselu, ei myönnetty vakuutus tai todistus vakuutusturvasta.',
+  'MONTHLY OFFICE NOTE': 'KUUKAUSITTAINEN TOIMISTOKATSAUS',
+  'Sample office report ·': 'Esimerkkiraportti ·',
+  'The fictional asset snapshot totals €12.43M. The next sample priority is the upcoming property renewal. The current intelligence brief explores AI forecasting, everyday assistance and agent safeguards.': 'Kuvitteellisen varallisuuden kokonaisarvo on 12,43 M€. Seuraava esimerkkiprioriteetti on tuleva kiinteistövakuutuksen uusiminen. Ajankohtainen analyysikatsaus käsittelee tekoälyennusteita, arjen avustajia ja agenttien turvarajoja.',
+  'Global equity fund ·': 'Globaali osakerahasto ·',
+  'Example residence ·': 'Esimerkkiasunto ·',
+  'Equity portfolio ·': 'Osakesalkku ·',
+  'Fictional transactions · last 30 days': 'Kuvitteelliset tapahtumat · viimeiset 30 päivää',
+  'Fictional prices and daily changes · not live.': 'Kuvitteelliset hinnat ja päivämuutokset · ei reaaliaikainen.'
+});
+
 // Public retainers and refinement labels; other body copy keeps English fallback.
 Object.assign(window.LAVREON_FI, {
   "Welcome, Alex.": "Tervetuloa, Alex.",
