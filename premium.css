@@ -123,7 +123,7 @@
 /* Clear footer destinations. Unavailable policy pages are text, never dead links. */
 .footer-trust { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; font-size: 11px; }
 .footer-trust [aria-disabled=true] { color: #99958c; }
-.footer-trust a { color: #d4c08f; min-height: 30px; display: inline-flex; align-items: center; }
+.footer-trust a { color: #d4c08f; min-height: 44px; display: inline-flex; align-items: center; }
 .footer-trust a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .public-site .site-footer { background: radial-gradient(ellipse at 10% 0, #b8a06a12, transparent 50%), #0a0b0d; border-top: 1px solid #b8a06a44; }
 .public-site .footer-trust { grid-column: 1/-1; }

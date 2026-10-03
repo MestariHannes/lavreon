@@ -877,7 +877,7 @@ html { scroll-padding-top: 110px; }
 .note-findings dt { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #15171b; margin-bottom: 8px; }
 .note-findings dd { margin: 0; font-size: 15px; line-height: 1.6; }
 .note-source { padding-top: 18px; margin-bottom: 0; border-top: 1px solid rgba(10,11,13,.18); font-size: 12px; color: #15171b; }
-.note-source a { text-decoration: underline; text-underline-offset: 3px; }
+.note-source a { text-decoration: underline; text-underline-offset: 3px; padding-block: 12px; }
 .brief-preview a:focus-visible, .brief-preview:focus-visible { outline: 2px solid #15171b; outline-offset: 5px; }
 #about { border-top: 1px solid var(--border); }
 .principles-section h2 { font-size: clamp(32px, 4.5vw, 56px); }
@@ -971,6 +971,9 @@ html { scroll-padding-top: 110px; }
 .intro-pending .entry-symbol, .intro-pending .entry-wordmark { animation: none; opacity: 0; }
 /* Returning visitors in the same session skip the reveal before first paint. */
 .intro-skip .page-entry { display: none; }
+
+/* Touch targets: at least 44px for the home link. */
+.site-header .brand { min-height: 44px; }
 
 /* Positioning: who LAVREON is for, directly beneath the promise. */
 .hero-audience { margin: 18px 0 0; color: var(--gold-light); font-size: 15px; letter-spacing: .02em; }
