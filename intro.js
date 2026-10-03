@@ -5,13 +5,18 @@
   const mark = overlay.querySelector('.entry-symbol');
   const destination = document.querySelector('.hero-emblem img');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  if (motion.matches || location.hash || !mark.animate) { overlay.remove(); root.classList.add('intro-complete'); return; }
+  // The reveal plays once per browser session; later visits open straight onto the page.
+  const seenKey = 'lavreon-intro-seen';
+  let seen = false;
+  try { seen = sessionStorage.getItem(seenKey) === '1'; sessionStorage.setItem(seenKey, '1'); } catch {}
+  if (seen || motion.matches || location.hash || !mark.animate) { overlay.remove(); root.classList.add('intro-complete'); return; }
   let animation;
   let observer;
   let frame;
   let finished = false;
   let start;
   let width;
+  let safety;
   const interruptions = ['pointerdown', 'keydown', 'pagehide'];
   root.classList.add('intro-pending');
   function finish() {
@@ -23,6 +28,7 @@
     animation?.cancel();
     observer?.disconnect();
     cancelAnimationFrame(frame);
+    clearTimeout(safety);
     for (const event of interruptions) window.removeEventListener(event, finish);
     window.removeEventListener('resize', scheduleGeometry);
     window.visualViewport?.removeEventListener('resize', scheduleGeometry);
@@ -51,11 +57,14 @@
   }
   for (const event of interruptions) window.addEventListener(event, finish, {once: true, passive: true});
   motion.addEventListener('change', finish, {once: true});
+  // Never hold the page behind the dark overlay if assets or frames are slow to arrive.
+  safety = setTimeout(finish, 1800);
   try {
     // A cold visit must decode the SVG and settle fonts before measuring the hero.
     await Promise.all([mark.decode(), destination.decode(), document.fonts.ready]);
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     if (finished) return;
+    clearTimeout(safety);
     const bounds = overlay.getBoundingClientRect();
     width = Math.min(320, bounds.width * .75);
     start = `translate(${(bounds.width - width) / 2}px, ${bounds.height / 2 - width * 103 / 480}px) scale(1)`;
@@ -63,7 +72,7 @@
     mark.style.height = `${width * 260 / 480}px`;
     root.classList.add('intro-running');
     root.classList.remove('intro-pending');
-    animation = mark.animate(keyframes(), {duration: 5000, fill: 'both'});
+    animation = mark.animate(keyframes(), {duration: 2400, fill: 'both'});
     animation.onfinish = finish;
     // Browser chrome can resize the mobile viewport on first load: retarget, never abort.
     window.addEventListener('resize', scheduleGeometry, {passive: true});

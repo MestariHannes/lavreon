@@ -52,12 +52,14 @@
       if (card.id === 'performance') draw(card.querySelector('[data-period][aria-pressed="true"]').dataset.period);
     });
   });
+  // Axis labels are offsets from today: [days, months] for start and middle; the end is always today.
   const samples = {
-    '1M': {values:[8.04,8.06,8.02,8.08,8.10,8.07,8.12,8.16,8.13,8.18,8.21],change:'+2.1% · 1 month',start:"Aug '26",mid:'Late Aug',name:'one month'},
-    '3M': {values:[7.64,7.70,7.67,7.78,7.73,7.86,7.94,7.89,8.02,7.98,8.10,8.21],change:'+7.4% · 3 months',start:"Jun '26",mid:"Jul '26",name:'three months'},
-    '1Y': {values:[6.94,7.02,6.96,7.16,7.10,7.35,7.30,7.42,7.26,7.61,7.74,7.66,7.90,7.84,7.72,7.95,7.83,7.70,7.92,8.02,7.91,8.10,8.04,8.21],change:'+18.3% · 1 year',start:"Sep '25",mid:"Mar '26",name:'one year'},
-    'ALL': {values:[6.12,6.25,6.17,6.46,6.38,6.72,6.84,6.75,7.10,7.01,7.28,7.39,7.22,7.55,7.48,7.84,7.71,8.02,7.86,8.21],change:'+34.2% · all sample history',start:"Sep '23",mid:"Mar '25",name:'three years'}
+    '1M': {values:[8.04,8.06,8.02,8.08,8.10,8.07,8.12,8.16,8.13,8.18,8.21],change:'+2.1% · 1 month',start:[-30,0],mid:[-15,0],axis:'day-month',name:'one month'},
+    '3M': {values:[7.64,7.70,7.67,7.78,7.73,7.86,7.94,7.89,8.02,7.98,8.10,8.21],change:'+7.4% · 3 months',start:[0,-3],mid:[-45,0],axis:'month-short-year',name:'three months'},
+    '1Y': {values:[6.94,7.02,6.96,7.16,7.10,7.35,7.30,7.42,7.26,7.61,7.74,7.66,7.90,7.84,7.72,7.95,7.83,7.70,7.92,8.02,7.91,8.10,8.04,8.21],change:'+18.3% · 1 year',start:[0,-12],mid:[0,-6],axis:'month-short-year',name:'one year'},
+    'ALL': {values:[6.12,6.25,6.17,6.46,6.38,6.72,6.84,6.75,7.10,7.01,7.28,7.39,7.22,7.55,7.48,7.84,7.71,8.02,7.86,8.21],change:'+34.2% · all sample history',start:[0,-36],mid:[0,-18],axis:'month-short-year',name:'three years'}
   };
+  const axisLabel = ([days, months], axis) => window.LavreonDemoDate ? LavreonDemoDate.format(LavreonDemoDate.shift(days, months), axis) : '';
   function draw(period) {
     const sample = samples[period];
     const points = sample.values.map((value, index) => [40 + index * 430 / (sample.values.length - 1), 140 - (value - 6) * 40]);
@@ -65,8 +67,9 @@
     document.querySelector('#chart-line').setAttribute('d',line);
     document.querySelector('#chart-area').setAttribute('d',line + ' L470 140 L40 140 Z');
     document.querySelector('#chart-change').textContent = sample.change;
-    document.querySelector('#chart-start').textContent = sample.start;
-    document.querySelector('#chart-mid').textContent = sample.mid;
+    document.querySelector('#chart-start').textContent = axisLabel(sample.start, sample.axis);
+    document.querySelector('#chart-mid').textContent = axisLabel(sample.mid, sample.axis);
+    document.querySelector('#chart-end').textContent = axisLabel([0, 0], sample.axis);
     document.querySelector('#chart-title').textContent = 'Fictional investment values over ' + sample.name + (document.querySelector('#performance .privacy-toggle').getAttribute('aria-pressed') === 'true' ? '. Current balance hidden.' : ', ending at 8.21 million euros.');
     document.querySelector('#chart-caption').textContent = 'Sample ' + sample.name + ' value history · includes sample cash flows.';
     document.querySelectorAll('[data-period]').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.period === period)));
@@ -79,8 +82,9 @@
     {id:'investments', label:'Investments', group:'YOUR WORLD', route:'performance', cards:['performance'], enabled:true},
     {id:'real-estate', label:'Real Estate', group:'YOUR WORLD', cards:[], enabled:true},
     {id:'insurance', label:'Insurance', group:'YOUR WORLD', cards:['insurance'], enabled:true},
+    {id:'priorities', label:'Priority intelligence', group:'INTELLIGENCE', cards:['priorities'], enabled:true},
     {id:'intelligence', label:'AI Signal Brief', group:'INTELLIGENCE', route:'insights', cards:['insights'], enabled:true},
-    {id:'opportunities', label:'Opportunities', group:'INTELLIGENCE', cards:['opportunities'], enabled:false},
+    {id:'opportunities', label:'Opportunities', group:'INTELLIGENCE', cards:['opportunities'], enabled:true},
     {id:'documents', label:'Documents', group:'OFFICE', cards:['documents'], enabled:true},
     {id:'reports', label:'Reports', group:'OFFICE', cards:['reports'], enabled:true},
     {id:'agenda', label:'Agenda', group:'OFFICE', route:'upcoming', cards:['upcoming'], enabled:true},
@@ -192,7 +196,8 @@
     document.querySelectorAll('button[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
     document.querySelector('#client-setup').hidden=mode!=='admin';
     const shown=modules.filter(m=>visibility[m.id]);
-    document.querySelector('#visibility-summary').textContent='Client preview · '+shown.length+' / '+modules.length+' modules: '+(shown.map(m=>m.label).join(', ')||'None selected');
+    const t=text=>window.LavreonLanguage?.translate(text) ?? text;
+    document.querySelector('#visibility-summary').textContent=t('Client preview')+' · '+shown.length+' / '+modules.length+' '+t('modules')+': '+(shown.map(m=>t(m.label)).join(', ')||t('None selected'));
     document.querySelectorAll('a[data-module]').forEach(link=>link.hidden=!allowed(link.dataset.module));
     document.querySelectorAll('[data-admin]').forEach(link=>link.hidden=mode!=='admin');
     nav.querySelectorAll('.nav-group').forEach(group=>{group.hidden=[...group.querySelectorAll('a')].every(a=>a.hidden);group.querySelector('.nav-label').textContent=group.dataset.group==='ADMIN ONLY'&&mode==='client'?'YOUR WORLD':group.dataset.group;});
@@ -227,7 +232,8 @@
     navigateTo(link.hash.slice(1));
   }));
   document.addEventListener('lavreon-languagechange', () => {
-    if (input.value.trim()) input.dispatchEvent(new Event('input'));
+    renderView();
+    draw(document.querySelector('[data-period][aria-pressed="true"]').dataset.period);
   });
   window.addEventListener('hashchange', () => renderView(true));
   window.addEventListener('popstate', () => renderView(true));

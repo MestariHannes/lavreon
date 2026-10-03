@@ -30,7 +30,6 @@
 .public-site .hero-emblem { opacity: .23; }
 .public-site .hero-emblem::before {
   background: linear-gradient(90deg, transparent, #b8a06a66 18%, #d4c08f 72%, #b8a06a44 95%, transparent);
-  box-shadow: 0 0 12px #b8a06a80, 0 0 30px #b8a06a40;
 }
 .public-site .hero-emblem::after {
   content: '';
@@ -90,7 +89,7 @@
 .pricing-notice { color: #d4c08f; font-size: 12px; letter-spacing: .04em; margin-bottom: 12px; }
 .pricing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
 .pricing-card { min-width: 0; display: flex; flex-direction: column; padding: 30px 26px; background: linear-gradient(145deg, #15171b, #0a0b0de6); border: 1px solid #b8a06a42; border-radius: 3px; transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
-.pricing-core { border-color: #b8a06aaa; background: radial-gradient(ellipse at 50% 0, #b8a06a20, transparent 45%), linear-gradient(#15171b, #0a0b0d); box-shadow: inset 0 1px 0 #d4c08f55, 0 0 48px #b8a06a0a; }
+.pricing-core { border-color: #b8a06aaa; background: radial-gradient(ellipse at 50% 0, #b8a06a20, transparent 45%), linear-gradient(#15171b, #0a0b0d); box-shadow: inset 0 1px 0 #d4c08f55; }
 .retainer-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; min-height: 33px; margin-bottom: 28px; font-size: 9px; letter-spacing: .1em; color: #99958c; }
 .core-label { color: #d4c08f; letter-spacing: 0; font-size: 10px; }
 .pricing-card h3 { font-size: 13px; letter-spacing: .13em; line-height: 1.5; color: #d4c08f; margin-bottom: 18px; }
@@ -124,7 +123,7 @@
 /* Clear footer destinations. Unavailable policy pages are text, never dead links. */
 .footer-trust { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; font-size: 11px; }
 .footer-trust [aria-disabled=true] { color: #99958c; }
-.footer-trust a { color: #d4c08f; min-height: 30px; display: inline-flex; align-items: center; }
+.footer-trust a { color: #d4c08f; min-height: 44px; display: inline-flex; align-items: center; }
 .footer-trust a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .public-site .site-footer { background: radial-gradient(ellipse at 10% 0, #b8a06a12, transparent 50%), #0a0b0d; border-top: 1px solid #b8a06a44; }
 .public-site .footer-trust { grid-column: 1/-1; }
@@ -174,7 +173,7 @@
 .language-switch .language-trigger { border-color: #b8a06a66; background: linear-gradient(135deg, #f1ede407, transparent), #15171b; box-shadow: inset 0 1px 0 #d4c08f0d; }
 
 @media (hover: hover) {
-  .pricing-card:hover, .portal-site .panel:hover, .portal-site .stat:hover { transform: translateY(-4px) scale(1.008); border-color: #d4c08f99; box-shadow: inset 0 1px 0 #d4c08f20, 0 18px 38px #0a0b0d55, 0 0 28px #b8a06a18; }
+  .pricing-card:hover, .portal-site .panel:hover, .portal-site .stat:hover { transform: translateY(-4px) scale(1.008); border-color: #d4c08f99; box-shadow: inset 0 1px 0 #d4c08f20, 0 18px 38px #0a0b0d55; }
   .portal-site .admin-panel:hover { transform: none; }
   .world-item:hover { background-color: #b8a06a08; }
 }
@@ -257,3 +256,47 @@
   .retainer-comparison td::before { content: attr(data-tier); display: block; color: #d4c08f; font-size: 10px; margin-bottom: 8px; }
   .portal-site .hero .mobile-freshness { display: block; font-size: 9px; color: #99958c; margin-top: 15px; line-height: 1.7; }
 }
+
+/* Private introduction: dark like the rest of the page, set apart by a gold hairline. */
+.public-site .contact-section { background: radial-gradient(ellipse at 50% 0, #b8a06a14, transparent 60%), #15171b; color: #f1ede4; border-top: 1px solid #b8a06a44; }
+.public-site .contact-section .eyebrow { color: #d4c08f; }
+.public-site .contact-section > p:not(.eyebrow), .public-site .contact-guidance p { color: #f1ede4cc; }
+.public-site .contact-section .contact-status { color: #99958c; }
+.public-site .contact-guidance { border-top-color: #b8a06a40; }
+.public-site .contact-section .button-primary { background: #f1ede4; color: #0a0b0d; border-color: #f1ede4; }
+.public-site .contact-section .button-primary:hover { background: #d4c08f; border-color: #d4c08f; }
+.public-site .contact-section a:focus-visible { outline-color: #d4c08f; }
+
+/* Retainer scope: a fixed heading on wide screens, a disclosure on phones. */
+.tier-scope > summary { list-style: none; }
+.tier-scope > summary::-webkit-details-marker { display: none; }
+@media (min-width: 901px) { .tier-scope > summary { pointer-events: none; } }
+@media (max-width: 900px) {
+  .tier-scope > summary { display: flex; justify-content: space-between; align-items: center; min-height: 48px; margin: -12px 0 0; border-bottom: 1px solid #b8a06a33; cursor: pointer; }
+  .tier-scope > summary::after { content: '+'; font-size: 16px; color: #d4c08f; }
+  .tier-scope[open] > summary::after { content: '−'; }
+  .tier-scope[open] > summary { margin-bottom: 12px; }
+  .tier-scope > summary:focus-visible { outline: 2px solid #d4c08f; outline-offset: 3px; }
+}
+
+/* Gold accents without glow (formerly gold-glow.css): colour and hairlines carry the brand, no blurred light. */
+.site-header .brand-wordmark, .sidebar .brand, .editorial-brand { color: #d4c08f; }
+.hero h1 { color: #f1ede4; }
+.hero h1 span:last-child { color: #d4c08f; }
+.hero .eyebrow, .section .eyebrow, .section-heading h2,
+.panel h2, .card-top h2, .editorial em, .hero-note em { color: #d4c08f; }
+.public-site .section-heading h2 { color: #f1ede4; }
+.brief-preview .eyebrow, .brief-preview h2 { color: #15171b; }
+.value, .performance-controls strong, .donut > div > span { color: #f1ede4; }
+.stat, .panel, .editorial { border-color: #b8a06a45; transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
+.stat.featured { border-color: #b8a06a75; }
+.services-grid, .method-grid { border-color: #b8a06a40; }
+.service-card, .method-card { border-color: #b8a06a33; }
+.header-cta, .hero .button-secondary { border-color: #b8a06a66; }
+.sidebar nav a[aria-current], .periods button[aria-pressed="true"] { color: #d4c08f; }
+.stat:focus-within, .panel:focus-within { border-color: #d4c08faa; }
+@media (hover: hover) {
+  .editorial:hover { border-color: #d4c08f88; }
+  .service-card:hover { background: #b8a06a06; }
+}
+@media (prefers-reduced-motion: reduce) { .stat, .panel, .editorial { transition: none; transform: none !important; } }

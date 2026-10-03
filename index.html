@@ -7,18 +7,33 @@
 
   <meta
     name="description"
-    content="LAVREON is a private intelligence office for founders, principals and family offices."
+    content="LAVREON is a private intelligence office: one discreet view of wealth, companies, property, insurance and documents for private individuals, founders and family offices."
   >
 
   <title>LAVREON — Private Intelligence Office</title>
 
-  <link rel="stylesheet" href="styles.css?v=mobile-intro-8">
-<link rel="stylesheet" href="language.css?v=presentation-v1">
-<link rel="stylesheet" href="gold-glow.css?v=refinement-2">
-<script src="translations-fi.js?v=refinement-2" defer></script>
-<script src="language.js?v=en-fi-only" defer></script>
-  <script src="intro.js?v=refinement-2" defer></script>
-<link rel="stylesheet" href="premium.css?v=refinement-2">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a0b0d">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LAVREON">
+  <meta property="og:title" content="LAVREON — Private Intelligence Office">
+  <meta property="og:description" content="See beyond. Know sooner. Move first. One private view of wealth, companies, property, insurance and documents.">
+  <meta property="og:url" content="https://mestarihannes.github.io/lavreon/">
+  <meta property="og:image" content="https://mestarihannes.github.io/lavreon/assets/og-lavreon.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="LAVREON — See beyond. Know sooner. Move first.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script>try{if(sessionStorage.getItem('lavreon-intro-seen'))document.documentElement.classList.add('intro-skip')}catch{}</script>
+  <link rel="stylesheet" href="styles.css?v=a11y-2">
+<link rel="stylesheet" href="language.css?v=mobile-header-1">
+<script src="translations-fi.js?v=fi-portal-1" defer></script>
+<script src="language.js?v=fi-numbers-1" defer></script>
+  <script src="intro.js?v=intro-short-1" defer></script>
+  <script src="site.js?v=scope-1" defer></script>
+<link rel="stylesheet" href="premium.css?v=contact-dark-1">
 </head>
 
 <body class="public-site">
@@ -31,11 +46,14 @@
       <img class="brand-symbol" src="assets/lavreon-symbol.svg" width="54" height="30" alt=""><span class="brand-wordmark">LAVREON</span>
     </a>
 
-    <nav class="navigation" aria-label="Main navigation">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu<span class="nav-toggle-icon" aria-hidden="true"></span></button>
+
+    <nav class="navigation" id="site-menu" aria-label="Main navigation">
       <a href="#method">Method</a>
       <a href="#services">Intelligence</a>
       <a href="#brief">Brief</a>
       <a href="#pricing">Retainers</a>
+      <a class="nav-portal" href="dashboard.html">Client Portal · Demo</a>
     </nav>
 
     <a class="header-cta" href="dashboard.html">
@@ -63,31 +81,32 @@
         </h1>
 
         <p class="hero-description">
-          Lavreon transforms fragmented global information into
-          concise, decision-ready intelligence for founders,
-          principals and family offices.
+          One private view of your wealth, companies, property,
+          insurance and documents — designed to surface the risks,
+          deadlines and opportunities that deserve your attention,
+          before they become urgent.
+        </p>
+
+        <p class="hero-audience">
+          For private individuals, founders and family offices.
         </p>
 
         <div class="hero-actions">
-          <a class="button button-primary" href="dashboard.html">
-            Open Client Portal · Demo <span aria-hidden="true">&nbsp;↗</span>
+          <a class="button button-primary" href="#contact">
+            Arrange a private introduction
           </a>
 
-          <a class="button button-secondary" href="#contact">
-            Discuss your priorities
-          </a>
-
-          <a class="button button-secondary" href="#method">
-            Explore our approach
+          <a class="button button-secondary" href="dashboard.html">
+            Explore the client portal · Demo <span aria-hidden="true">&nbsp;↗</span>
           </a>
         </div>
 
       </div>
 
       <div class="hero-meta">
-        <span>Independent intelligence</span>
-        <span>Public-source research</span>
-        <span>Decision support</span>
+        <span>One consolidated view</span>
+        <span>Risks, deadlines, opportunities</span>
+        <span>By private introduction</span>
       </div>
 
     </section>
@@ -124,51 +143,61 @@
         </h2>
 
         <p>
-          Lavreon identifies the signals that matter, determines
-          what they mean for your priorities and converts them into
-          clear next actions.
+          LAVREON is built on one discipline: data becomes context,
+          context becomes intelligence, and intelligence becomes
+          a clear next action.
         </p>
       </div>
 
 
-      <div class="method-grid">
+      <ol class="method-grid">
 
-        <article class="method-card">
+        <li class="method-card">
           <span class="number">01</span>
 
-          <h3>Signal</h3>
+          <h3>Data</h3>
 
           <p>
-            We monitor markets, companies, technologies and global
-            developments for changes worth your attention.
+            Holdings, entities, properties, policies and documents
+            brought into one structured view, alongside the outside
+            developments that touch them.
           </p>
-        </article>
+        </li>
 
-
-        <article class="method-card">
+        <li class="method-card">
           <span class="number">02</span>
 
-          <h3>Implication</h3>
+          <h3>Context</h3>
 
           <p>
-            We separate noise from consequence and explain why a
-            development matters specifically to you.
+            Each change is connected to what you own and are
+            responsible for: which asset, which entity, which deadline.
           </p>
-        </article>
+        </li>
 
-
-        <article class="method-card">
+        <li class="method-card">
           <span class="number">03</span>
+
+          <h3>Intelligence</h3>
+
+          <p>
+            Noise is separated from consequence: why a development
+            matters to you specifically, and how certain that is.
+          </p>
+        </li>
+
+        <li class="method-card">
+          <span class="number">04</span>
 
           <h3>Action</h3>
 
           <p>
-            We translate intelligence into decision-ready options,
-            questions and areas requiring further investigation.
+            Decision-ready options, questions for your advisers and
+            dates to act by. The decision always remains yours.
           </p>
-        </article>
+        </li>
 
-      </div>
+      </ol>
 
     </section>
 
@@ -339,23 +368,23 @@
           <div class="retainer-label"><span>01 / PRIVATE RETAINER</span></div>
           <h3 id="tier-personal">LAVREON PERSONAL</h3><p class="tier-tag">A clearer personal picture.</p><p class="tier-audience">For individuals seeking a structured financial and information overview.</p>
           <p class="tier-price"><span class="price-prefix">From</span><strong>€990</strong><span>/ month</span></p>
-          <p class="scope-heading">PROPOSED SCOPE</p><ul class="tier-features"><li class="scope-included"><span>Personal dashboard</span><small>✓ Included</small></li><li class="scope-included"><span>Wealth & investments overview</span><small>✓ Included</small></li><li class="scope-included"><span>Real estate overview</span><small>✓ Included</small></li><li class="scope-included"><span>Insurance overview</span><small>✓ Included</small></li><li class="scope-included"><span>Global market overview</span><small>✓ Included</small></li><li class="scope-included"><span>AI Signal Brief</span><small>✓ Included</small></li><li class="scope-included"><span>Monthly intelligence summary</span><small>✓ Included</small></li><li class="scope-included"><span>Document vault / documents section</span><small>✓ Included</small></li><li class="scope-limited"><span>Custom research requests</span><small>Limited · allowance agreed in scope</small></li></ul>
-          <div class="tier-exclusions"><p class="scope-heading">OUTSIDE THIS TIER</p><ul><li class="scope-excluded"><span>Continuous personal monitoring</span><small>— Not included</small></li><li class="scope-excluded"><span>Deep company intelligence</span><small>— Not included</small></li><li class="scope-excluded"><span>Dedicated analyst-style support</span><small>— Not included</small></li><li class="scope-excluded"><span>Extensive custom requests</span><small>— Not included</small></li></ul></div>
+          <details class="tier-scope" open><summary class="scope-heading">PROPOSED SCOPE</summary><ul class="tier-features"><li class="scope-included"><span>Personal dashboard</span><small>✓ Included</small></li><li class="scope-included"><span>Wealth & investments overview</span><small>✓ Included</small></li><li class="scope-included"><span>Real estate overview</span><small>✓ Included</small></li><li class="scope-included"><span>Insurance overview</span><small>✓ Included</small></li><li class="scope-included"><span>Global market overview</span><small>✓ Included</small></li><li class="scope-included"><span>AI Signal Brief</span><small>✓ Included</small></li><li class="scope-included"><span>Monthly intelligence summary</span><small>✓ Included</small></li><li class="scope-included"><span>Document vault / documents section</span><small>✓ Included</small></li><li class="scope-limited"><span>Custom research requests</span><small>Limited · allowance agreed in scope</small></li></ul>
+          <div class="tier-exclusions"><p class="scope-heading">OUTSIDE THIS TIER</p><ul><li class="scope-excluded"><span>Continuous personal monitoring</span><small>— Not included</small></li><li class="scope-excluded"><span>Deep company intelligence</span><small>— Not included</small></li><li class="scope-excluded"><span>Dedicated analyst-style support</span><small>— Not included</small></li><li class="scope-excluded"><span>Extensive custom requests</span><small>— Not included</small></li></ul></div></details>
           <a class="retainer-action" href="#contact">Discuss Personal <span aria-hidden="true">↗</span></a>
         </article>
         <article class="pricing-card pricing-core" aria-labelledby="tier-signature">
           <div class="retainer-label"><span>02 / PRIVATE RETAINER</span><span class="core-label">Core private office</span></div>
           <h3 id="tier-signature">LAVREON SIGNATURE</h3><p class="tier-tag">A private intelligence rhythm.</p><p class="tier-audience">For wealthy individuals, founders, principals and investors.</p>
           <p class="tier-price"><strong>€9,500</strong><span>/ month</span></p>
-          <p class="scope-heading">PROPOSED SCOPE</p><ul class="tier-features"><li class="scope-included"><span>Everything in Personal</span><small>✓ Included</small></li><li class="scope-included"><span>Continuous intelligence monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Weekly intelligence brief</span><small>✓ Included</small></li><li class="scope-included"><span>Priority alerts</span><small>✓ Included</small></li><li class="scope-included"><span>Opportunity radar</span><small>✓ Included</small></li><li class="scope-included"><span>Company / industry monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Meeting intelligence</span><small>✓ Included</small></li><li class="scope-included"><span>Monthly private review</span><small>✓ Included</small></li><li class="scope-included"><span>Advanced client dashboard</span><small>✓ Included</small></li><li class="scope-limited"><span>Deep intelligence briefs</span><small>Included · 2 per month</small></li><li class="scope-limited"><span>Private research requests</span><small>Included · up to 4 per month</small></li></ul>
-          <div class="tier-exclusions"><p class="scope-heading">OUTSIDE THIS TIER</p><ul><li class="scope-excluded"><span>Family / company-wide structure</span><small>— Not included</small></li><li class="scope-excluded"><span>Custom dashboard modules</span><small>— Not included</small></li></ul></div>
+          <details class="tier-scope" open><summary class="scope-heading">PROPOSED SCOPE</summary><ul class="tier-features"><li class="scope-included"><span>Everything in Personal</span><small>✓ Included</small></li><li class="scope-included"><span>Continuous intelligence monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Weekly intelligence brief</span><small>✓ Included</small></li><li class="scope-included"><span>Priority alerts</span><small>✓ Included</small></li><li class="scope-included"><span>Opportunity radar</span><small>✓ Included</small></li><li class="scope-included"><span>Company / industry monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Meeting intelligence</span><small>✓ Included</small></li><li class="scope-included"><span>Monthly private review</span><small>✓ Included</small></li><li class="scope-included"><span>Advanced client dashboard</span><small>✓ Included</small></li><li class="scope-limited"><span>Deep intelligence briefs</span><small>Included · 2 per month</small></li><li class="scope-limited"><span>Private research requests</span><small>Included · up to 4 per month</small></li></ul>
+          <div class="tier-exclusions"><p class="scope-heading">OUTSIDE THIS TIER</p><ul><li class="scope-excluded"><span>Family / company-wide structure</span><small>— Not included</small></li><li class="scope-excluded"><span>Custom dashboard modules</span><small>— Not included</small></li></ul></div></details>
           <a class="retainer-action" href="#contact">Discuss Signature <span aria-hidden="true">↗</span></a>
         </article>
         <article class="pricing-card " aria-labelledby="tier-private-office">
           <div class="retainer-label"><span>03 / PRIVATE RETAINER</span></div>
           <h3 id="tier-private-office">LAVREON PRIVATE OFFICE</h3><p class="tier-tag">An office around your world.</p><p class="tier-audience">For family offices, ultra-high-net-worth clients and companies.</p>
           <p class="tier-price"><strong>€18,000</strong><span>/ month</span></p>
-          <p class="scope-heading">PROPOSED SCOPE</p><ul class="tier-features"><li class="scope-included"><span>Everything in Signature</span><small>✓ Included</small></li><li class="scope-included"><span>Highest monitoring priority</span><small>✓ Included</small></li><li class="scope-included"><span>Multi-entity view & company holdings</span><small>✓ Included</small></li><li class="scope-included"><span>Advanced risk monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Board / meeting preparation</span><small>✓ Included</small></li><li class="scope-included"><span>Global opportunity monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Tailored reporting</span><small>✓ Included</small></li><li class="scope-included"><span>Dedicated intelligence workflow</span><small>✓ Included</small></li><li class="scope-included"><span>Custom dashboard modules</span><small>✓ Included</small></li><li class="scope-included"><span>Family / company-wide structure</span><small>✓ Included</small></li><li class="scope-limited"><span>Additional deep briefs</span><small>Custom · more than Signature</small></li><li class="scope-limited"><span>Higher private-request allowance</span><small>Custom · agreed in scope</small></li></ul>
+          <details class="tier-scope" open><summary class="scope-heading">PROPOSED SCOPE</summary><ul class="tier-features"><li class="scope-included"><span>Everything in Signature</span><small>✓ Included</small></li><li class="scope-included"><span>Highest monitoring priority</span><small>✓ Included</small></li><li class="scope-included"><span>Multi-entity view & company holdings</span><small>✓ Included</small></li><li class="scope-included"><span>Advanced risk monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Board / meeting preparation</span><small>✓ Included</small></li><li class="scope-included"><span>Global opportunity monitoring</span><small>✓ Included</small></li><li class="scope-included"><span>Tailored reporting</span><small>✓ Included</small></li><li class="scope-included"><span>Dedicated intelligence workflow</span><small>✓ Included</small></li><li class="scope-included"><span>Custom dashboard modules</span><small>✓ Included</small></li><li class="scope-included"><span>Family / company-wide structure</span><small>✓ Included</small></li><li class="scope-limited"><span>Additional deep briefs</span><small>Custom · more than Signature</small></li><li class="scope-limited"><span>Higher private-request allowance</span><small>Custom · agreed in scope</small></li></ul></details>
           <p class="bespoke-note">Built around an agreed mandate. The depth, cadence and request allowance are defined together.</p>
           <a class="retainer-action" href="#contact">Discuss Private Office <span aria-hidden="true">↗</span></a>
         </article>

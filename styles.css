@@ -877,7 +877,7 @@ html { scroll-padding-top: 110px; }
 .note-findings dt { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #15171b; margin-bottom: 8px; }
 .note-findings dd { margin: 0; font-size: 15px; line-height: 1.6; }
 .note-source { padding-top: 18px; margin-bottom: 0; border-top: 1px solid rgba(10,11,13,.18); font-size: 12px; color: #15171b; }
-.note-source a { text-decoration: underline; text-underline-offset: 3px; }
+.note-source a { text-decoration: underline; text-underline-offset: 3px; padding-block: 12px; }
 .brief-preview a:focus-visible, .brief-preview:focus-visible { outline: 2px solid #15171b; outline-offset: 5px; }
 #about { border-top: 1px solid var(--border); }
 .principles-section h2 { font-size: clamp(32px, 4.5vw, 56px); }
@@ -909,10 +909,10 @@ html { scroll-padding-top: 110px; }
   .contact-section h2 { font-size: clamp(38px, 10vw, 56px); }
 }
 
-/* One 5-second reveal: a dim point warms, illuminates the mark, then opens the page. */
+/* One short reveal (2.4s, once per session): a dim point warms, illuminates the mark, then opens the page. */
 .page-entry { display: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .page-entry { display: grid; place-items: center; position: fixed; inset: 0; z-index: 1050; pointer-events: none; background: var(--bg); animation: entry-reveal 5s ease both; }
+  .page-entry { display: grid; place-items: center; position: fixed; inset: 0; z-index: 1050; pointer-events: none; background: var(--bg); animation: entry-reveal 2.4s ease both; }
   body:focus-within .page-entry { display: none; }
 }
 
@@ -938,8 +938,8 @@ html { scroll-padding-top: 110px; }
 .entry-wordmark { position: absolute; top: calc(50% + 102px); left: 0; right: 0; text-align: center; font: 24px Georgia, 'Times New Roman', serif; letter-spacing: .28em; padding-left: .28em; color: var(--text); opacity: 0; }
 .entry-wordmark small { display: block; margin-top: 16px; font: 8px 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: .2em; color: var(--gold-light); }
 @media (prefers-reduced-motion: no-preference) {
-  .entry-symbol { animation: entry-mark 5s ease both; }
-  .entry-wordmark { animation: entry-type 5s ease both; }
+  .entry-symbol { animation: entry-mark 2.4s ease both; }
+  .entry-wordmark { animation: entry-type 2.4s ease both; }
 }
 @keyframes entry-mark {
   0%, 6% { opacity: 0; clip-path: circle(75% at 50% 39.61538%); }
@@ -958,7 +958,7 @@ html { scroll-padding-top: 110px; }
 
 /* During the handoff only the dark backdrop fades; the mark keeps moving. */
 .intro-running .page-entry { animation: none; background: transparent; overflow: hidden; }
-.intro-running .page-entry::before { content: ''; position: absolute; inset: 0; background: var(--bg); animation: entry-backdrop 5s ease both; }
+.intro-running .page-entry::before { content: ''; position: absolute; inset: 0; background: var(--bg); animation: entry-backdrop 2.4s ease both; }
 .intro-running .entry-symbol { animation: none; left: 0; top: 0; transform-origin: top left; }
 .intro-running .hero-emblem img { visibility: hidden; }
 .intro-running .entry-wordmark { top: calc(50% + min(136px, 31vw)); }
@@ -969,3 +969,58 @@ html { scroll-padding-top: 110px; }
 /* Keep the first frame dark until cold-load assets and layout are ready. */
 .intro-pending .page-entry { animation: none; background: var(--bg); }
 .intro-pending .entry-symbol, .intro-pending .entry-wordmark { animation: none; opacity: 0; }
+/* Returning visitors in the same session skip the reveal before first paint. */
+.intro-skip .page-entry { display: none; }
+
+/* Touch targets: at least 44px for the home link. */
+.site-header .brand { min-height: 44px; }
+
+/* Positioning: who LAVREON is for, directly beneath the promise. */
+.hero-audience { margin: 18px 0 0; color: var(--gold-light); font-size: 15px; letter-spacing: .02em; }
+
+/* Method: the four-step discipline DATA → CONTEXT → INTELLIGENCE → ACTION. */
+ol.method-grid { list-style: none; padding: 0; margin-bottom: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.method-card:not(:first-child) { padding-left: 28px; }
+.method-card { padding-right: 28px; }
+.method-card h3 { position: relative; }
+.method-card:not(:last-child) h3::after { content: '→'; position: absolute; right: -16px; color: var(--gold); font-size: 18px; transform: translateX(50%); }
+@media (max-width: 1100px) {
+  ol.method-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .method-card:nth-child(2) { border-right: 0; }
+  .method-card:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .method-card:nth-child(3) { padding-left: 0; }
+  .method-card h3::after { display: none; }
+}
+@media (max-width: 900px) {
+  ol.method-grid { grid-template-columns: 1fr; }
+  .method-card:nth-child(n) { padding-left: 0; padding-right: 0; }
+}
+
+/* Compact mobile header: brand, language and menu share one row; the menu opens on demand. */
+.nav-toggle { display: none; }
+@media (max-width: 900px) {
+  html { scroll-padding-top: 84px; }
+  .site-header { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px 10px; min-height: 64px; padding-block: 10px; }
+  .site-header .brand { grid-column: 1; grid-row: 1; margin-right: 0; }
+  .site-header .language-switch { grid-column: 2; grid-row: 1; }
+  .site-header .navigation { grid-column: 1 / -1; grid-row: 2; }
+  .site-header .header-cta { grid-column: 1 / -1; grid-row: 3; justify-self: end; }
+  .has-menu .nav-toggle { grid-column: 3; grid-row: 1; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 14px; font: 500 12px/1.4 'Helvetica Neue', Helvetica, Arial, sans-serif; letter-spacing: .08em; color: var(--text); background: var(--bg-soft); border: 1px solid #b8a06a66; border-radius: 4px; cursor: pointer; }
+  .nav-toggle-icon { position: relative; width: 14px; height: 9px; border-block: 1px solid var(--gold-light); }
+  .menu-open .nav-toggle-icon { height: 1px; border-bottom: 0; }
+  .nav-toggle:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+  /* The open menu overlays the page, so anchor targets never shift while it closes. */
+  .has-menu .header-cta, .has-menu:not(.menu-open) .navigation { display: none; }
+  .has-menu .navigation { grid-area: auto; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 6px var(--side-padding) 18px; background: var(--bg); border-bottom: 1px solid #b8a06a40; box-shadow: 0 24px 40px #0a0b0d99; }
+  .has-menu .navigation a { min-height: 48px; border-bottom: 1px solid var(--border); font-size: 16px; }
+  .has-menu .navigation a::after { display: none; }
+  .has-menu .navigation .nav-portal { justify-content: center; margin-top: 14px; border: 1px solid var(--border-gold); color: var(--gold-light); font-size: 13px; letter-spacing: .08em; }
+}
+.nav-portal { display: none !important; }
+@media (max-width: 900px) { .has-menu .nav-portal { display: inline-flex !important; } }
+@media (max-width: 420px) {
+  .site-header { padding-inline: 16px; gap: 8px 8px; }
+  .site-header .language-trigger { min-width: 0; padding-inline: 11px; }
+  .has-menu .nav-toggle { gap: 8px; padding-inline: 12px; }
+  .brand-wordmark { font-size: 16px; letter-spacing: .13em; }
+}
