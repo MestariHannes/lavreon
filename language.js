@@ -23,6 +23,17 @@
     [/^Your office \/ (.+)$/, (dict, part) => dict['Your office'] && `${dict['Your office']} / ${dict[part] ?? part}`],
     [/^(.+) — LAVREON Demo$/, (dict, part) => dict[part] && `${dict[part]} — LAVREON Demo`]
   ];
+  // Finnish number style for standalone figures: "€12,430,000" → "12 430 000 €", "+6.8%" → "+6,8 %", "€8.21M" → "8,21 M€".
+  const figure = /^([↗↘]\s*)?([+−-])?(€)?(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?([MK])?(%)?$/;
+  const localizeFigure = key => {
+    const match = key.match(figure);
+    if (!match) return null;
+    const [, arrow = '', sign = '', euro, whole, decimals = '', unit = '', percent] = match;
+    let text = sign + whole.replace(/,/g, ' ') + decimals.replace('.', ',');
+    if (euro) text += ` ${unit}€`; else if (unit) text += unit;
+    if (percent) text += ' %';
+    return arrow + text;
+  };
   const translate = value => {
     const dict = dictionaries[language];
     if (!dict) return value;
@@ -32,7 +43,7 @@
       const match = key.match(pattern);
       if (match) return build(dict, match[1]) || value;
     }
-    return value;
+    return (language === 'fi' && localizeFigure(key)) || value;
   };
   // Dynamic labels retain an English source, including when controls update after a language switch.
   const names = ['Total Net Worth', 'Investments', 'Liquid Assets', 'Real Estate', 'Asset allocation', 'Portfolio performance', 'Recent activity'];
