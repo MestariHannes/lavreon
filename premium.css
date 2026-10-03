@@ -257,6 +257,16 @@
   .portal-site .hero .mobile-freshness { display: block; font-size: 9px; color: #99958c; margin-top: 15px; line-height: 1.7; }
 }
 
+/* Private introduction: dark like the rest of the page, set apart by a gold hairline. */
+.public-site .contact-section { background: radial-gradient(ellipse at 50% 0, #b8a06a14, transparent 60%), #15171b; color: #f1ede4; border-top: 1px solid #b8a06a44; }
+.public-site .contact-section .eyebrow { color: #d4c08f; }
+.public-site .contact-section > p:not(.eyebrow), .public-site .contact-guidance p { color: #f1ede4cc; }
+.public-site .contact-section .contact-status { color: #99958c; }
+.public-site .contact-guidance { border-top-color: #b8a06a40; }
+.public-site .contact-section .button-primary { background: #f1ede4; color: #0a0b0d; border-color: #f1ede4; }
+.public-site .contact-section .button-primary:hover { background: #d4c08f; border-color: #d4c08f; }
+.public-site .contact-section a:focus-visible { outline-color: #d4c08f; }
+
 /* Retainer scope: a fixed heading on wide screens, a disclosure on phones. */
 .tier-scope > summary { list-style: none; }
 .tier-scope > summary::-webkit-details-marker { display: none; }
