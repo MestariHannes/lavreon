@@ -7,3 +7,5 @@
 #app-screen:focus{outline:none}
 
 @media(max-height:650px) and (max-width:650px){.camera{width:44px}.device-status{padding-inline:13px}.status-icons{font-size:6px;letter-spacing:0}}
+
+.vehicle-card img.vehicle-photo{height:130px;object-fit:cover;border-radius:10px;margin-block:12px}.vehicle-hero img.vehicle-photo{height:142px;object-fit:cover;border-radius:12px;margin-block:8px 16px}.app-note a{display:block;margin-top:9px;text-decoration:underline}

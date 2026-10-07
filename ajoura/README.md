@@ -20,3 +20,6 @@ There is no server, authentication, payment, telemetry, personal data collection
 
 ## Verification (8 October 2026)
 Browser checked: landing at 320, 390, 768 and 1440 pixels; device at 320x568, 390x844, 768x1024 and desktop. No horizontal page/screen overflow; phone fits viewport. Tested welcome, both vehicle cards, required-field rejection, adding an event, changed odometer/count, event details (including literal `<testi>` user text), unaffected second vehicle, cancellation, reset, browser Back, product/demo return and LAVREON return/re-entry. No browser errors recorded. Reduced-motion rules reviewed in source. Syntax and whitespace checks run before publication.
+
+## Volvo example (8 October 2026)
+The primary demo vehicle is now Volvo XC60 (2020), with eight fictional history entries from 2024–2026. Its photo is a same-generation 2018 model photograph by Kevauto, CC BY-SA 4.0; see credits.html for source and licence. The image is a model illustration, not the vehicle associated with the fictional plate/history.
