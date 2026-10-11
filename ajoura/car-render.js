@@ -1,8 +1,11 @@
 'use strict';
 // Stylised side-view car renders for AJOURA. Each picture is built from real-world proportions
 // (length, height, wheelbase, overhang, wheel size) of a typical car of that body style and size
-// class, and the model year shifts the styling era. No manufacturer branding; the body colour
-// drives every shade so one model can be repainted live. All cars face left and stand on y = 150.
+// class, and the model year shifts the styling era. A model's character trait (long bonnet of a
+// rear-wheel-drive saloon, fastback roof, coupé-SUV, boxy off-roader, rounded retro, rear engine)
+// bends the silhouette further so the picture matches the real model. No manufacturer branding;
+// the body colour drives every shade so one model can be repainted live. All cars face right
+// (driving direction) and stand on y = 150.
 (() => {
   const clamp = n => Math.max(0, Math.min(255, Math.round(n)));
   const rgb = hex => { const v = parseInt(hex.slice(1), 16); return [v >> 16 & 255, v >> 8 & 255, v & 255]; };
@@ -30,23 +33,32 @@
     if (i < 0) return table[defaultSize[type]];
     return table[keys.reduce((best, k) => Math.abs(order.indexOf(k) - i) < Math.abs(order.indexOf(best) - i) ? k : best, keys[0])];
   };
-  // Styling eras: 1 before 2000 (boxy, low waist, big glass), 2 2000–2011, 3 from 2012 (high waist, raked glass).
-  const eraOf = year => !year ? 3 : year < 2000 ? 1 : year < 2012 ? 2 : 3;
+  // Styling eras: 0 before 1990 (square, chrome bumpers), 1 1990–1999 (boxy, low waist, big glass),
+  // 2 2000–2011, 3 from 2012 (high waist, raked glass).
+  const eraOf = year => !year ? 3 : year < 1990 ? 0 : year < 2000 ? 1 : year < 2012 ? 2 : 3;
 
-  function profile(type, size, era) {
-    const [L, H, WB, FO, D0] = pickDims(type, size), e = era;
-    const D = D0 * (e === 1 ? 0.92 : e === 2 ? 0.96 : 1), xf = FO, xr = FO + WB;
+  function profile(type, size, era, trait) {
+    const t = trait || '', old = era === 0, e = Math.max(1, era);
+    let [L, H, WB, FO, D0] = pickDims(type, size);
+    if (t === 'rwd') FO -= 0.08;
+    if (t === 'rear') FO -= 0.05;
+    if (t === 'box') { H += type === 'suv' ? 0.12 : 0.04; FO -= 0.12; }
+    if (t === 'round' && (type === 'hatchback' || type === 'coupe')) H += 0.04;
+    const D = D0 * (old ? 0.88 : e === 1 ? 0.92 : e === 2 ? 0.96 : 1) * (t === 'box' ? 1.06 : 1), xf = FO, xr = FO + WB;
     const tall = type === 'suv' || type === 'van' || type === 'pickup';
     const yb = type === 'pickup' ? 0.30 : type === 'suv' ? 0.24 : type === 'van' ? 0.22 : 0.18;
-    const belt = H * (type === 'van' ? 0.55 : type === 'pickup' ? 0.66 : (e === 1 ? 0.60 : e === 2 ? 0.635 : 0.665)) + (type === 'suv' ? 0.02 : 0);
-    const hood = { sedan: 0.88, hatchback: 0.58, wagon: 0.80, suv: 0.62, coupe: 0.98, van: 0.18, pickup: 0.60 }[type] + (size === 'f' || size === 'e' ? 0.1 : 0) - (size === 'a' ? 0.15 : 0);
-    const hf = tall ? belt - 0.16 : belt - (e === 1 ? 0.12 : 0.18);
-    const xc = xf + hood * (e === 1 ? 0.95 : 1), rake = type === 'van' ? 1.25 : type === 'pickup' ? 1.05 : (e === 1 ? 1.05 : e === 2 ? 1.45 : 1.7) * (tall ? 0.85 : 1);
-    const xa = xc + (H - belt) * rake, round = e === 1 ? 0.1 : e === 2 ? 0.22 : 0.32, tail = yb + (tall ? 0.38 : 0.30);
-    const front = [[0.10, yb + 0.03, 0], [0, (tall ? 0.62 : 0.5) - (e === 1 ? 0.04 : 0), 0.1], [0.05, hf, 0.1], [xc, belt, 0.12], [xa, H - 0.015, round]];
+    const belt = H * (type === 'van' ? 0.55 : type === 'pickup' ? 0.66 : (old ? 0.57 : e === 1 ? 0.60 : e === 2 ? 0.635 : 0.665)) + (type === 'suv' ? 0.02 : 0) - (t === 'box' ? 0.04 : 0);
+    const hood = { sedan: 0.88, hatchback: 0.58, wagon: 0.80, suv: 0.62, coupe: 0.98, van: 0.18, pickup: 0.60 }[type] + (size === 'f' || size === 'e' ? 0.1 : 0) - (size === 'a' ? 0.15 : 0)
+      + (t === 'rwd' ? (type === 'coupe' ? 0.08 : 0.2) : 0) + (t === 'rear' ? 0.1 : 0) - (t === 'round' ? 0.08 : 0) + (old && type !== 'van' ? 0.08 : 0);
+    const hf = t === 'rear' ? 0.62 : t === 'box' ? belt - 0.04 : tall ? belt - 0.16 : belt - (old ? 0.08 : e === 1 ? 0.12 : 0.18);
+    const rake = type === 'van' ? 1.25 : t === 'box' ? 0.55 : type === 'pickup' ? 1.05 : old ? 1.0 : (e === 1 ? 1.05 : e === 2 ? 1.45 : 1.7) * (tall ? 0.85 : 1) * (t === 'rear' || t === 'round' ? 1.15 : 1);
+    const xc = xf + hood * (e === 1 ? 0.95 : 1), xa = xc + (H - belt) * rake;
+    const round = t === 'box' ? 0.04 : t === 'round' ? 0.55 : old ? 0.06 : e === 1 ? 0.1 : e === 2 ? 0.22 : 0.32, tail = yb + (tall ? 0.38 : 0.30);
+    const nose = t === 'box' || old ? 0.04 : t === 'round' ? 0.22 : 0.1;
+    const front = [[0.10, yb + 0.03, 0], [0, t === 'rear' ? 0.44 : (tall ? 0.62 : 0.5) - (e === 1 ? 0.04 : 0), nose], [t === 'box' ? 0.02 : 0.05, hf, nose], [xc, belt, 0.12], [xa, H - 0.015, round]];
     let rear, dlo, pillar = xf + WB * 0.6, doors = 4;
     if (type === 'sedan') {
-      const re = xr - 0.28 + (e === 1 ? 0.1 : 0), deck = L - (size === 'f' ? 0.62 : 0.56);
+      const re = xr - (old ? 0.08 : 0.28 - (e === 1 ? 0.1 : 0)), deck = L - (old ? 0.6 : size === 'f' ? 0.62 : 0.56);
       rear = [[(xa + re) / 2, H, 0.5], [re, H - 0.05, round], [deck, belt + 0.08, 0.12], [L - 0.03, belt + 0.04, 0.05], [L, tail, 0.08]];
       dlo = [[re - 0.06, H - 0.09], [xr - 0.12, belt + 0.04]];
     } else if (type === 'hatchback' && (size === 'd' || size === 'e')) {
@@ -63,9 +75,9 @@
       rear = [[(xa + L) / 2, H, 0.6], [L - 0.22, H - 0.03, 0.12], [L - 0.07, H - 0.14, 0.06], [L - 0.005, belt - 0.06, 0.1], [L, tail, 0.06]];
       dlo = [[L - 0.28, H - 0.08], [L - 0.34, belt + 0.03]];
     } else if (type === 'coupe') {
-      const re = xa + (size === 'a' ? 0.75 : size === 'b' ? 0.35 : 0.5);
-      rear = [[re, H, 0.3], [L - 0.5, belt + 0.08, 0.2], [L - 0.03, belt + 0.05, 0.05], [L, tail, 0.08]];
-      dlo = [[re + 0.05, H - 0.08], [xa + (size === 'b' ? 0.75 : 1.25), belt + 0.04]]; doors = 1; pillar = xa + (size === 'b' ? 0.7 : 0.95);
+      const re = xa + (size === 'a' ? 0.75 : size === 'b' ? 0.45 : size === 'c' ? 0.65 : 0.8);
+      rear = [[re, H - 0.01, 0.35], [L - 0.55, belt + 0.1, 0.18], [L - 0.03, belt + 0.06, 0.05], [L, tail, 0.08]];
+      dlo = [[re + 0.02, H - 0.08], [xa + (size === 'b' ? 0.8 : 1.35), belt + 0.04]]; doors = 1; pillar = xa + (size === 'b' ? 0.75 : 1.05);
     } else if (type === 'van') {
       rear = [[(xa + L) / 2, H, 0.8], [L - 0.08, H - 0.02, 0.12], [L, H - 0.3, 0.1], [L, tail, 0.05]];
       dlo = [[L - 0.22, H - 0.08], [L - 0.24, belt + 0.03]]; pillar = xc + 0.95;
@@ -74,9 +86,29 @@
       rear = [[(xa + cab) / 2, H, 0.3], [cab, H - 0.03, 0.08], [cab + 0.03, belt + 0.02, 0.03], [L - 0.03, belt + 0.02, 0.02], [L, tail, 0.04]];
       dlo = [[cab - 0.08, H - 0.08], [cab - 0.1, belt + 0.03]]; doors = 2; pillar = xf + WB * 0.47;
     }
+    // Character traits that change the rear: fastback roofs, coupé-SUVs, rear engines and boxy off-roaders.
+    if (t === 'fast' && (type === 'sedan' || type === 'hatchback')) {
+      const re = xa + (L - xa) * 0.3;
+      rear = [[(xa + re) / 2, H, 0.6], [re, H - 0.05, 0.6], [L - 0.1, belt + 0.12, 0.25], [L - 0.01, belt + 0.06, 0.05], [L, tail, 0.08]];
+      dlo = [[re - 0.02, H - 0.1], [xr - 0.08, belt + 0.06]];
+    } else if ((t === 'csuv' || t === 'fast') && type === 'suv') {
+      const re = xa + (L - xa) * 0.32;
+      rear = [[(xa + re) / 2, H, 0.6], [re, H - 0.03, 0.5], [L - 0.2, belt + 0.2, 0.3], [L - 0.02, belt + 0.04, 0.06], [L, tail, 0.06]];
+      dlo = [[re + 0.15, H - 0.12], [xr - 0.05, belt + 0.04]];
+    } else if (t === 'rear') {
+      const re = xa + 0.45;
+      rear = [[re, H, 0.4], [L - 0.35, belt + 0.12, 0.45], [L - 0.02, belt - 0.02, 0.1], [L, tail, 0.08]];
+      dlo = [[re + 0.1, H - 0.08], [xa + 1.05, belt + 0.04]];
+    } else if (t === 'box' && (type === 'suv' || type === 'wagon')) {
+      rear = [[(xa + L) / 2, H, 0.05], [L - 0.04, H - 0.01, 0.05], [L, belt, 0.03], [L, tail, 0.03]];
+      dlo = [[L - 0.2, H - 0.07], [L - 0.2, belt + 0.03]];
+    } else if (t === 'round' && type === 'hatchback') {
+      rear = [[(xa + L) / 2, H, 0.6], [L - 0.2, H - 0.06, 0.4], [L - 0.02, belt - 0.02, 0.2], [L, tail, 0.08]];
+      dlo = [[L - 0.36, H - 0.09], [L - 0.42, belt + 0.03]];
+    }
     const top = [...front, ...rear, [L - 0.08, yb + 0.03, 0]];
     const glass = [[xc + 0.1, belt + 0.03, 0.04], [xa + 0.04, H - 0.08, round * 0.6], [dlo[0][0], dlo[0][1], 0.12], [dlo[1][0], dlo[1][1], 0.04]];
-    return { L, H, D, xf, xr, yb, belt, hf, xc, top, glass, pillar, doors, tall };
+    return { L, H, D, xf, xr, yb, belt, hf, xc, top, glass, pillar, doors, tall, old };
   }
 
   // Polyline with rounded corners (quadratic) through points [x, y, radius] in pixels.
@@ -99,10 +131,10 @@
   }
 
   let uid = 0;
-  // shape: optional { size: 'a'…'f', year } from the car's make, model and model year.
+  // shape: optional { size: 'a'…'f', year, trait } from the car's make, model and model year.
   function render(type, color, label, shape) {
     if (!dims[type]) type = 'sedan';
-    const s = shape || {}, p = profile(type, s.size || defaultSize[type], eraOf(Number(s.year)));
+    const s = shape || {}, p = profile(type, s.size || defaultSize[type], eraOf(Number(s.year)), s.trait);
     const id = ++uid, c = /^#[0-9a-f]{6}$/i.test(color) ? color : '#c9d0d8', groundY = 150;
     const k = Math.min(356 / p.L, 122 / p.H), x0 = 200 - p.L * k / 2;
     const X = x => x0 + x * k, Y = y => groundY - y * k, pt = ([x, y, r]) => [X(x), Y(y), (r || 0) * k];
@@ -130,6 +162,7 @@
       `<radialGradient id="rim${id}" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#eef2f6"/><stop offset=".6" stop-color="#b7c1cb"/><stop offset="1" stop-color="#7d8894"/></radialGradient>` +
       `<radialGradient id="shadow${id}"><stop offset="0" stop-color="#0d1b2a" stop-opacity=".34"/><stop offset="1" stop-color="#0d1b2a" stop-opacity="0"/></radialGradient>` +
       `<clipPath id="clip${id}"><path d="${body}"/></clipPath><clipPath id="glassclip${id}"><path d="${glass}"/></clipPath></defs>` +
+      `<g transform="matrix(-1 0 0 1 400 0)">` +
       `<ellipse cx="200" cy="${groundY + 2}" rx="${(p.L * k / 2 + 10).toFixed(1)}" ry="10" fill="url(#shadow${id})"/>` +
       `<circle cx="${X(p.xf).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch - 1).toFixed(1)}" fill="#0f141a"/><circle cx="${X(p.xr).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch - 1).toFixed(1)}" fill="#0f141a"/>` +
       `<path d="${body}" fill="url(#paint${id})"/>` +
@@ -146,8 +179,9 @@
       `<path d="${lamp}" fill="#eaf6ff" stroke="${line}" stroke-opacity=".5"/>` +
       `<path d="${tail}" fill="#c4323d" opacity=".92"/>` +
       `<path d="${mirror}" fill="${shade}"/>` +
+      (p.old ? `<rect x="${(X(0) - 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/><rect x="${(X(p.L) - 0.42 * k + 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/>` : '') +
       wheel(X(p.xf), wy, r, id) + wheel(X(p.xr), wy, r, id) +
-      `</svg>`;
+      `</g></svg>`;
   }
 
   const names = { sedan: 'Sedan', hatchback: 'Viistoperä', wagon: 'Farmari', suv: 'Maastoauto / SUV', coupe: 'Coupé', van: 'Tila-auto', pickup: 'Avolava' };
