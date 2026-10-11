@@ -26,6 +26,15 @@
     try { await navigator.clipboard.writeText(link); copy.textContent = 'Linkki kopioitu'; }
     catch (e) { window.prompt('Kopioi linkki:', link); }
   });
-  document.querySelectorAll('[data-install-open]').forEach(button => button.addEventListener('click', () => dialog.showModal()));
+  // Where the browser allows it (Chrome on Android, desktop Chrome/Edge) the button asks to install straight away; iPhone has no such prompt, so it shows the steps.
+  document.querySelectorAll('[data-install-open]').forEach(button => button.addEventListener('click', async () => {
+    if (!deferred) { dialog.showModal(); return; }
+    const prompt = deferred;
+    deferred = null;
+    now.hidden = true;
+    prompt.prompt();
+    const choice = await prompt.userChoice.catch(() => null);
+    if (!choice || choice.outcome !== 'accepted') dialog.showModal();
+  }));
   dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
 })();
