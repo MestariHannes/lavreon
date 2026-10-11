@@ -30,3 +30,4 @@
 .footer-links{display:flex;flex-wrap:wrap;gap:18px;font-size:12px}.footer-links a{color:var(--muted)}.footer-links a:hover{color:var(--blue)}
 @media(max-width:900px){.download-grid,.contact-grid{grid-template-columns:1fr}}
 .brand-word b{color:var(--blue);font-weight:inherit}
+.download-cta .share-button{margin-top:10px;background:transparent;color:#fff;border:1px solid #ffffff99;cursor:pointer;font:inherit}.download-cta .share-button:hover{background:#ffffff1f}.download-cta .share-note{font-size:12px;margin-top:8px;min-height:1em}
