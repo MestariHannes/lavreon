@@ -186,7 +186,8 @@
     'Tallentuvatko tietoni?': 'Is my data saved?',
     'Asennetussa sovelluksessa tiedot tallentuvat vain tähän laitteeseen. Selaimen demotilassa tiedot nollautuvat, kun sivu päivitetään.': 'In the installed app, data is stored on this device only. In the browser demo, data is reset when the page reloads.',
     'Siirtyvätkö tiedot uuteen puhelimeen?': 'Will my data move to a new phone?',
-    'Eivät vielä. Kirjautuminen ja tilin varmuuskopio ovat tulossa, ja silloin tiedot kulkevat mukanasi.': 'Not yet. Sign-in and account backup are coming, and then your data will move with you.',
+    'Kyllä, varmuuskopiolla. Minä → Tallenna varmuuskopio tallentaa tiedot tiedostoon. Siirrä tiedosto uuteen puhelimeen ja valitse siellä Palauta varmuuskopio.': 'Yes, with a backup. Me → Save backup stores your data in a file. Move the file to the new phone and choose Restore backup there.',
+    'Miten tankkauskirja toimii?': 'How does the fuel log work?', 'Avaa auto ja valitse Tankkauskirja. Kirjaa päivä, mittarilukema, litrat ja hinta. Kun tankkaat aina täyteen, AJOURA laskee keskikulutuksen ja ajon hinnan.': 'Open the car and choose Fuel log. Enter the date, odometer reading, litres and price. When you fill the tank up, AJOURA works out average consumption and the cost of driving.',
     'Miten asennan AJOURAn puhelimeen?': 'How do I install AJOURA on my phone?',
     'iPhone: avaa sivu Safarilla → Jaa → Lisää Koti-valikkoon. Android: avaa Chromella → valikko ⋮ → Asenna sovellus.': 'iPhone: open the page in Safari → Share → Add to Home Screen. Android: open it in Chrome → menu ⋮ → Install app.',
     'Sovellus näyttää vanhaa versiota.': 'The app shows an old version.',
@@ -276,8 +277,36 @@
     'Raportti perustuu omistajan omiin merkintöihin. Se ei korvaa valmistajan tai korjaamon virallista huoltokirjaa.': 'This report is based on the owner’s own entries. It does not replace the official service book of the manufacturer or a garage.',
     'Raportti perustuu omistajan omiin merkintöihin (esimerkkiauto, kuvitteelliset tiedot). Se ei korvaa valmistajan tai korjaamon virallista huoltokirjaa.': 'This report is based on the owner’s own entries (sample car, fictional data). It does not replace the official service book of the manufacturer or a garage.'
   });
+  // Fuel log and first-run tutorial
+  Object.assign(D, {
+    'Tankkauskirja': 'Fuel log', 'Latauskirja': 'Charging log', 'Tankkauskirja.': 'Fuel log.',
+    'Kirjaa tankkaukset tai lataukset. AJOURA laskee keskikulutuksen täysien tankkausten väliltä ja kertoo, paljon ajaminen maksaa.': 'Log fill-ups or charges. AJOURA works out average consumption between full tanks and shows what driving costs.',
+    'Kirjaa tankkaukset ja näe kulutus': 'Log fill-ups and see consumption', 'Keskikulutus': 'Average consumption', 'Viimeisin väli': 'Latest interval',
+    'Ajon hinta': 'Cost of driving', 'Keskihinta': 'Average price', 'Uusi tankkaus': 'New fill-up', 'Uusi lataus': 'New charge', 'Litrat': 'Litres',
+    'Ladattu (kWh)': 'Charged (kWh)', 'Summa (€)': 'Total (€)', 'Tankki täyteen': 'Full tank', 'Ladattu täyteen': 'Fully charged',
+    'Tallenna tankkaus': 'Save fill-up', 'Tallenna lataus': 'Save charge', 'Tankkaukset': 'Fill-ups', 'Lataukset': 'Charges',
+    'Kulutus lasketaan täysien tankkausten väliltä. Osatankkaus lisätään seuraavaan täyteen.': 'Consumption is measured between full tanks. A partial fill is added to the next full one.',
+    'Kulutus lasketaan täysien latausten väliltä. Osatankkaus lisätään seuraavaan täyteen.': 'Consumption is measured between full charges. A partial charge is added to the next full one.',
+    'Ei vielä kirjauksia. Lisää ensimmäinen tankkaus yllä.': 'No entries yet. Add your first fill-up above.', 'Ei vielä kirjauksia. Lisää ensimmäinen lataus yllä.': 'No entries yet. Add your first charge above.',
+    'Esimerkkiauto: kuvitteelliset tankkaukset ja hinnat.': 'Sample car: fictional fill-ups and prices.', 'Poistetaanko tämä kirjaus?': 'Delete this entry?',
+    '✓ Tankkaus tallennettu.': '✓ Fill-up saved.', '✓ Lataus tallennettu.': '✓ Charge saved.', 'Polttoainekulut': 'Fuel costs', 'Latauskulut': 'Charging costs',
+    'Kirjoita tankatut litrat.': 'Enter the litres you filled.', 'Kirjoita ladattu määrä (kWh).': 'Enter the amount charged (kWh).', 'Tarkista hinta.': 'Check the price.',
+    'Katso käyttöönoton opas': 'Watch the getting-started guide', 'Käyttöönoton opas': 'Getting-started guide',
+    'Kaikki': 'All', 'Huollot': 'Services', 'Korjaukset': 'Repairs', 'Katsastukset': 'Inspections', 'Renkaat': 'Tyres', 'Suodata historiaa': 'Filter history',
+    'Varmuuskopio': 'Backup', 'Tallenna varmuuskopio': 'Save backup', 'Palauta varmuuskopio': 'Restore backup',
+    'Tallenna autot, merkinnät ja tankkaukset tiedostoon. Palauttamalla tiedoston saat ne takaisin, myös uudessa puhelimessa. Palautus yhdistää tiedot: sama auto päivittyy ja uudet lisätään.': 'Save your cars, entries and fill-ups to a file. Restore the file to get them back, on a new phone too. Restoring merges: the same car is updated and new ones are added.',
+    '✓ Varmuuskopio tallennettu tiedostoon.': '✓ Backup saved to a file.', 'Ei vielä tallennettavaa.': 'Nothing to save yet.',
+    'Tiedostoa ei voitu lukea. Valitse AJOURAn varmuuskopiotiedosto.': 'The file could not be read. Choose an AJOURA backup file.',
+    'Huolto ja korjaus': 'Service and repair', 'Polttoaine': 'Fuel'
+  });
   // Ordered patterns for dynamic strings. Each returns the English string.
   const P = [
+    [re('Keskikulutus ' + N + ' (l|kWh)/100 km'), (m, v, u) => 'Average ' + v.replace(',', '.') + ' ' + u + '/100 km'],
+    [re('(\\d+) kirjausta'), (m, n) => n + ' ' + plural(n, 'entry', 'entries')],
+    [re(N + ' € · (\\d+) kirjausta'), (m, v, n) => v + ' € · ' + n + ' ' + plural(n, 'entry', 'entries')],
+    [re(N + ' km · osatankkaus'), (m, k) => k + ' km · partial fill'],
+    [re('Poista kirjaus ' + DATE), (m, d) => 'Delete entry ' + d],
+    [re('✓ Varmuuskopio palautettu: (\\d+) uutta, (\\d+) päivitetty\\.'), (m, a, u) => '✓ Backup restored: ' + a + ' new, ' + u + ' updated.'],
     [re('viimeksi ' + DATE), (m, d) => 'last ' + d],
     [re('noin ' + N + ' km'), (m, k) => 'about ' + k + ' km'],
     [re('(\\d+) katsastusta'), (m, n) => n + ' ' + plural(n, 'inspection', 'inspections')],
