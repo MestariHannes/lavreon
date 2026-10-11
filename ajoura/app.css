@@ -152,3 +152,16 @@ html.fullscreen .device-glass{border:0;border-radius:0}html.fullscreen .screen-c
 @keyframes note-in{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes fab-in{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 html.fullscreen .app-top .app-brand{visibility:hidden}html.fullscreen .app-top{min-height:30px}
+/* Help tab */
+.tab-bar.four{grid-template-columns:repeat(4,1fr)}
+.help-search input{display:block;width:100%;min-height:42px;border:1px solid #d2dfeb;border-radius:11px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237b8ea2' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='m20 20-4.5-4.5'/%3E%3C/svg%3E") no-repeat 11px 50%/16px;padding:9px 10px 9px 34px;font-size:12px;color:var(--ink);margin:0 0 14px}
+.faq-list{display:grid;gap:8px}.faq{background:#fff;border:1px solid #e0e9f2;border-radius:12px;padding:0 12px;transition:border-color .2s}.faq[open]{border-color:#9cc3f5}.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:46px;font-size:12px;font-weight:600}.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:'+';font-size:17px;font-weight:400;color:var(--blue);transition:transform .2s}.faq[open] summary::after{transform:rotate(45deg)}.faq p{font-size:11px;line-height:1.7;color:#4f657b;margin:0 0 12px}.faq[open] p{animation:note-in .25s ease-out}
+.faq-empty{font-size:11px;color:#6b8093;text-align:center;margin:14px 0}.help-contact{margin:20px 0 6px;padding:14px;border-radius:14px;background:linear-gradient(150deg,#e9f2fd,#f7fbff);border:1px solid #d5e5f7;text-align:center}.help-contact strong{font-size:13px}.help-contact p{font-size:11px;color:#58718a;margin:4px 0 10px}.help-contact small{display:block;font-size:9px;color:#7b8ea2;margin-top:7px}.help-contact .app-button[disabled]{opacity:.65;cursor:not-allowed}
+/* Language + theme toggles */
+.prefs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}.seg{display:inline-flex;padding:3px;border-radius:999px;background:#e7eef7;border:1px solid #d7e3ef}.seg button{border:0;background:none;font:inherit;font-size:11px;font-weight:600;color:#5a7189;padding:6px 11px;border-radius:999px;min-height:30px;cursor:pointer;transition:background .2s,color .2s}.seg button[aria-pressed=true]{background:#fff;color:var(--blue);box-shadow:0 2px 6px -2px #1b3a5c40}.me-data .prefs{margin-top:6px}
+/* Dark theme: invert the app surface, then re-invert pictures so photos and car colours stay true. */
+
+html.dark .device-glass{filter:invert(1) hue-rotate(180deg)}
+html.dark .device-glass img:not(.app-brand):not(.intro-logo),html.dark .device-glass .app-button:not(.secondary),html.dark .device-glass .fab,html.dark .device-glass video,html.dark .device-glass .car-render,html.dark .device-glass .color-picker span,html.dark .device-glass .plate-badge,html.dark .device-glass .video-play{filter:invert(1) hue-rotate(180deg)}
+html.dark.standalone,html.dark.fullscreen,html.dark.standalone body,html.dark.fullscreen body{background:#070a0f}
+.welcome h2 .ajo{color:var(--blue);font-weight:inherit}
