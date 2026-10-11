@@ -14,7 +14,7 @@ The earlier implementation was a static concept illustration inside the LAVREON 
 No frameworks, build step, external fonts or dependencies. Serve the repository with a static HTTP server. The existing `ajoura/` link supports the GitHub Pages `/lavreon/` prefix.
 
 ## Demo behaviour
-Welcome -> vehicle list -> vehicle history -> new event / event detail. Browser Back and Forward follow hash history. Two fictional vehicles have independent histories. New entries update the selected vehicle's event count; its odometer remains the maximum recorded reading. Earlier historical entries are supported. Required type, date and odometer fields are validated; cost and note are optional. User text is escaped before rendering.
+Welcome -> dashboard -> vehicle list -> vehicle history -> new event / event detail. A two-tab bar (Koti, Ajoneuvot) appears on browsing views. The dashboard shows vehicle, event and current-year cost totals, the three newest events across vehicles and an example service reminder. The reminder uses an illustrative 12 month / 15 000 km interval, labelled as the user's own setting rather than manufacturer guidance. Visitors can add a fictional vehicle (name, plate, model year, odometer). Each vehicle view shows total and current-year costs. Browser Back and Forward follow hash history. Two fictional vehicles have independent histories. New entries update the selected vehicle's event count; its odometer remains the maximum recorded reading. Earlier historical entries are supported. Required type, date and odometer fields are validated; cost and note are optional. An odometer reading that contradicts an earlier or later entry shows a warning; pressing "Tallenna silti" saves it anyway. User text is escaped before rendering.
 
 There is no server, authentication, payment, telemetry, personal data collection or persistent storage. Refresh restores the fictional data. Reset restores the welcome screen and initial data. Do not present the demo as a released application.
 
@@ -23,3 +23,6 @@ Browser checked: landing at 320, 390, 768 and 1440 pixels; device at 320x568, 39
 
 ## Volvo example (8 October 2026)
 The primary demo vehicle is now Volvo XC60 (2020), with eight fictional history entries from 2024–2026. Its photo is a same-generation 2018 model photograph by Kevauto, CC BY-SA 4.0; see credits.html for source and licence. The image is a model illustration, not the vehicle associated with the fictional plate/history.
+
+## Dashboard update (11 October 2026)
+Browser checked at 1440x900, 390x844 and 320x568: dashboard, vehicle tab bar, adding a vehicle (empty-field rejection, escaped `<b>` in the name), adding an event to it, cost totals, odometer conflict warning and override. No console errors and no overflow in the page or the phone screen.
