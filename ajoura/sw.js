@@ -1,8 +1,8 @@
 'use strict';
 // Offline support for the installed AJOURA demo. Scope is the ajoura/ folder only.
 // Network first so updates appear as soon as the phone is online; the cache is the offline fallback.
-const CACHE = 'ajoura-pwa-13';
-const FILES = ['app.html', 'app.css', 'ajoura.css', 'app.js', 'car-render.js','car-models.js', 'install.js', 'index.html', 'logo.svg', 'mark.svg', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
+const CACHE = 'ajoura-pwa-14';
+const FILES = ['app.html', 'app.css', 'ajoura.css', 'app.js', 'car-render.js','car-models.js','video.js', 'install.js', 'index.html', 'logo.svg', 'mark.svg', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));
@@ -17,6 +17,8 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== location.origin) return;
+  // Let the browser stream large media (range requests) straight from the network.
+  if (new URL(request.url).pathname.includes('/media/')) return;
   event.respondWith(fetch(request).then(response => {
     if (response.ok) {
       const copy = response.clone();
