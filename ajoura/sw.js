@@ -2,7 +2,7 @@
 // Offline support for the installed AJOURA demo. Scope is the ajoura/ folder only.
 // Network first so updates appear as soon as the phone is online; the cache is the offline fallback.
 const CACHE = 'ajoura-pwa-23';
-const FILES = ['app.html', 'app.css', 'ajoura.css', 'app.js', 'car-render.js','car-models.js','video.js','i18n.js','tutorial.js','share.js', 'install.js', 'index.html', 'logo.svg', 'mark.svg', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
+const FILES = ['app.html', 'app.css', 'ajoura.css', 'app.js', 'car-render.js','car-shapes.js','car-models.js','video.js','i18n.js','tutorial.js','share.js', 'install.js', 'index.html', 'logo.svg', 'mark.svg', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));
