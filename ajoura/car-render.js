@@ -34,9 +34,27 @@
       body: 'M24 120C22 104 28 94 42 91L86 82C108 78 124 76 140 74L176 46C188 38 206 35 232 35L332 36C346 36 354 42 358 52L370 82C376 94 378 104 378 122C378 129 374 132 368 132L342 132A41 41 0 0 0 262 132L138 132A41 41 0 0 0 58 132L32 132C27 132 24 128 24 120Z',
       glass: 'M150 74L182 49C194 42 208 40 230 40L328 41C338 41 344 45 347 52L356 74Z',
       tail: [375, 86], pillar: 228, shoulder: 'M46 93C120 85 260 80 372 87', doorTop: 74
+    },
+    coupe: {
+      wheels: [96, 296], r: 25,
+      body: 'M24 124C22 112 28 104 42 101L92 92C118 88 138 86 158 84L196 62C208 56 222 54 242 54C262 54 280 60 300 72L340 92L364 98C374 101 378 108 378 118L378 126C378 131 375 134 370 134L329 134A37 37 0 0 0 263 134L129 134A37 37 0 0 0 63 134L32 134C27 134 24 131 24 124Z',
+      glass: 'M166 84L198 64C210 58 222 57 240 57C258 57 274 62 290 72L314 86Z',
+      tail: [376, 100], pillar: 262, shoulder: 'M46 103C120 95 250 90 370 98', doorTop: 84, doors: 1
+    },
+    van: {
+      wheels: [92, 312], r: 26,
+      body: 'M22 122C20 106 26 96 38 92L70 84C86 80 98 72 112 56L132 36C140 28 150 26 164 26L352 26C366 26 372 32 374 44L378 96C380 106 380 116 380 124C380 130 376 133 370 133L347 133A35 35 0 0 0 277 133L127 133A35 35 0 0 0 57 133L30 133C25 133 22 130 22 122Z',
+      glass: 'M110 70L138 38C144 32 150 30 162 30L348 30C356 30 362 34 363 42L366 70Z',
+      tail: [376, 80], pillar: 200, shoulder: 'M44 92C120 82 260 78 374 82', doorTop: 70
+    },
+    pickup: {
+      wheels: [98, 306], r: 28,
+      body: 'M24 118C22 104 28 96 42 93L86 86C106 82 122 80 136 79L168 50C178 43 190 41 210 41L250 41C258 41 262 45 262 52L262 84L372 84C377 84 380 88 380 94L380 122C380 128 376 132 370 132L346 132A41 41 0 0 0 266 132L138 132A41 41 0 0 0 58 132L32 132C27 132 24 128 24 118Z',
+      glass: 'M146 79L174 53C182 47 192 45 208 45L252 45C256 45 258 47 258 51L258 79Z',
+      tail: [378, 90], pillar: 206, shoulder: 'M46 95C120 88 220 85 376 88', doorTop: 79, doors: 2, bed: 262
     }
   };
-  const names = { sedan: 'Sedan', hatchback: 'Viistoperä', wagon: 'Farmari', suv: 'Maastoauto / SUV' };
+  const names = { sedan: 'Sedan', hatchback: 'Viistoperä', wagon: 'Farmari', suv: 'Maastoauto / SUV', coupe: 'Coupé', van: 'Tila-auto', pickup: 'Avolava' };
   let uid = 0;
 
   function wheel(x, y, r, id) {
@@ -66,8 +84,9 @@
         `<path d="M${b.pillar - 50} ${b.doorTop - 4}L${b.pillar - 28} ${b.doorTop - 26}" stroke="#ffffff" stroke-opacity=".18" stroke-width="7"/>` +
         `<path d="${b.shoulder}" fill="none" stroke="#ffffff" stroke-opacity="${dark ? 0.28 : 0.55}" stroke-width="2"/>` +
         `<path d="${b.shoulder}" fill="none" stroke="${line}" stroke-opacity=".35" stroke-width="1" transform="translate(0 4)"/>` +
-        `<path d="M${b.pillar} ${b.doorTop}V${groundY - 22}M${b.pillar - 82} ${b.doorTop + 2}C${b.pillar - 86} ${b.doorTop + 20} ${b.pillar - 84} ${groundY - 34} ${b.pillar - 78} ${groundY - 22}M${b.pillar + 84} ${b.doorTop - 1}C${b.pillar + 88} ${b.doorTop + 18} ${b.pillar + 86} ${groundY - 34} ${b.pillar + 80} ${groundY - 26}" fill="none" stroke="${line}" stroke-opacity=".45" stroke-width="1.2"/>` +
-        `<rect x="${b.pillar - 32}" y="${b.doorTop + 12}" width="14" height="3.5" rx="1.75" fill="${line}" fill-opacity=".55"/><rect x="${b.pillar + 44}" y="${b.doorTop + 12}" width="14" height="3.5" rx="1.75" fill="${line}" fill-opacity=".55"/>` +
+        `<path d="M${b.pillar} ${b.doorTop}V${groundY - 22}M${b.pillar - 82} ${b.doorTop + 2}C${b.pillar - 86} ${b.doorTop + 20} ${b.pillar - 84} ${groundY - 34} ${b.pillar - 78} ${groundY - 22}${b.doors === 1 || b.doors === 2 ? '' : `M${b.pillar + 84} ${b.doorTop - 1}C${b.pillar + 88} ${b.doorTop + 18} ${b.pillar + 86} ${groundY - 34} ${b.pillar + 80} ${groundY - 26}`}" fill="none" stroke="${line}" stroke-opacity=".45" stroke-width="1.2"/>` +
+        (b.bed ? `<path d="M${b.bed + 3} ${b.doorTop + 6}H376" stroke="${line}" stroke-opacity=".5" stroke-width="1.5"/><path d="M${b.bed} ${b.doorTop}V${groundY - 22}" stroke="${line}" stroke-opacity=".45" stroke-width="1.2"/>` : '') +
+        `<rect x="${b.pillar - 32}" y="${b.doorTop + 12}" width="14" height="3.5" rx="1.75" fill="${line}" fill-opacity=".55"/>${b.doors === 1 ? '' : `<rect x="${b.pillar + 44}" y="${b.doorTop + 12}" width="14" height="3.5" rx="1.75" fill="${line}" fill-opacity=".55"/>`}` +
         `<path d="M0 ${groundY - 30}H400V170H0Z" fill="#0d1b2a" fill-opacity=".16"/>` +
       `</g>` +
       `<path d="M28 ${groundY - 46}c10-6 24-9 38-9l-4 9c-12 0-24 2-34 6z" fill="#eaf6ff" stroke="${line}" stroke-opacity=".5"/>` +

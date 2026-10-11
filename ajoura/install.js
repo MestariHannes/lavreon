@@ -27,6 +27,8 @@
     catch (e) { window.prompt('Kopioi linkki:', link); }
   });
   // Where the browser allows it (Chrome on Android, desktop Chrome/Edge) the button asks to install straight away; iPhone has no such prompt, so it shows the steps.
+  // The landing page links to app.html?asenna=1 to open the install steps straight away.
+  if (/[?&]asenna=1/.test(location.search) && !document.documentElement.classList.contains('standalone')) dialog.showModal();
   document.querySelectorAll('[data-install-open]').forEach(button => button.addEventListener('click', async () => {
     if (!deferred) { dialog.showModal(); return; }
     const prompt = deferred;
