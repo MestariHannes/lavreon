@@ -41,3 +41,7 @@ The demo now starts on a phone home screen. Only the AJOURA icon works; the othe
 
 ## Phone 30 % larger (11 October 2026)
 At the owner's request the phone is 30 % larger than the viewport-fit size (793 -> 1033 px tall at 1440x900, capped at 555 px wide), so the demo page scrolls on shorter screens. App content inside is scaled 1.3x once the screen is at least 440 px wide. The intro column hides below 1100 px and the guide below 820 px so the phone never overflows; phones under 650 px keep the full-screen device. Checked at 1920x1080, 1440x900, 1280x720, 1024x768, 768x1024, 390x844 and 320x568 with no horizontal overflow.
+
+## Installable app / PWA (11 October 2026)
+
+`app.html` can be added to a phone's home screen (iPhone: Safari → Share → Add to Home Screen; Android: Chrome menu → Install app). The installed app has its own icon (`icons/`, drawn from `mark.svg`), opens full screen through `manifest.webmanifest` (`start_url` `app.html?pwa=1`) and skips the phone mockup and the simulated launcher. In that mode, and only then, cars and events are kept in `localStorage` (`ajoura-pwa-v1`) on the device; nothing is sent anywhere, and "Palauta demon lähtötiedot" clears it. The website demo still resets on reload. `sw.js` (scope `ajoura/` only) caches the app network-first so it also opens offline. `install.js` registers it and runs the "Asenna puhelimeen" dialog. Open `app.html?pwa=1` in a desktop browser to preview installed mode. The data stays fictional demo data; this is not the MVP.
