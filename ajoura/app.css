@@ -238,3 +238,7 @@ html.dark.standalone,html.dark.fullscreen,html.dark.standalone body,html.dark.fu
 .report-legend{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:9px;color:#5d738a;margin:4px 0 0}.report-legend span{width:10px;height:10px;border-radius:3px;display:inline-block}.report-legend span+span,.report-legend .lg-fuel{margin-left:8px}.lg-service{background:#1464e8}.lg-fuel{background:#19b1c8}
 @media print{.report-legend span,.report-bars span i{-webkit-print-color-adjust:exact;print-color-adjust:exact}.report-legend{font-size:8pt}}
 .report-bars.split span{background:#1464e8}
+/* Calendar reminders and transfer */
+.cal-button{margin-top:10px;gap:7px}.cal-button svg{flex-shrink:0}.reminder-card .link-button{border:0;background:none;padding:6px 0 0;color:var(--blue);font-size:10px;font-weight:650;min-height:32px;cursor:pointer}
+.owner-steps .app-button+.app-button{margin-top:8px}
+.due-list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}.due-list a{display:flex;align-items:center;gap:10px;background:#eef6ff;border:1px solid #cfe0f3;border-radius:12px;padding:10px 11px;color:var(--ink)}.due-list svg{color:var(--blue);flex-shrink:0}.due-list strong{display:block;font-size:11px}.due-list small{display:block;font-size:9px;color:#5d738a;margin-top:2px}.due-list .late a{background:#fff4e8;border-color:#f3cfa6}.due-list .late svg{color:#c46a00}

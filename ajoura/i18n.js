@@ -297,7 +297,15 @@
     'Tallenna autot, merkinnät ja tankkaukset tiedostoon. Palauttamalla tiedoston saat ne takaisin, myös uudessa puhelimessa. Palautus yhdistää tiedot: sama auto päivittyy ja uudet lisätään.': 'Save your cars, entries and fill-ups to a file. Restore the file to get them back, on a new phone too. Restoring merges: the same car is updated and new ones are added.',
     '✓ Varmuuskopio tallennettu tiedostoon.': '✓ Backup saved to a file.', 'Ei vielä tallennettavaa.': 'Nothing to save yet.',
     'Tiedostoa ei voitu lukea. Valitse AJOURAn varmuuskopiotiedosto.': 'The file could not be read. Choose an AJOURA backup file.',
-    'Huolto ja korjaus': 'Service and repair', 'Polttoaine': 'Fuel'
+    'Huolto ja korjaus': 'Service and repair', 'Polttoaine': 'Fuel',
+    'Lisää muistutukset kalenteriin': 'Add reminders to calendar', 'Lisää kalenteriin →': 'Add to calendar →',
+    'Lähetä ostajalle siirtotiedosto. Ostaja avaa omassa AJOURAssaan Minä → Palauta varmuuskopio, ja koko historia kuitteineen siirtyy hänelle. Raportti PDF:nä sopii ostajalle, jolla ei ole AJOURAa.': 'Send the buyer a transfer file. The buyer opens Me → Restore backup in their own AJOURA, and the whole history, receipts included, moves to them. The PDF report suits a buyer who does not use AJOURA.',
+    'Lähetä siirtotiedosto': 'Send transfer file', 'Suosittele AJOURAa': 'Recommend AJOURA', 'Jaa linkki kaverille. Sovellus asennetaan suoraan selaimesta.': 'Share the link with a friend. The app installs straight from the browser.',
+    'Jaa linkki': 'Share link', '✓ Linkki kopioitu leikepöydälle.': '✓ Link copied to the clipboard.',
+    'Miten saan huoltomuistutuksen puhelimeen?': 'How do I get service reminders on my phone?',
+    'Avaa auto ja paina Lisää muistutukset kalenteriin. Seuraavan huollon ja katsastuksen arviot tallentuvat puhelimen kalenteriin, ja kalenteri muistuttaa viikkoa ennen.': 'Open the car and tap Add reminders to calendar. The estimated next service and inspection are saved to your phone’s calendar, which reminds you a week before.',
+    'Miten siirrän auton historian ostajalle?': 'How do I hand the car’s history to the buyer?',
+    'Avaa auto → Omistajanvaihdos → Lähetä siirtotiedosto. Ostaja valitsee omassa AJOURAssaan Minä → Palauta varmuuskopio, ja historia siirtyy hänelle.': 'Open the car → Change of ownership → Send transfer file. The buyer chooses Me → Restore backup in their own AJOURA, and the history moves to them.'
   });
   // Ordered patterns for dynamic strings. Each returns the English string.
   const P = [
@@ -306,6 +314,10 @@
     [re(N + ' € · (\\d+) kirjausta'), (m, v, n) => v + ' € · ' + n + ' ' + plural(n, 'entry', 'entries')],
     [re(N + ' km · osatankkaus'), (m, k) => k + ' km · partial fill'],
     [re('Poista kirjaus ' + DATE), (m, d) => 'Delete entry ' + d],
+    [re(DATE + ' · myöhässä'), (m, d) => d + ' · overdue'],
+    [re(DATE + ' · tänään'), (m, d) => d + ' · today'],
+    [re(DATE + ' · (\\d+) pv päästä'), (m, d, n) => d + ' · in ' + n + ' ' + plural(n, 'day', 'days')],
+    [re('(Huolto|Katsastus) · (.+)'), (m, w, c) => (w === 'Huolto' ? 'Service' : 'Inspection') + ' · ' + c],
     [re('✓ Varmuuskopio palautettu: (\\d+) uutta, (\\d+) päivitetty\\.'), (m, a, u) => '✓ Backup restored: ' + a + ' new, ' + u + ' updated.'],
     [re('viimeksi ' + DATE), (m, d) => 'last ' + d],
     [re('noin ' + N + ' km'), (m, k) => 'about ' + k + ' km'],
