@@ -20,6 +20,12 @@
     now.hidden = true;
     dialog.close();
   });
+  const copy = document.getElementById('install-copy');
+  const link = 'https://mestarihannes.github.io/lavreon/ajoura/app.html';
+  copy.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(link); copy.textContent = 'Linkki kopioitu'; }
+    catch (e) { window.prompt('Kopioi linkki:', link); }
+  });
   document.querySelectorAll('[data-install-open]').forEach(button => button.addEventListener('click', () => dialog.showModal()));
   dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
 })();
