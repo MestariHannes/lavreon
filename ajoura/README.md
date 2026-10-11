@@ -38,3 +38,6 @@ Checked at 1440x900, 390x844 and 320x568: lookup hit, miss, invalid plate, examp
 
 ## Phone home screen and bigger device (11 October 2026)
 The demo now starts on a phone home screen. Only the AJOURA icon works; the other icons are muted decoration. Tapping it plays a short launch (icon zoom, splash with the wordmark), then opens the app. The bar at the bottom of the phone returns to the home screen, and app state is kept. The status bar and home-screen clock show the visitor's current time. The phone now fills the viewport height (up to 880 px tall), and app content is scaled up 12 % when the screen is wide enough. The guide panel has six steps. Reduced-motion users get the launch without animation. Checked at 1440x900, 1920x1080, 390x844 and 320x568: no page or screen overflow and no console errors.
+
+## Phone 30 % larger (11 October 2026)
+At the owner's request the phone is 30 % larger than the viewport-fit size (793 -> 1033 px tall at 1440x900, capped at 555 px wide), so the demo page scrolls on shorter screens. App content inside is scaled 1.3x once the screen is at least 440 px wide. The intro column hides below 1100 px and the guide below 820 px so the phone never overflows; phones under 650 px keep the full-screen device. Checked at 1920x1080, 1440x900, 1280x720, 1024x768, 768x1024, 390x844 and 320x568 with no horizontal overflow.
