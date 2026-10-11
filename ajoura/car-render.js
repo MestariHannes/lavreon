@@ -114,6 +114,37 @@
     return { L, H, D, xf, xr, yb, belt, hf, xc, top, glass, pillar, doors, tall, old };
   }
 
+  // Model-specific outline traced from the real car: key points of the side profile in metres
+  // (x from the front bumper, y from the ground). See car-shapes.js for the field order.
+  function fromForm(f, era) {
+    const P = (x, y, r) => [x, y, r];
+    const { L, H, fo, wd, sill } = f, xf = fo, xr = fo + f.WB, round = f.round, old = era === 0;
+    const peak = f.peak || H - 0.005, mid = [(f.ws[0] + f.roof[0]) / 2, peak];
+    const top = [P(0.1, sill + 0.05, 0), P(0, f.bump, 0.06 + round * 0.12), P(f.nose[0], f.nose[1], 0.06 + round * 0.2),
+      P(f.cowl[0], f.cowl[1], 0.08), P(f.ws[0], f.ws[1], 0.08 + round * 0.3), P(mid[0], mid[1], 0.5),
+      P(f.roof[0], f.roof[1], 0.06 + round * 0.35), P(f.back[0], f.back[1], 0.04 + round * 0.12)];
+    if (f.deck[0] - f.back[0] > 0.04 || Math.abs(f.deck[1] - f.back[1]) > 0.04) top.push(P(f.deck[0], f.deck[1], 0.04 + round * 0.06));
+    if (L - f.deck[0] > 0.02) top.push(P(L, f.deck[1] - 0.04, 0.04));
+    top.push(P(L, f.tail, 0.05 + round * 0.08), P(L - 0.08, sill + 0.03, 0));
+    // Height of the top outline at x, used to fit the side windows under the roof.
+    const outline = top.slice(3, -2), roofAt = x => {
+      for (let i = 1; i < outline.length; i++) {
+        const [x1, y1] = outline[i - 1], [x2, y2] = outline[i];
+        if (x >= x1 && x <= x2) return y1 + (y2 - y1) * (x - x1) / ((x2 - x1) || 1);
+      }
+      return H;
+    };
+    const [bf, br] = f.belt, beltAt = x => bf + (br - bf) * (x - f.cowl[0]) / ((f.dlo - f.cowl[0]) || 1);
+    const gx = f.gx || Math.min(f.roof[0], f.dlo) - 0.1, g0 = f.cowl[0] + 0.08;
+    const glass = [[g0, beltAt(g0) + 0.02, 0.03], [f.ws[0] + 0.03, f.ws[1] - 0.06, 0.04 + round * 0.12],
+      [gx, roofAt(gx) - 0.065, 0.06 + round * 0.12], [f.dlo, beltAt(f.dlo) + 0.025, 0.04]];
+    const tall = f.body === 'suv' || f.body === 'van' || f.body === 'pickup';
+    return { L, H, D: wd, xf, xr, yb: sill, belt: (bf + br) / 2, beltAt, xc: f.cowl[0], top, glass,
+      pillar: f.bp, doors: f.doors, tall, old, spare: f.spare, clad: f.clad, tailY: (f.deck[1] + f.tail) / 2 + 0.03,
+      hf: f.bump + (f.nose[1] - f.bump) * 0.72, lampX: Math.max(0.03, f.nose[0] * 0.45), lamp: f.lamp,
+      tallTail: f.tl === 'tall' ? [[f.roof[0] + (f.back[0] - f.roof[0]) * 0.25, roofAt(f.roof[0] + (f.back[0] - f.roof[0]) * 0.25)], f.back, [L, f.deck[1] - 0.04], [L, Math.max(f.tail, f.deck[1] - 0.3)]] : null };
+  }
+
   // Polyline with rounded corners (quadratic) through points [x, y, radius] in pixels.
   function rounded(points, closed) {
     const n = points.length, out = [];
@@ -138,7 +169,9 @@
   // make, model and model year.
   function render(type, color, label, shape) {
     if (!dims[type]) type = 'sedan';
-    const s = shape || {}, p = profile(type, s.size || defaultSize[type], eraOf(Number(s.year)), s.trait, Array.isArray(s.dims) && s.dims.length === 3 && s.dims.every(n => n > 0.5 && n < 8) ? s.dims : null);
+    const s = shape || {}, era = eraOf(Number(s.year)), p = s.form ? fromForm(s.form, era) :
+      profile(type, s.size || defaultSize[type], era, s.trait, Array.isArray(s.dims) && s.dims.length === 3 && s.dims.every(n => n > 0.5 && n < 8) ? s.dims : null);
+    const beltAt = p.beltAt || (() => p.belt);
     const id = ++uid, c = /^#[0-9a-f]{6}$/i.test(color) ? color : '#c9d0d8', groundY = 150;
     const k = Math.min(356 / p.L, 122 / p.H), x0 = 200 - p.L * k / 2;
     const X = x => x0 + x * k, Y = y => groundY - y * k, pt = ([x, y, r]) => [X(x), Y(y), (r || 0) * k];
@@ -146,19 +179,20 @@
     const line = mix(c, '#000000', dark ? 0.55 : 0.3), r = p.D / 2 * k, arch = r + 0.055 * k, wy = groundY - r;
     // Body outline: rounded top profile, then the sill with both wheel arches cut out.
     const sill = Y(p.yb), archX = Math.sqrt(Math.max(0, arch * arch - (sill - wy) ** 2));
-    const body = rounded(p.top.map(pt), false) +
-      `L${(X(p.xr) + archX).toFixed(1)} ${sill.toFixed(1)}A${arch.toFixed(1)} ${arch.toFixed(1)} 0 1 0 ${(X(p.xr) - archX).toFixed(1)} ${sill.toFixed(1)}` +
-      `L${(X(p.xf) + archX).toFixed(1)} ${sill.toFixed(1)}A${arch.toFixed(1)} ${arch.toFixed(1)} 0 1 0 ${(X(p.xf) - archX).toFixed(1)} ${sill.toFixed(1)}Z`;
+    const big = sill > wy ? 1 : 0, body = rounded(p.top.map(pt), false) +
+      `L${(X(p.xr) + archX).toFixed(1)} ${sill.toFixed(1)}A${arch.toFixed(1)} ${arch.toFixed(1)} 0 ${big} 0 ${(X(p.xr) - archX).toFixed(1)} ${sill.toFixed(1)}` +
+      `L${(X(p.xf) + archX).toFixed(1)} ${sill.toFixed(1)}A${arch.toFixed(1)} ${arch.toFixed(1)} 0 ${big} 0 ${(X(p.xf) - archX).toFixed(1)} ${sill.toFixed(1)}Z`;
     const glass = rounded(p.glass.map(pt), true);
-    const beltY = Y(p.belt), shoulderY = beltY + 0.07 * k, bp = X(p.pillar);
+    const beltY = Y(p.belt), bp = X(p.pillar), by = x => Y(beltAt(x)), sh = x => by(x) + 0.07 * k;
     const frontDoor = X(p.xf) + arch + 0.05 * k, rearDoor = X(p.xr) - arch - 0.02 * k;
-    const doorLines = `M${frontDoor.toFixed(1)} ${(beltY + 2).toFixed(1)}C${(frontDoor - 3).toFixed(1)} ${(beltY + 20).toFixed(1)} ${(frontDoor - 2).toFixed(1)} ${(sill - 12).toFixed(1)} ${(frontDoor + 3).toFixed(1)} ${(sill - 2).toFixed(1)}` +
-      (p.doors === 1 ? '' : `M${bp.toFixed(1)} ${(beltY + 1).toFixed(1)}V${(sill - 2).toFixed(1)}`) +
-      (p.doors === 4 ? `M${rearDoor.toFixed(1)} ${(beltY + 1).toFixed(1)}C${(rearDoor + 3).toFixed(1)} ${(beltY + 18).toFixed(1)} ${(rearDoor + 2).toFixed(1)} ${(sill - 16).toFixed(1)} ${(rearDoor - 2).toFixed(1)} ${(sill - 6).toFixed(1)}` : '');
-    const handle = x => `<rect x="${(x - 7).toFixed(1)}" y="${(beltY + 0.1 * k).toFixed(1)}" width="13" height="3.2" rx="1.6" fill="${line}" fill-opacity=".55"/>`;
-    const hx = X(0.04), hy = Y(p.hf) + 2, lamp = `M${hx.toFixed(1)} ${(hy + 2).toFixed(1)}Q${(hx + 2).toFixed(1)} ${(hy - 1).toFixed(1)} ${(hx + 0.42 * k).toFixed(1)} ${(hy + 1).toFixed(1)}L${(hx + 0.36 * k).toFixed(1)} ${(hy + 0.08 * k).toFixed(1)}Q${(hx + 4).toFixed(1)} ${(hy + 0.09 * k).toFixed(1)} ${(hx - 1).toFixed(1)} ${(hy + 0.07 * k).toFixed(1)}Z`;
-    const tx = X(p.L), ty = Y(p.tall ? p.belt - 0.02 : p.belt + 0.02), tail = `M${(tx - 0.16 * k).toFixed(1)} ${ty.toFixed(1)}H${(tx - 0.5).toFixed(1)}V${(ty + 0.1 * k).toFixed(1)}H${(tx - 0.12 * k).toFixed(1)}Z`;
-    const mx = X(p.xc + 0.12), my = beltY - 1, mirror = `M${mx.toFixed(1)} ${my.toFixed(1)}l${(0.16 * k).toFixed(1)} -2l2 ${(0.07 * k).toFixed(1)}l${(-0.15 * k).toFixed(1)} 2z`;
+    const fdY = Y(beltAt(p.xf + p.D / 2 + 0.1)), rdY = Y(beltAt(p.xr - p.D / 2 - 0.05)), bpY = Y(beltAt(p.pillar));
+    const doorLines = `M${frontDoor.toFixed(1)} ${(fdY + 2).toFixed(1)}C${(frontDoor - 3).toFixed(1)} ${(fdY + 20).toFixed(1)} ${(frontDoor - 2).toFixed(1)} ${(sill - 12).toFixed(1)} ${(frontDoor + 3).toFixed(1)} ${(sill - 2).toFixed(1)}` +
+      (p.doors === 1 ? '' : `M${bp.toFixed(1)} ${(bpY + 1).toFixed(1)}V${(sill - 2).toFixed(1)}`) +
+      (p.doors === 4 ? `M${rearDoor.toFixed(1)} ${(rdY + 1).toFixed(1)}C${(rearDoor + 3).toFixed(1)} ${(rdY + 18).toFixed(1)} ${(rearDoor + 2).toFixed(1)} ${(sill - 16).toFixed(1)} ${(rearDoor - 2).toFixed(1)} ${(sill - 6).toFixed(1)}` : '');
+    const handle = x => `<rect x="${(x - 7).toFixed(1)}" y="${(Y(beltAt((x - x0) / k)) + 0.1 * k).toFixed(1)}" width="13" height="3.2" rx="1.6" fill="${line}" fill-opacity=".55"/>`;
+    const hx = X(p.lampX || 0.04), hy = Y(p.hf) + 2, lamp = p.lamp === 'round' ? `M${(hx + 0.12 * k).toFixed(1)} ${hy.toFixed(1)}m-${(0.085 * k).toFixed(1)} 0a${(0.085 * k).toFixed(1)} ${(0.085 * k).toFixed(1)} 0 1 0 ${(0.17 * k).toFixed(1)} 0a${(0.085 * k).toFixed(1)} ${(0.085 * k).toFixed(1)} 0 1 0 -${(0.17 * k).toFixed(1)} 0Z` : p.lamp === 'square' ? `M${(hx - 1).toFixed(1)} ${(hy - 0.04 * k).toFixed(1)}h${(0.3 * k).toFixed(1)}v${(0.13 * k).toFixed(1)}h-${(0.3 * k).toFixed(1)}Z` : `M${hx.toFixed(1)} ${(hy + 2).toFixed(1)}Q${(hx + 2).toFixed(1)} ${(hy - 1).toFixed(1)} ${(hx + 0.42 * k).toFixed(1)} ${(hy + 1).toFixed(1)}L${(hx + 0.36 * k).toFixed(1)} ${(hy + 0.08 * k).toFixed(1)}Q${(hx + 4).toFixed(1)} ${(hy + 0.09 * k).toFixed(1)} ${(hx - 1).toFixed(1)} ${(hy + 0.07 * k).toFixed(1)}Z`;
+    const tx = X(p.L), ty = Y(p.tailY || (p.tall ? p.belt - 0.02 : p.belt + 0.02)), tail = `M${(tx - 0.16 * k).toFixed(1)} ${ty.toFixed(1)}H${(tx - 0.5).toFixed(1)}V${(ty + 0.1 * k).toFixed(1)}H${(tx - 0.12 * k).toFixed(1)}Z`;
+    const mx = X(p.xc + 0.12), my = by(p.xc + 0.12) - 1, mirror = `M${mx.toFixed(1)} ${my.toFixed(1)}l${(0.16 * k).toFixed(1)} -2l2 ${(0.07 * k).toFixed(1)}l${(-0.15 * k).toFixed(1)} 2z`;
     return `<svg class="car-render" viewBox="0 0 400 170" role="img" aria-label="${label || 'Tyylitelty automalli'}" xmlns="http://www.w3.org/2000/svg">` +
       `<defs><linearGradient id="paint${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset=".38" stop-color="${c}"/><stop offset=".6" stop-color="${mix(c, '#000000', 0.12)}"/><stop offset="1" stop-color="${shade}"/></linearGradient>` +
       `<linearGradient id="sheen${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".35" stop-color="#fff" stop-opacity="${dark ? 0.1 : 0.22}"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></linearGradient>` +
@@ -172,18 +206,21 @@
       `<path d="${body}" fill="url(#paint${id})"/>` +
       `<g clip-path="url(#clip${id})">` +
         `<path d="${glass}" fill="url(#glass${id})"/>` +
-        `<g clip-path="url(#glassclip${id})"><rect x="${(bp - 3.5).toFixed(1)}" y="0" width="7" height="${beltY.toFixed(1)}" fill="${p.doors === 1 ? line : shade}" fill-opacity="${p.doors === 1 ? 0.6 : 1}"/><path d="M${(bp - 70).toFixed(1)} ${beltY.toFixed(1)}L${(bp - 40).toFixed(1)} 0" stroke="#fff" stroke-opacity=".14" stroke-width="12"/></g>` +
+        `<g clip-path="url(#glassclip${id})"><rect x="${(bp - 3.5).toFixed(1)}" y="0" width="7" height="${bpY.toFixed(1)}" fill="${p.doors === 1 ? line : shade}" fill-opacity="${p.doors === 1 ? 0.6 : 1}"/><path d="M${(bp - 70).toFixed(1)} ${bpY.toFixed(1)}L${(bp - 40).toFixed(1)} 0" stroke="#fff" stroke-opacity=".14" stroke-width="12"/></g>` +
         `<path d="${glass}" fill="none" stroke="${line}" stroke-width="2.2"/>` +
-        `<path d="M0 ${shoulderY.toFixed(1)}H400" stroke="#fff" stroke-opacity="${dark ? 0.3 : 0.55}" stroke-width="1.6"/><path d="M0 ${(shoulderY + 3).toFixed(1)}H400" stroke="${line}" stroke-opacity=".3" stroke-width="1"/>` +
-        `<rect x="0" y="0" width="400" height="${beltY.toFixed(1)}" fill="url(#sheen${id})" opacity=".0"/><rect x="0" y="${beltY.toFixed(1)}" width="400" height="${(sill - beltY).toFixed(1)}" fill="url(#sheen${id})"/>` +
+        `<path d="M0 ${sh(-x0 / k).toFixed(1)}L400 ${sh((400 - x0) / k).toFixed(1)}" stroke="#fff" stroke-opacity="${dark ? 0.3 : 0.55}" stroke-width="1.6"/><path d="M0 ${(sh(-x0 / k) + 3).toFixed(1)}L400 ${(sh((400 - x0) / k) + 3).toFixed(1)}" stroke="${line}" stroke-opacity=".3" stroke-width="1"/>` +
+        `<path d="M0 ${by(-x0 / k).toFixed(1)}L400 ${by((400 - x0) / k).toFixed(1)}V${sill.toFixed(1)}H0Z" fill="url(#sheen${id})"/>` +
         `<path d="${doorLines}" fill="none" stroke="${line}" stroke-opacity=".45" stroke-width="1.2"/>` +
+        (p.tallTail ? `<path d="${p.tallTail.map(([x, y], i) => (i ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(y).toFixed(1)).join('')}" fill="none" stroke="#c4323d" stroke-width="${(0.13 * k).toFixed(1)}" stroke-linejoin="round"/>` : '') +
         handle(bp - 0.28 * k) + (p.doors === 4 ? handle(rearDoor - 0.3 * k) : '') +
         `<path d="M0 ${(sill - 0.13 * k).toFixed(1)}H400V170H0Z" fill="#0d1b2a" fill-opacity=".2"/>` +
+        (p.clad ? `<path d="M0 ${(sill - 0.15 * k).toFixed(1)}H400V170H0Z" fill="#262b31"/><circle cx="${X(p.xf).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.075 * k).toFixed(1)}" fill="#262b31"/><circle cx="${X(p.xr).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.075 * k).toFixed(1)}" fill="#262b31"/>` : '') +
       `</g>` +
       `<path d="${lamp}" fill="#eaf6ff" stroke="${line}" stroke-opacity=".5"/>` +
-      `<path d="${tail}" fill="#c4323d" opacity=".92"/>` +
+      (p.tallTail ? '' : `<path d="${tail}" fill="#c4323d" opacity=".92"/>`) +
       `<path d="${mirror}" fill="${shade}"/>` +
       (p.old ? `<rect x="${(X(0) - 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/><rect x="${(X(p.L) - 0.42 * k + 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/>` : '') +
+      (p.spare ? `<rect x="${(X(p.L) - 1).toFixed(1)}" y="${(Y(p.tailY + 0.38)).toFixed(1)}" width="${(0.2 * k).toFixed(1)}" height="${(0.62 * k).toFixed(1)}" rx="${(0.08 * k).toFixed(1)}" fill="#1d232a"/>` : '') +
       wheel(X(p.xf), wy, r, id) + wheel(X(p.xr), wy, r, id) +
       `</g></svg>`;
   }
