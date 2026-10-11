@@ -29,3 +29,4 @@
 .contact h2 span{color:var(--blue)}.contact-grid h3{font-size:17px;margin:0 0 10px;font-weight:600}.contact-grid p{font-size:14px;color:var(--muted);line-height:1.7;margin:0 0 12px}.contact-grid dl{margin:0;display:grid;gap:12px}.contact-grid dt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7b8ea2;font-weight:700}.contact-grid dd{margin:2px 0 0;font-size:14px}.contact-grid dd.placeholder{color:#9aabbd;font-style:italic}
 .footer-links{display:flex;flex-wrap:wrap;gap:18px;font-size:12px}.footer-links a{color:var(--muted)}.footer-links a:hover{color:var(--blue)}
 @media(max-width:900px){.download-grid,.contact-grid{grid-template-columns:1fr}}
+.brand-word b{color:var(--blue);font-weight:inherit}
