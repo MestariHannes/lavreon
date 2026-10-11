@@ -79,7 +79,7 @@
   const costOf=events=>events.reduce((sum,e)=>sum+(e.cost!==''?Number(e.cost):0),0);
   const Car=window.AjouraCar;
   // Render proportions follow the real make/model size class and the model year's styling era.
-  const shapeOf=c=>{const m=window.AjouraModels.parse(c.name);return {size:m.model?window.AjouraModels.size(m.brand,m.model):undefined,year:Number(c.year)||undefined};};
+  const shapeOf=c=>{const M=window.AjouraModels,m=M.parse(c.name);return {size:m.model?M.size(m.brand,m.model):undefined,trait:m.brand?M.trait(m.brand,m.model):undefined,year:Number(c.year)||undefined};};
   const colorName=hex=>(Car.colors.find(([,v])=>v===hex)||['Oma väri'])[0];
   const carName=c=>c.nick||c.name;
   const greet=()=>{const h=new Date().getHours(),g=h<5?'Hyvää yötä':h<10?'Hyvää huomenta':h<17?'Hyvää päivää':h<22?'Hyvää iltaa':'Hyvää yötä';return profile.name?`${g}, ${escape(profile.name)}.`:g+'.';};

@@ -203,7 +203,46 @@ window.AjouraModels=(()=>{
   };
   const sizeIndex={};for(const [b,list] of Object.entries(sizeRaw)){sizeIndex[b]={};for(const group of list.split(';')){const [sz,ms]=group.split(':');for(const m of ms.split('|'))sizeIndex[b][m]=sz;}}
   const size=(b,m)=>(sizeIndex[b]&&sizeIndex[b][m])||'c';
+  // Character trait per model, so the side view follows the real car's shape (not just body type and size):
+  // rwd = long bonnet, cabin set back · fast = fastback roof · csuv = coupé-SUV · box = upright off-roader
+  // · round = rounded retro · rear = rear-engined sports car. '*' is the brand default.
+  const traitRaw={
+    'Alfa Romeo':'rwd:Giulia|Stelvio',
+    'Audi':'fast:A5 Sportback|A7 Sportback|e-tron GT|A6 e-tron;csuv:Q3 Sportback|Q4 Sportback e-tron|Q5 Sportback|Q8|e-tron Sportback|Q8 e-tron;round:TT',
+    'BMW':'*:rwd;fast:4-sarja Gran Coupé|i4|6-sarja GT|2-sarja Gran Coupé;csuv:X2|X4|X6|iX2;box:i3;round:1-sarja|X1|iX1|2-sarja Active Tourer|2-sarja Gran Tourer',
+    'BYD':'fast:Seal|Han;csuv:Sealion 7',
+    'Chevrolet':'rwd:Camaro|Corvette',
+    'Citroën':'csuv:C4|ë-C4;round:C1',
+    'Cupra':'csuv:Formentor|Tavascan',
+    'Fiat':'round:500|500e|500X;box:Panda',
+    'Ford':'rwd:Mustang;csuv:Mustang Mach-E;box:Explorer',
+    'Hyundai':'fast:IONIQ 6|IONIQ;box:IONIQ 5|Santa Fe',
+    'Jaguar':'*:rwd;csuv:I-Pace',
+    'Jeep':'box:Wrangler|Renegade|Avenger',
+    'Kia':'fast:Optima|ProCeed;csuv:EV6|XCeed;box:Soul|EV9',
+    'Land Rover':'box:Defender|Discovery|Range Rover|Range Rover Sport;csuv:Range Rover Evoque|Range Rover Velar',
+    'Lexus':'rwd:IS;fast:ES|CT;csuv:UX|RZ',
+    'Mazda':'rwd:6|CX-60|CX-80|MX-5;csuv:CX-30|MX-30|CX-3',
+    'Mercedes-Benz':'*:rwd;fast:CLA|CLS|EQE|EQS;csuv:GLC Coupé|GLE Coupé|EQA;box:G-sarja|GLB|EQB;round:A-sarja|B-sarja|GLA',
+    'Mini':'*:round',
+    'Nissan':'round:Micra|Juke|Leaf;csuv:Ariya',
+    'Opel':'csuv:Grandland;round:Adam',
+    'Peugeot':'fast:508|408;csuv:3008|2008',
+    'Polestar':'fast:Polestar 2;csuv:Polestar 4',
+    'Porsche':'rear:911;rwd:718 Boxster|718 Cayman;fast:Panamera|Taycan;csuv:Macan|Cayenne',
+    'Renault':'csuv:Arkana|Megane E-Tech|Austral;round:Twingo|Zoe|Captur',
+    'Saab':'round:900',
+    'Smart':'*:round',
+    'Subaru':'box:Forester',
+    'Suzuki':'box:Jimny|Ignis;round:Swift',
+    'Tesla':'fast:Model 3|Model S;csuv:Model Y|Model X',
+    'Toyota':'box:Land Cruiser;csuv:C-HR|bZ4X;fast:Prius;round:Aygo|Yaris',
+    'Volkswagen':'fast:Arteon|ID.7;csuv:ID.5|Taigo;round:Up!|ID.3|Beetle|Kuplavolkkari;box:ID. Buzz',
+    'Volvo':'csuv:C40|EX30;box:XC90|EX90'
+  };
+  const traitIndex={};for(const [b,list] of Object.entries(traitRaw)){traitIndex[b]={};for(const group of list.split(';')){const [tr,ms]=group.split(':');if(tr==='*'){traitIndex[b]['*']=ms;continue;}for(const m of ms.split('|'))traitIndex[b][m]=tr;}}
+  const trait=(b,m)=>(traitIndex[b]&&(traitIndex[b][m]||traitIndex[b]['*']))||'';
   // Finds make and model from a saved car name such as "Mercedes-Benz E-sarja E 350" or "Škoda Octavia Combi".
   const parse=name=>{const n=String(name||'');const brand=Object.keys(raw).filter(b=>n.startsWith(b+' ')||n===b).sort((a,b)=>b.length-a.length)[0];if(!brand)return {};const rest=n.slice(brand.length).trim();const model=models(brand).map(m=>m.name).filter(m=>rest===m||rest.startsWith(m+' ')).sort((a,b)=>b.length-a.length)[0];return model?{brand,model}:{brand};};
-  return {brands,models,bodies,size,parse,top:['Mercedes-Benz','BMW','Audi']};
+  return {brands,models,bodies,size,trait,parse,top:['Mercedes-Benz','BMW','Audi']};
 })();
