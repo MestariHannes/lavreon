@@ -165,3 +165,33 @@ html.dark .device-glass{filter:invert(1) hue-rotate(180deg)}
 html.dark .device-glass img:not(.app-brand):not(.intro-logo),html.dark .device-glass .app-button:not(.secondary),html.dark .device-glass .fab,html.dark .device-glass video,html.dark .device-glass .car-render,html.dark .device-glass .color-picker span,html.dark .device-glass .plate-badge,html.dark .device-glass .video-play{filter:invert(1) hue-rotate(180deg)}
 html.dark.standalone,html.dark.fullscreen,html.dark.standalone body,html.dark.fullscreen body{background:#070a0f}
 .welcome h2 .ajo{color:var(--blue);font-weight:inherit}
+/* Compact language + theme switch in the welcome screen's top corner */
+.welcome{position:relative}.prefs.compact{position:absolute;top:-2px;right:0;margin:0;gap:6px}.prefs.compact .seg{padding:2px}.prefs.compact .seg button{font-size:10px;padding:4px 8px;min-height:26px;min-width:30px}
+/* Swipe between tabs */
+#app-screen[data-swipe=left] .screen-content{animation:swipe-l .3s cubic-bezier(.2,.7,.2,1)}#app-screen[data-swipe=right] .screen-content{animation:swipe-r .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes swipe-l{from{opacity:.4;transform:translateX(36px)}to{opacity:1;transform:none}}@keyframes swipe-r{from{opacity:.4;transform:translateX(-36px)}to{opacity:1;transform:none}}
+/* Ownership change */
+.owner-link{display:flex;align-items:center;gap:8px;margin:18px 0 0;font-size:11px;font-weight:600;color:#2c5b8c}.owner-steps{list-style:none;counter-reset:o;padding:0;margin:8px 0 0;display:grid;gap:12px}.owner-steps>li{counter-increment:o;position:relative;background:#fff;border:1px solid #e0e9f2;border-radius:14px;padding:14px 14px 14px 46px}.owner-steps>li::before{content:counter(o);position:absolute;left:14px;top:13px;width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}.owner-steps strong{display:block;font-size:12px}.owner-steps span{display:block;font-size:10px;color:#62768a;line-height:1.6;margin:3px 0 10px}.owner-steps .app-form{margin-top:6px}
+/* Report: branded header, analysis, footer */
+.report-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:12px 0 10px;border-bottom:2px solid var(--blue);margin:10px 0 14px}.report-head img{width:42%;max-width:170px;height:auto}.report-head div{text-align:right;display:grid;gap:1px}.report-head strong{font-size:11px;letter-spacing:.02em}.report-head span{font-size:8px;color:#6b8095}
+.report-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}.report-kpis div{background:linear-gradient(160deg,#eef5fe,#fff);border:1px solid #d9e6f4;border-radius:11px;padding:10px}.report-kpis strong{display:block;font-size:16px;letter-spacing:-.03em;color:var(--blue)}.report-kpis span{display:block;font-size:9px;font-weight:600;color:#3d5670}.report-kpis small{display:block;font-size:8.5px;color:#6b8095;margin-top:2px}
+.report-bars{display:flex;align-items:flex-end;gap:6px;height:110px;margin:10px 0 4px;padding:8px;border:1px solid #e0e9f2;border-radius:11px;background:#fff}.report-bars>div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0}.report-bars span{display:block;width:70%;height:var(--h);min-height:3px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#19b1c8,#1464e8)}.report-bars b{font-size:7.5px;color:#3d5670;margin-top:3px;white-space:nowrap}.report-bars small{font-size:8px;color:#7b8ea2}
+.report-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid #cbd9e8;padding-top:10px;margin-top:6px;font-size:8px;color:#5d7389}.report-foot div{display:grid;gap:1px}.report-foot div:last-child{text-align:right}.report-foot strong{font-size:9px;color:var(--ink)}
+@media print{
+  @page{size:A4;margin:14mm 12mm}
+  html.dark .device-glass,html.dark .device-glass *{filter:none!important}
+  #report{padding:0!important;font-size:11pt;color:#17283d}
+  .report-head{margin-top:0}.report-head img{max-width:60mm}.report-head strong{font-size:13pt}.report-head span{font-size:8.5pt}
+  #report .app-heading{font-size:20pt!important;margin-top:6mm}#report .app-subtitle{font-size:10pt}
+  .report-kpis{grid-template-columns:repeat(4,1fr)}.report-kpis strong{font-size:15pt}.report-kpis span,.report-kpis small{font-size:8pt}
+  .app-stats div,.report-kpis div,.report-bars,.report-table{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .report-bars{height:38mm}.report-bars b,.report-bars small{font-size:7.5pt}
+  .report-table{font-size:9pt!important}.report-table th{font-size:8pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}.report-h{font-size:12pt;margin-top:7mm;break-after:avoid}
+  .report-facts>div{font-size:9.5pt}.report-note{font-size:8pt}.report-foot{font-size:8pt;break-inside:avoid}.report-foot strong{font-size:9pt}
+  .no-print,.app-back{display:none!important}
+}
+@media print{
+  html,body,.demo-page,.demo-stage,.device-space,.device,.device-glass,#app-screen,.screen-content{position:static!important;display:block!important;overflow:visible!important;height:auto!important;min-height:0!important;max-height:none!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:#fff!important;transform:none!important;filter:none!important;aspect-ratio:auto!important}
+  .demo-header,.demo-intro,.demo-guide,.demo-footer,.tab-bar,.device-status,.home-bar,.side-button,.device::after,.device-glass::after,.skip-link,.install-banner,.intro-overlay{display:none!important}
+  #report{position:static!important;width:auto!important}
+}

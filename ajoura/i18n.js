@@ -255,8 +255,36 @@
   const plural = (n, one, many) => (String(n).trim() === '1' ? one : many);
   const typeEn = s => D[s] || s; // event types may be custom text; keep as-is when unknown
 
+
+  // Report analysis, ownership change, account
+  Object.assign(D, {
+    'Huoltohistoriaraportti': 'Service history report', 'Analyysi': 'Analysis', 'Öljynvaihtoa': 'Oil changes', 'Öljynvaihtojen väli': 'Oil change interval',
+    'Huoltoa': 'Services', 'Kulut / vuosi': 'Costs / year', 'ei kirjattu': 'none logged', 'Seuraava öljynvaihto arviolta': 'Next oil change (estimate)',
+    'Suurin yksittäinen kulu': 'Largest single cost', 'Viimeisin katsastus': 'Latest inspection', 'Omistajanvaihdoksia kirjattu': 'Ownership changes logged',
+    'Kulut vuosittain': 'Costs by year', 'alle 2 kk': 'under 2 mo', 'Omistajanvaihdos': 'Change of ownership', 'Omistajanvaihdos.': 'Change of ownership.',
+    'Kolme vaihetta, kun myyt tai luovutat auton.': 'Three steps when you sell or hand over the car.', 'Kirjaa vaihdos': 'Log the change',
+    'Päivä ja mittarilukema jäävät auton historiaan.': 'The date and odometer reading stay in the car’s history.', 'Kirjaa omistajanvaihdos': 'Log change of ownership',
+    'Anna historia uudelle omistajalle': 'Give the history to the new owner',
+    'Tallenna raportti PDF-tiedostona ja lähetä se ostajalle. Kun ostaja ottaa AJOURAn käyttöön, historian voi siirtää suoraan (tulossa).': 'Save the report as a PDF and send it to the buyer. Once the buyer uses AJOURA, the history can be transferred directly (coming soon).',
+    'Avaa raportti': 'Open report', 'Poista auto tallistasi': 'Remove the car from your garage', 'Valinnainen. Poista vasta, kun olet tallentanut raportin.': 'Optional. Remove it only after you have saved the report.',
+    'Esim. myyty yksityiselle': 'E.g. sold privately', '✓ Omistajanvaihdos kirjattu historiaan.': '✓ Change of ownership logged.',
+    'Kirjaa vaihdos historiaan, anna raportti ostajalle ja poista auto halutessasi.': 'Log the change, give the report to the buyer and remove the car if you like.',
+    'Tili': 'Account', 'Kirjaudu sisään': 'Sign in', 'Kirjautumalla autosi ja merkintäsi tallentuvat turvallisesti ja siirtyvät mukanasi uuteen puhelimeen.': 'Signing in keeps your cars and entries safe and moves them to your next phone.',
+    'Kirjautuminen on tulossa.': 'Sign-in is coming soon.', 'Sitä ennen tiedot pysyvät tässä laitteessa.': 'Until then your data stays on this device.',
+    'Valitse vuosi': 'Select year', 'Tulosta / tallenna PDF': 'Print / save PDF', 'Valitse tulostusikkunassa kohde': 'In the print dialog choose',
+    'Tallenna PDF-tiedostona': 'Save as PDF', ', niin saat raportin tiedostona esimerkiksi auton ostajalle.': ' to get the report as a file, for example for a buyer.',
+    'Raportti perustuu omistajan omiin merkintöihin. Se ei korvaa valmistajan tai korjaamon virallista huoltokirjaa.': 'This report is based on the owner’s own entries. It does not replace the official service book of the manufacturer or a garage.',
+    'Raportti perustuu omistajan omiin merkintöihin (esimerkkiauto, kuvitteelliset tiedot). Se ei korvaa valmistajan tai korjaamon virallista huoltokirjaa.': 'This report is based on the owner’s own entries (sample car, fictional data). It does not replace the official service book of the manufacturer or a garage.'
+  });
   // Ordered patterns for dynamic strings. Each returns the English string.
   const P = [
+    [re('viimeksi ' + DATE), (m, d) => 'last ' + d],
+    [re('noin ' + N + ' km'), (m, k) => 'about ' + k + ' km'],
+    [re('(\\d+) katsastusta'), (m, n) => n + ' ' + plural(n, 'inspection', 'inspections')],
+    [re('(\\d+) kk'), (m, n) => n + ' mo'],
+    [re('Raportti (AJ-[\\w-]+)'), (m, id) => 'Report ' + id],
+    [re('Tulostettu ' + DATE), (m, d) => 'Printed ' + d],
+    [re('Y-tunnus (\\S+) \\(esimerkki\\)'), (m, id) => 'Business ID ' + id + ' (example)'],
     [re('(Hyvää yötä|Hyvää huomenta|Hyvää päivää|Hyvää iltaa)(?:, (.+))?\\.'), (m, g, n) => greetings[g] + (n ? ', ' + n : '') + '.'],
     [re('(.+), tervetuloa omaan talliin\\.'), (m, n) => 'Welcome to your garage, ' + n + '.'],
     [re('SEURAAVA HUOLTO · (.+)'), (m, c) => 'NEXT SERVICE · ' + c],
