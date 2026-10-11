@@ -214,7 +214,7 @@
         (p.tallTail ? `<path d="${p.tallTail.map(([x, y], i) => (i ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(y).toFixed(1)).join('')}" fill="none" stroke="#c4323d" stroke-width="${(0.13 * k).toFixed(1)}" stroke-linejoin="round"/>` : '') +
         handle(bp - 0.28 * k) + (p.doors === 4 ? handle(rearDoor - 0.3 * k) : '') +
         `<path d="M0 ${(sill - 0.13 * k).toFixed(1)}H400V170H0Z" fill="#0d1b2a" fill-opacity=".2"/>` +
-        (p.clad ? `<path d="M0 ${(sill - 0.1 * k).toFixed(1)}H400V170H0Z" fill="#262b31"/><circle cx="${X(p.xf).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.05 * k).toFixed(1)}" fill="#262b31"/><circle cx="${X(p.xr).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.05 * k).toFixed(1)}" fill="#262b31"/>` : '') +
+        (p.clad ? `<path d="M0 ${(sill - 0.15 * k).toFixed(1)}H400V170H0Z" fill="#262b31"/><circle cx="${X(p.xf).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.075 * k).toFixed(1)}" fill="#262b31"/><circle cx="${X(p.xr).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.075 * k).toFixed(1)}" fill="#262b31"/>` : '') +
       `</g>` +
       `<path d="${lamp}" fill="#eaf6ff" stroke="${line}" stroke-opacity=".5"/>` +
       (p.tallTail ? '' : `<path d="${tail}" fill="#c4323d" opacity=".92"/>`) +
