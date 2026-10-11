@@ -9,7 +9,9 @@ The earlier implementation was a static concept illustration inside the LAVREON 
 - `app.html`: separate demo experience with a generic premium phone frame.
 - `app.css`: phone hardware, scrollable screen, responsive demo shell and reduced-motion rules.
 - `app.js`: five small view renderers, fictional seed data, hash navigation and in-memory event creation.
-- `mark.svg`, `car.svg`: lightweight original vector interface assets with no manufacturer branding.
+- `logo.svg`: the AJOURA wordmark with its car-roof sweep, redrawn as vector from the original concept artwork (`ajoura-vision.png`). Used in the page header, footer, demo header and inside the phone.
+- `mark.svg`: square app icon and favicon derived from the same wordmark (white A and sweep on the blue/cyan gradient).
+- `car.svg`: lightweight vector car illustration with no manufacturer branding.
 
 No frameworks, build step, external fonts or dependencies. Serve the repository with a static HTTP server. The existing `ajoura/` link supports the GitHub Pages `/lavreon/` prefix.
 
@@ -26,3 +28,6 @@ The primary demo vehicle is now Volvo XC60 (2020), with eight fictional history 
 
 ## Dashboard update (11 October 2026)
 Browser checked at 1440x900, 390x844 and 320x568: dashboard, vehicle tab bar, adding a vehicle (empty-field rejection, escaped `<b>` in the name), adding an event to it, cost totals, odometer conflict warning and override. No console errors and no overflow in the page or the phone screen.
+
+## Original logo (11 October 2026)
+The wordmark now follows the concept artwork: italic geometric capitals, a blue gradient first A, dark navy remaining letters and a blue-to-cyan car-roof sweep, with "by DRONEX" beneath. It is a hand-built SVG (no font dependency), so replace it with the master vector file if one turns up. The second demo vehicle is now named Toyota Corolla to match the concept artwork (XYZ-789, 2018, 92 450 km). Checked at 1440x900, 390x844 and 320x568 with no console errors, failed requests or overflow.
