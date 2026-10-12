@@ -159,9 +159,10 @@
   }
 
   function wheel(x, y, r, id) {
-    return `<g class="wheel" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><circle r="${r.toFixed(1)}" fill="#171c22"/><circle r="${(r - 2.5).toFixed(1)}" fill="none" stroke="#2a313a" stroke-width="2"/><circle r="${(r * 0.64).toFixed(1)}" fill="url(#rim${id})"/><g class="spokes">` +
-      [0, 72, 144, 216, 288].map(a => `<path d="M0 0L${(r * 0.58).toFixed(1)} -3.2L${(r * 0.58).toFixed(1)} 3.2Z" fill="#9aa6b2" transform="rotate(${a})"/>`).join('') +
-      `</g><circle r="${(r * 0.17).toFixed(1)}" fill="#56616d"/><circle r="${(r * 0.64).toFixed(1)}" fill="none" stroke="#6d7884" stroke-width="1.2"/></g>`;
+    const R = r * 0.68, f = n => n.toFixed(1);
+    return `<g class="wheel" transform="translate(${f(x)} ${f(y)})"><circle r="${f(r)}" fill="#20262d" stroke="#14181d" stroke-width="1.2"/><circle r="${f(r - 2.2)}" fill="none" stroke="#3a424c" stroke-width="1"/><circle r="${f(R)}" fill="url(#rim${id})" stroke="#3f4852" stroke-width="1.2"/><g class="spokes">` +
+      [0, 36, 72, 108, 144, 180, 216, 252, 288, 324].map(a => `<path d="M${f(r * 0.17)} -1.1L${f(R - 1.5)} -2.4M${f(r * 0.17)} 1.1L${f(R - 1.5)} 2.4" stroke="#56606b" stroke-width=".9" transform="rotate(${a})"/>`).join('') +
+      `</g><circle r="${f(R - 1.8)}" fill="none" stroke="#8792a0" stroke-width=".7"/><circle r="${f(r * 0.17)}" fill="#e3e8ed" stroke="#3f4852" stroke-width="1"/><circle r="${f(r * 0.06)}" fill="#56606b"/></g>`;
   }
 
   let uid = 0;
@@ -176,7 +177,7 @@
     const k = Math.min(356 / p.L, 122 / p.H), x0 = 200 - p.L * k / 2;
     const X = x => x0 + x * k, Y = y => groundY - y * k, pt = ([x, y, r]) => [X(x), Y(y), (r || 0) * k];
     const dark = luminance(c) < 0.25, light = mix(c, '#ffffff', dark ? 0.32 : 0.45), shade = mix(c, '#000000', dark ? 0.35 : 0.42);
-    const line = mix(c, '#000000', dark ? 0.55 : 0.3), r = p.D / 2 * k, arch = r + 0.055 * k, wy = groundY - r;
+    const ink = '#262c33', line = mix(c, '#000000', dark ? 0.55 : 0.3), r = p.D / 2 * k, arch = r + 0.055 * k, wy = groundY - r;
     // Body outline: rounded top profile, then the sill with both wheel arches cut out.
     const sill = Y(p.yb), archX = Math.sqrt(Math.max(0, arch * arch - (sill - wy) ** 2));
     const big = sill > wy ? 1 : 0, body = rounded(p.top.map(pt), false) +
@@ -189,15 +190,15 @@
     const doorLines = `M${frontDoor.toFixed(1)} ${(fdY + 2).toFixed(1)}C${(frontDoor - 3).toFixed(1)} ${(fdY + 20).toFixed(1)} ${(frontDoor - 2).toFixed(1)} ${(sill - 12).toFixed(1)} ${(frontDoor + 3).toFixed(1)} ${(sill - 2).toFixed(1)}` +
       (p.doors === 1 ? '' : `M${bp.toFixed(1)} ${(bpY + 1).toFixed(1)}V${(sill - 2).toFixed(1)}`) +
       (p.doors === 4 ? `M${rearDoor.toFixed(1)} ${(rdY + 1).toFixed(1)}C${(rearDoor + 3).toFixed(1)} ${(rdY + 18).toFixed(1)} ${(rearDoor + 2).toFixed(1)} ${(sill - 16).toFixed(1)} ${(rearDoor - 2).toFixed(1)} ${(sill - 6).toFixed(1)}` : '');
-    const handle = x => `<rect x="${(x - 7).toFixed(1)}" y="${(Y(beltAt((x - x0) / k)) + 0.1 * k).toFixed(1)}" width="13" height="3.2" rx="1.6" fill="${line}" fill-opacity=".55"/>`;
+    const handle = x => `<rect x="${(x - 7).toFixed(1)}" y="${(Y(beltAt((x - x0) / k)) + 0.1 * k).toFixed(1)}" width="13" height="3.2" rx="1.6" fill="${mix(c, '#000000', 0.12)}" stroke="${ink}" stroke-width=".9"/>`;
     const hx = X(p.lampX || 0.04), hy = Y(p.hf) + 2, lamp = p.lamp === 'round' ? `M${(hx + 0.12 * k).toFixed(1)} ${hy.toFixed(1)}m-${(0.085 * k).toFixed(1)} 0a${(0.085 * k).toFixed(1)} ${(0.085 * k).toFixed(1)} 0 1 0 ${(0.17 * k).toFixed(1)} 0a${(0.085 * k).toFixed(1)} ${(0.085 * k).toFixed(1)} 0 1 0 -${(0.17 * k).toFixed(1)} 0Z` : p.lamp === 'square' ? `M${(hx - 1).toFixed(1)} ${(hy - 0.04 * k).toFixed(1)}h${(0.3 * k).toFixed(1)}v${(0.13 * k).toFixed(1)}h-${(0.3 * k).toFixed(1)}Z` : `M${hx.toFixed(1)} ${(hy + 2).toFixed(1)}Q${(hx + 2).toFixed(1)} ${(hy - 1).toFixed(1)} ${(hx + 0.42 * k).toFixed(1)} ${(hy + 1).toFixed(1)}L${(hx + 0.36 * k).toFixed(1)} ${(hy + 0.08 * k).toFixed(1)}Q${(hx + 4).toFixed(1)} ${(hy + 0.09 * k).toFixed(1)} ${(hx - 1).toFixed(1)} ${(hy + 0.07 * k).toFixed(1)}Z`;
     const tx = X(p.L), ty = Y(p.tailY || (p.tall ? p.belt - 0.02 : p.belt + 0.02)), tail = `M${(tx - 0.16 * k).toFixed(1)} ${ty.toFixed(1)}H${(tx - 0.5).toFixed(1)}V${(ty + 0.1 * k).toFixed(1)}H${(tx - 0.12 * k).toFixed(1)}Z`;
     const mx = X(p.xc + 0.12), my = by(p.xc + 0.12) - 1, mirror = `M${mx.toFixed(1)} ${my.toFixed(1)}l${(0.16 * k).toFixed(1)} -2l2 ${(0.07 * k).toFixed(1)}l${(-0.15 * k).toFixed(1)} 2z`;
     return `<svg class="car-render" viewBox="0 0 400 170" role="img" aria-label="${label || 'Tyylitelty automalli'}" xmlns="http://www.w3.org/2000/svg">` +
-      `<defs><linearGradient id="paint${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset=".38" stop-color="${c}"/><stop offset=".6" stop-color="${mix(c, '#000000', 0.12)}"/><stop offset="1" stop-color="${shade}"/></linearGradient>` +
+      `<defs><linearGradient id="paint${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset=".3" stop-color="${c}"/><stop offset=".75" stop-color="${mix(c, '#000000', 0.06)}"/><stop offset="1" stop-color="${mix(c, '#000000', 0.2)}"/></linearGradient>` +
       `<linearGradient id="sheen${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".35" stop-color="#fff" stop-opacity="${dark ? 0.1 : 0.22}"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/></linearGradient>` +
-      `<linearGradient id="glass${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a6075"/><stop offset=".55" stop-color="#1b2836"/><stop offset="1" stop-color="#2c3e50"/></linearGradient>` +
-      `<radialGradient id="rim${id}" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#eef2f6"/><stop offset=".6" stop-color="#b7c1cb"/><stop offset="1" stop-color="#7d8894"/></radialGradient>` +
+      `<linearGradient id="glass${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7d93a8"/><stop offset=".55" stop-color="#3a4d61"/><stop offset="1" stop-color="#4f6478"/></linearGradient>` +
+      `<radialGradient id="rim${id}" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".7" stop-color="#cfd6dd"/><stop offset="1" stop-color="#a3adb8"/></radialGradient>` +
       `<radialGradient id="shadow${id}"><stop offset="0" stop-color="#0d1b2a" stop-opacity=".34"/><stop offset="1" stop-color="#0d1b2a" stop-opacity="0"/></radialGradient>` +
       `<clipPath id="clip${id}"><path d="${body}"/></clipPath><clipPath id="glassclip${id}"><path d="${glass}"/></clipPath></defs>` +
       `<g transform="matrix(-1 0 0 1 400 0)">` +
@@ -207,18 +208,21 @@
       `<g clip-path="url(#clip${id})">` +
         `<path d="${glass}" fill="url(#glass${id})"/>` +
         `<g clip-path="url(#glassclip${id})"><rect x="${(bp - 3.5).toFixed(1)}" y="0" width="7" height="${bpY.toFixed(1)}" fill="${p.doors === 1 ? line : shade}" fill-opacity="${p.doors === 1 ? 0.6 : 1}"/><path d="M${(bp - 70).toFixed(1)} ${bpY.toFixed(1)}L${(bp - 40).toFixed(1)} 0" stroke="#fff" stroke-opacity=".14" stroke-width="12"/></g>` +
-        `<path d="${glass}" fill="none" stroke="${line}" stroke-width="2.2"/>` +
+        `<path d="${glass}" fill="none" stroke="${ink}" stroke-width="2"/>` +
         `<path d="M0 ${sh(-x0 / k).toFixed(1)}L400 ${sh((400 - x0) / k).toFixed(1)}" stroke="#fff" stroke-opacity="${dark ? 0.3 : 0.55}" stroke-width="1.6"/><path d="M0 ${(sh(-x0 / k) + 3).toFixed(1)}L400 ${(sh((400 - x0) / k) + 3).toFixed(1)}" stroke="${line}" stroke-opacity=".3" stroke-width="1"/>` +
         `<path d="M0 ${by(-x0 / k).toFixed(1)}L400 ${by((400 - x0) / k).toFixed(1)}V${sill.toFixed(1)}H0Z" fill="url(#sheen${id})"/>` +
-        `<path d="${doorLines}" fill="none" stroke="${line}" stroke-opacity=".45" stroke-width="1.2"/>` +
+        `<path d="${doorLines}" fill="none" stroke="${ink}" stroke-opacity=".75" stroke-width="1.1"/>` +
+        `<path d="M0 ${(sill - 0.07 * k).toFixed(1)}H400" stroke="${ink}" stroke-opacity=".45" stroke-width=".9"/>` +
         (p.tallTail ? `<path d="${p.tallTail.map(([x, y], i) => (i ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(y).toFixed(1)).join('')}" fill="none" stroke="#c4323d" stroke-width="${(0.13 * k).toFixed(1)}" stroke-linejoin="round"/>` : '') +
         handle(bp - 0.28 * k) + (p.doors === 4 ? handle(rearDoor - 0.3 * k) : '') +
-        `<path d="M0 ${(sill - 0.13 * k).toFixed(1)}H400V170H0Z" fill="#0d1b2a" fill-opacity=".2"/>` +
+        `<path d="M0 ${(sill - 0.07 * k).toFixed(1)}H400V170H0Z" fill="#0d1b2a" fill-opacity=".1"/>` +
         (p.clad ? `<path d="M0 ${(sill - 0.15 * k).toFixed(1)}H400V170H0Z" fill="#262b31"/><circle cx="${X(p.xf).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.075 * k).toFixed(1)}" fill="#262b31"/><circle cx="${X(p.xr).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.075 * k).toFixed(1)}" fill="#262b31"/>` : '') +
+        `<circle cx="${X(p.xf).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.035 * k).toFixed(1)}" fill="none" stroke="${ink}" stroke-opacity=".55" stroke-width="1"/><circle cx="${X(p.xr).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch + 0.035 * k).toFixed(1)}" fill="none" stroke="${ink}" stroke-opacity=".55" stroke-width="1"/>` +
       `</g>` +
-      `<path d="${lamp}" fill="#eaf6ff" stroke="${line}" stroke-opacity=".5"/>` +
-      (p.tallTail ? '' : `<path d="${tail}" fill="#c4323d" opacity=".92"/>`) +
-      `<path d="${mirror}" fill="${shade}"/>` +
+      `<path d="${body}" fill="none" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>` +
+      `<path d="${lamp}" fill="#eef6fc" stroke="${ink}" stroke-width="1.1"/>` +
+      (p.tallTail ? '' : `<path d="${tail}" fill="#c4323d" stroke="${ink}" stroke-width="1"/>`) +
+      `<path d="${mirror}" fill="${c}" stroke="${ink}" stroke-width="1"/>` +
       (p.old ? `<rect x="${(X(0) - 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/><rect x="${(X(p.L) - 0.42 * k + 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/>` : '') +
       (p.spare ? `<rect x="${(X(p.L) - 1).toFixed(1)}" y="${(Y(p.tailY + 0.38)).toFixed(1)}" width="${(0.2 * k).toFixed(1)}" height="${(0.62 * k).toFixed(1)}" rx="${(0.08 * k).toFixed(1)}" fill="#1d232a"/>` : '') +
       wheel(X(p.xf), wy, r, id) + wheel(X(p.xr), wy, r, id) +
