@@ -201,7 +201,7 @@
       `<radialGradient id="rim${id}" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".7" stop-color="#cfd6dd"/><stop offset="1" stop-color="#a3adb8"/></radialGradient>` +
       `<radialGradient id="shadow${id}"><stop offset="0" stop-color="#0d1b2a" stop-opacity=".34"/><stop offset="1" stop-color="#0d1b2a" stop-opacity="0"/></radialGradient>` +
       `<clipPath id="clip${id}"><path d="${body}"/></clipPath><clipPath id="glassclip${id}"><path d="${glass}"/></clipPath></defs>` +
-      `<g transform="matrix(-1 0 0 1 400 0)">` +
+      `<g class="car-own" transform="matrix(-1 0 0 1 400 0)">` +
       `<ellipse cx="200" cy="${groundY + 2}" rx="${(p.L * k / 2 + 10).toFixed(1)}" ry="10" fill="url(#shadow${id})"/>` +
       `<circle cx="${X(p.xf).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch - 1).toFixed(1)}" fill="#0f141a"/><circle cx="${X(p.xr).toFixed(1)}" cy="${wy.toFixed(1)}" r="${(arch - 1).toFixed(1)}" fill="#0f141a"/>` +
       `<path d="${body}" fill="url(#paint${id})"/>` +
@@ -226,8 +226,99 @@
       (p.old ? `<rect x="${(X(0) - 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/><rect x="${(X(p.L) - 0.42 * k + 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/>` : '') +
       (p.spare ? `<rect x="${(X(p.L) - 1).toFixed(1)}" y="${(Y(p.tailY + 0.38)).toFixed(1)}" width="${(0.2 * k).toFixed(1)}" height="${(0.62 * k).toFixed(1)}" rx="${(0.08 * k).toFixed(1)}" fill="#1d232a"/>` : '') +
       wheel(X(p.xf), wy, r, id) + wheel(X(p.xr), wy, r, id) +
-      `</g></svg>`;
+      `</g>` + (s.img && s.form ? photo(s.img, c, s.form) : '') + `</svg>`;
   }
+
+  // Model drawings made with an image generator (white car on white, facing right). The drawn car stays as the
+  // fallback until the drawing has loaded; then the background is cut out and the body tinted to the chosen colour.
+  const photo = (url, c, f) => `<image class="car-model-img" x="16" y="22" width="368" height="130" preserveAspectRatio="xMidYMax meet" opacity="0" ` +
+    `data-src="${String(url).replace(/"/g, '')}" data-c="${c}" data-d="${[f.L, f.WB, f.fo, f.wd].join(',')}"/>`;
+  const bases = new Map(), tints = new Map();
+  const load = url => new Promise((ok, fail) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => ok(im); im.onerror = fail; im.src = url; });
+  // Removes the white background, finds the wheels and works out how strongly each pixel takes the paint colour.
+  const prepare = (url, d) => {
+    if (!bases.has(url)) bases.set(url, load(url).then(im => {
+      const w = 560, h = Math.round(im.naturalHeight * w / im.naturalWidth), cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      const cx = cv.getContext('2d', { willReadFrequently: true });
+      cx.drawImage(im, 0, 0, w, h);
+      const img = cx.getImageData(0, 0, w, h), px = img.data, n = w * h;
+      const light = i => { const r = px[i * 4], g = px[i * 4 + 1], b = px[i * 4 + 2], mn = Math.min(r, g, b); return mn >= 232 && Math.max(r, g, b) - mn < 14; };
+      const seen = new Uint8Array(n), q = new Int32Array(n);
+      let head = 0, tail = 0;
+      const push = i => { if (!seen[i] && light(i)) { seen[i] = 1; q[tail++] = i; } };
+      for (let x = 0; x < w; x++) { push(x); push((h - 1) * w + x); }
+      for (let y = 0; y < h; y++) { push(y * w); push(y * w + w - 1); }
+      while (head < tail) {
+        const i = q[head++], x = i % w;
+        px[i * 4 + 3] = 0;
+        if (x > 0) push(i - 1);
+        if (x < w - 1) push(i + 1);
+        if (i >= w) push(i - w);
+        if (i < n - w) push(i + w);
+      }
+      let x0 = w, y0 = h, x1 = -1, y1 = -1;
+      for (let i = 0; i < n; i++) if (px[i * 4 + 3]) { const x = i % w, y = (i - x) / w; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (x1 - x0 < w * 0.4) throw new Error('no car');
+      // Wheels: best-fitting dark tyre circle near where the model's wheelbase and overhang put them.
+      const [L, WB, fo, wd] = String(d).split(',').map(Number), cw = x1 - x0, wheels = [];
+      const dark = (x, y) => { x = Math.round(x); y = Math.round(y); if (x < 0 || y < 0 || x >= w || y >= h) return 0; const i = (y * w + x) * 4; return px[i + 3] && Math.min(px[i], px[i + 1], px[i + 2]) < 110 ? 1 : 0; };
+      if (L > 0 && WB > 0 && wd > 0) for (const c0 of [x1 - fo / L * cw, x1 - (fo + WB) / L * cw]) {
+        let best = null;
+        for (let dr = -8; dr <= 8; dr++) {
+          const r = wd / 2 / L * cw * (1 + dr * 0.025);
+          for (let dx = -12; dx <= 12; dx += 2) {
+            const cx2 = c0 + dx * cw / 600, cy = y1 - r;
+            let sc = 0;
+            for (let t = 0; t < 48; t++) sc += dark(cx2 + r * 0.96 * Math.cos(t * Math.PI / 24), cy + r * 0.96 * Math.sin(t * Math.PI / 24));
+            if (!best || sc > best[0]) best = [sc, cx2, cy, r * 0.93];
+          }
+        }
+        wheels.push(best);
+      }
+      const weight = new Uint8Array(n);
+      for (let i = 0; i < n; i++) {
+        if (!px[i * 4 + 3]) continue;
+        const r = px[i * 4], g = px[i * 4 + 1], b = px[i * 4 + 2], mn = Math.min(r, g, b);
+        if (Math.max(r, g, b) - mn >= 22 || mn <= 175) continue;
+        const x = i % w, y = (i - x) / w;
+        if (wheels.some(([, a, bb, rr]) => (x - a) ** 2 + (y - bb) ** 2 < rr * rr)) continue;
+        weight[i] = Math.round(Math.min(1, (mn - 175) / 55) * 255);
+      }
+      return { img, weight, box: [x0, y0, x1 - x0 + 1, y1 - y0 + 1], w, h };
+    }));
+    return bases.get(url);
+  };
+  const tinted = (url, d, c) => {
+    const key = url + c;
+    if (!tints.has(key)) tints.set(key, prepare(url, d).then(({ img, weight, box, w, h }) => {
+      const out = new ImageData(new Uint8ClampedArray(img.data), w, h), px = out.data;
+      const cr = parseInt(c.slice(1, 3), 16) / 255, cg = parseInt(c.slice(3, 5), 16) / 255, cb = parseInt(c.slice(5, 7), 16) / 255;
+      for (let i = 0; i < weight.length; i++) if (weight[i]) {
+        const t = weight[i] / 255;
+        px[i * 4] *= 1 - t + t * cr; px[i * 4 + 1] *= 1 - t + t * cg; px[i * 4 + 2] *= 1 - t + t * cb;
+      }
+      const cv = document.createElement('canvas');
+      cv.width = box[2]; cv.height = box[3];
+      cv.getContext('2d').putImageData(out, -box[0], -box[1]);
+      return cv.toDataURL('image/png');
+    }));
+    return tints.get(key);
+  };
+  const hydrate = root => {
+    if (!root.querySelectorAll) return;
+    root.querySelectorAll('image.car-model-img[data-src]:not([data-done])').forEach(el => {
+      el.setAttribute('data-done', '1');
+      tinted(el.dataset.src, el.dataset.d, el.dataset.c).then(src => {
+        el.setAttribute('href', src);
+        el.setAttribute('opacity', '1');
+        const own = el.parentNode && el.parentNode.querySelector('.car-own');
+        if (own) own.setAttribute('display', 'none');
+      }, () => {});
+    });
+  };
+  if (window.MutationObserver) new MutationObserver(list => { for (const m of list) m.addedNodes.forEach(n => { if (n.nodeType === 1) hydrate(n.parentNode || n); }); })
+    .observe(document.documentElement, { childList: true, subtree: true });
 
   const names = { sedan: 'Sedan', hatchback: 'Viistoperä', wagon: 'Farmari', suv: 'Maastoauto / SUV', coupe: 'Coupé', van: 'Tila-auto', pickup: 'Avolava' };
   // Muted, real-world paint shades rather than pure UI colours.
@@ -235,6 +326,6 @@
     ['Valkoinen', '#eef1f4'], ['Hopea', '#b9c1ca'], ['Harmaa', '#6b737c'], ['Musta', '#1f2329'],
     ['Sininen', '#1e4f9c'], ['Punainen', '#a8232d'], ['Vihreä', '#2f5b45'], ['Beige', '#c8b79a']
   ];
-  window.AjouraCar = { render, bodies: Object.keys(dims), names, colors };
+  window.AjouraCar = { render, hydrate, bodies: Object.keys(dims), names, colors };
   document.querySelectorAll('[data-car-render]').forEach(el => { el.innerHTML = render(el.dataset.carRender, el.dataset.color, el.dataset.label, { size: el.dataset.size, year: el.dataset.year }); });
 })();

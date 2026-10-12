@@ -361,7 +361,7 @@ window.AjouraModels=(()=>{
     return r?{dims:[r[2]/1000,r[3]/1000,r[4]/1000],traits:r[6]||''}:null;};
   // Everything the car picture needs for one car: size class, character letters and real dimensions.
   const letter={rwd:'r',fast:'f',csuv:'f',box:'b',round:'o',rear:'m'};
-  const shape=(b,m,body,year)=>{const sp=spec(b,m,body,year),tr=(sp?sp.traits:'')+(letter[trait(b,m)]||'');const S=window.AjouraShapes,form=S&&m?S.form(b,m,body,year):null;return {size:m?size(b,m):undefined,trait:tr||undefined,dims:sp?sp.dims:undefined,year:Number(year)||undefined,form:form||undefined};};
+  const shape=(b,m,body,year)=>{const sp=spec(b,m,body,year),tr=(sp?sp.traits:'')+(letter[trait(b,m)]||'');const S=window.AjouraShapes,form=S&&m?S.form(b,m,body,year):null;return {size:m?size(b,m):undefined,trait:tr||undefined,dims:sp?sp.dims:undefined,year:Number(year)||undefined,form:form||undefined,img:form&&window.AjouraImages?window.AjouraImages.get(b,m,form.body,form.years[0]):undefined};};
   // Finds make and model from a saved car name such as "Mercedes-Benz E-sarja E 350" or "Škoda Octavia Combi".
   const parse=name=>{const n=String(name||'');const brand=Object.keys(raw).filter(b=>n.startsWith(b+' ')||n===b).sort((a,b)=>b.length-a.length)[0];if(!brand)return {};const rest=n.slice(brand.length).trim();const model=models(brand).map(m=>m.name).filter(m=>rest===m||rest.startsWith(m+' ')).sort((a,b)=>b.length-a.length)[0];return model?{brand,model}:{brand};};
   return {brands,models,bodies,size,trait,spec,shape,parse,top:['Mercedes-Benz','BMW','Audi']};
