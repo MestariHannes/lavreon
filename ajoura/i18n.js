@@ -279,6 +279,7 @@
   });
   // Fuel log and first-run tutorial
   Object.assign(D, {
+    'Muistiinpanot': 'Notes', 'Esim. renkaiden koot, hallipaikka, varaosanumerot…': 'E.g. tyre sizes, parking spot, part numbers…', 'Tallentuu automaattisesti tähän laitteeseen.': 'Saved automatically on this device.', 'Demossa muistiinpanot eivät tallennu.': 'Notes are not saved in the demo.',
     'Tankkauskirja': 'Fuel log', 'Latauskirja': 'Charging log', 'Tankkauskirja.': 'Fuel log.',
     'Kirjaa tankkaukset tai lataukset. AJOURA laskee keskikulutuksen täysien tankkausten väliltä ja kertoo, paljon ajaminen maksaa.': 'Log fill-ups or charges. AJOURA works out average consumption between full tanks and shows what driving costs.',
     'Kirjaa tankkaukset ja näe kulutus': 'Log fill-ups and see consumption', 'Keskikulutus': 'Average consumption', 'Viimeisin väli': 'Latest interval',
