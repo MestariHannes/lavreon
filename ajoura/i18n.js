@@ -136,10 +136,12 @@
     'Tarkista oikea väli autosi huolto-ohjelmasta. Muistutus tulee sen mukaan, kumpi täyttyy ensin.': 'Check the correct interval in your car’s service schedule. The reminder follows whichever comes first.',
     'Tallenna asetukset': 'Save settings', 'Tietosi': 'Your data',
     'Autot, merkinnät ja nimesi tallentuvat vain tähän laitteeseen. Mitään ei lähetetä palvelimelle.': 'Your cars, entries and name are stored on this device only. Nothing is sent to a server.',
+    'Autot, merkinnät ja nimesi tallentuvat vain tähän laitteeseen. Mitään ei lähetetä palvelimelle. Asenna AJOURA puhelimen kotivalikkoon: selain voi muuten poistaa tiedot, jos sivulla ei käydä pitkään aikaan. Ota myös varmuuskopio.': 'Your cars, entries and name are stored on this device only. Nothing is sent to a server. Add AJOURA to your home screen: otherwise the browser may delete the data if the page isn’t visited for a long time. Make a backup too.',
     'Kokeilussa tiedot ovat vain tämän sivun muistissa ja nollautuvat päivityksessä. Asennettu sovellus muistaa ne puhelimessasi.': 'In the demo, data lives only in this page’s memory and is reset on reload. The installed app remembers it on your phone.',
     'Poista kaikki tiedot': 'Delete all data',
 
     // Validation errors and notices
+    'Syötä nykyinen mittarilukema.': 'Enter the current odometer reading.', 'Simuloitu haku: toimii vain kuvitteellisilla esimerkkitunnuksilla.': 'Simulated lookup: works only with fictional sample plates.',
     'Tarkista rekisteritunnus.': 'Check the licence plate.', 'Kirjoita merkki ja malli.': 'Enter the make and model.', 'Tarkista mittarilukema.': 'Check the odometer reading.',
     'Tarkista valinnat.': 'Check your selections.', '✓ Tiedot päivitetty.': '✓ Details updated.',
     'Osaa tiedostoista ei voitu avata. Valitse kuvatiedostoja.': 'Some files couldn’t be opened. Choose image files.', 'Enintään 12 kpl per tapahtuma.': 'Up to 12 per event.',
@@ -184,6 +186,7 @@
     'Rekisterihaku ei löytänyt autoani.': 'The plate lookup didn’t find my car.',
     'Rekisterihaku on vielä esimerkkiaineistoon perustuva demo. Valitse Syötä tiedot itse, niin pääset jatkamaan.': 'The plate lookup is still a demo based on sample data. Choose Enter details yourself to continue.',
     'Tallentuvatko tietoni?': 'Is my data saved?',
+    'Tiedot tallentuvat vain tähän laitteeseen, myös selaimessa. Asenna sovellus kotivalikkoon ja ota välillä varmuuskopio, koska selain voi poistaa pitkään käyttämättömän sivun tiedot.': 'Data is stored on this device only, in the browser too. Add the app to your home screen and make a backup now and then, because a browser may delete data of a page that hasn’t been used for a long time.',
     'Asennetussa sovelluksessa tiedot tallentuvat vain tähän laitteeseen. Selaimen demotilassa tiedot nollautuvat, kun sivu päivitetään.': 'In the installed app, data is stored on this device only. In the browser demo, data is reset when the page reloads.',
     'Siirtyvätkö tiedot uuteen puhelimeen?': 'Will my data move to a new phone?',
     'Kyllä, varmuuskopiolla. Minä → Tallenna varmuuskopio tallentaa tiedot tiedostoon. Siirrä tiedosto uuteen puhelimeen ja valitse siellä Palauta varmuuskopio.': 'Yes, with a backup. Me → Save backup stores your data in a file. Move the file to the new phone and choose Restore backup there.',
@@ -221,6 +224,7 @@
     'Siirry sovellusdemoon': 'Skip to the app demo', '← Takaisin AJOURAan': '← Back to AJOURA', 'Ajouran etusivu': 'AJOURA home page', 'INTERAKTIIVINEN DEMO': 'INTERACTIVE DEMO',
     'Asenna puhelimeen': 'Install on phone', 'AJOURA APP / KONSEPTI 01': 'AJOURA APP / CONCEPT 01', 'Autosi historia.': 'Your car’s history.', 'Omissa käsissäsi.': 'In your own hands.',
     'Tämä puhelin toimii.': 'This phone works.', 'Avaa AJOURA, kerro nimesi ja lisää oma autosi rekisteritunnuksella tai käsin. Valitse korimalli ja väri, ja aloita auton oma päiväkirja.': 'Open AJOURA, tell it your name and add your car by licence plate or by hand. Pick the body style and colour, and start the car’s own logbook.',
+    'Talli on aluksi tyhjä. Rekisterihaku on simuloitu kuvitteellisilla esimerkkiautoilla. Tiedot säilyvät tällä laitteella; asennettuna ne ovat parhaassa turvassa.': 'The garage starts empty. The plate lookup is simulated with fictional sample cars. Data stays on this device; it is safest in the installed app.',
     'Turvallinen kokeilla.': 'Safe to try.', 'Talli on aluksi tyhjä. Rekisterihaku on simuloitu kuvitteellisilla esimerkkiautoilla. Kokeilussa tiedot säilyvät vain sivun ollessa auki; asennettu sovellus muistaa ne puhelimessasi.': 'The garage starts empty. The plate lookup is simulated with fictional example cars. In the demo, data is kept only while the page is open; the installed app remembers it on your phone.',
     'Ajouran puhelindemo': 'AJOURA phone demo', 'Siirry puhelimen aloitusnäyttöön': 'Go to the phone’s home screen', 'Ota JavaScript käyttöön': 'Turn on JavaScript',
     'Interaktiivinen demo tarvitsee JavaScriptin.': 'The interactive demo needs JavaScript.', 'Palaa Ajouran esittelyyn.': 'Back to the AJOURA overview.',

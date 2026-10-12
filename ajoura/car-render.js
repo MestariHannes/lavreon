@@ -226,7 +226,7 @@
       (p.old ? `<rect x="${(X(0) - 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/><rect x="${(X(p.L) - 0.42 * k + 2).toFixed(1)}" y="${(Y(p.yb + 0.22) - 2).toFixed(1)}" width="${(0.42 * k).toFixed(1)}" height="5" rx="2" fill="#d9dee4" stroke="#8b95a0" stroke-width=".8"/>` : '') +
       (p.spare ? `<rect x="${(X(p.L) - 1).toFixed(1)}" y="${(Y(p.tailY + 0.38)).toFixed(1)}" width="${(0.2 * k).toFixed(1)}" height="${(0.62 * k).toFixed(1)}" rx="${(0.08 * k).toFixed(1)}" fill="#1d232a"/>` : '') +
       wheel(X(p.xf), wy, r, id) + wheel(X(p.xr), wy, r, id) +
-      `</g>` + (s.img && s.form ? photo(s.img, c, s.form) : '') + `</svg>`;
+      `</g>` + (s.img && (s.dimsOf || s.form) ? photo(s.img, c, s.dimsOf || s.form) : '') + `</svg>`;
   }
 
   // Model drawings made with an image generator (white car on white, facing right). The drawn car stays as the
@@ -238,7 +238,7 @@
   // Removes the white background, finds the wheels and works out how strongly each pixel takes the paint colour.
   const prepare = (url, d) => {
     if (!bases.has(url)) bases.set(url, load(url).then(im => {
-      const w = 560, h = Math.round(im.naturalHeight * w / im.naturalWidth), cv = document.createElement('canvas');
+      const w = Math.min(840, im.naturalWidth), h = Math.round(im.naturalHeight * w / im.naturalWidth), cv = document.createElement('canvas');
       cv.width = w; cv.height = h;
       const cx = cv.getContext('2d', { willReadFrequently: true });
       cx.drawImage(im, 0, 0, w, h);
@@ -256,6 +256,14 @@
         if (x < w - 1) push(i + 1);
         if (i >= w) push(i - w);
         if (i < n - w) push(i + w);
+      }
+      // Soften the cut-out edge: light pixels next to the removed background become partly transparent.
+      for (let i = 0; i < n; i++) {
+        if (seen[i]) continue;
+        const x = i % w;
+        if (!((x > 0 && seen[i - 1]) || (x < w - 1 && seen[i + 1]) || (i >= w && seen[i - w]) || (i < n - w && seen[i + w]))) continue;
+        const mn = Math.min(px[i * 4], px[i * 4 + 1], px[i * 4 + 2]);
+        if (mn > 170) px[i * 4 + 3] = Math.round(255 * Math.max(0.15, (245 - mn) / 75));
       }
       let x0 = w, y0 = h, x1 = -1, y1 = -1;
       for (let i = 0; i < n; i++) if (px[i * 4 + 3]) { const x = i % w, y = (i - x) / w; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
@@ -327,5 +335,8 @@
     ['Sininen', '#1e4f9c'], ['Punainen', '#a8232d'], ['Vihreä', '#2f5b45'], ['Beige', '#c8b79a']
   ];
   window.AjouraCar = { render, hydrate, bodies: Object.keys(dims), names, colors };
-  document.querySelectorAll('[data-car-render]').forEach(el => { el.innerHTML = render(el.dataset.carRender, el.dataset.color, el.dataset.label, { size: el.dataset.size, year: el.dataset.year }); });
+  document.querySelectorAll('[data-car-render]').forEach(el => {
+    const d = String(el.dataset.d || '').split(',').map(Number), form = d.length === 4 && d.every(n => n > 0) ? { L: d[0], WB: d[1], fo: d[2], wd: d[3] } : undefined;
+    el.innerHTML = render(el.dataset.carRender, el.dataset.color, el.dataset.label, { size: el.dataset.size, year: el.dataset.year, img: form && el.dataset.img, dimsOf: form });
+  });
 })();
