@@ -279,6 +279,7 @@
   });
   // Fuel log and first-run tutorial
   Object.assign(D, {
+    'Hae merkki tai malli': 'Search make or model', 'Esim. Volvo tai Octavia': 'E.g. Volvo or Octavia', 'Hakutulokset': 'Search results', '· kaikki mallit': '· all models', 'Ei osumia. Valitse alta “Muu merkki…”.': 'No matches. Choose “Other make…” below.',
     'Muistiinpanot': 'Notes', 'Esim. renkaiden koot, hallipaikka, varaosanumerot…': 'E.g. tyre sizes, parking spot, part numbers…', 'Tallentuu automaattisesti tähän laitteeseen.': 'Saved automatically on this device.', 'Demossa muistiinpanot eivät tallennu.': 'Notes are not saved in the demo.',
     'Tankkauskirja': 'Fuel log', 'Latauskirja': 'Charging log', 'Tankkauskirja.': 'Fuel log.',
     'Kirjaa tankkaukset tai lataukset. AJOURA laskee keskikulutuksen täysien tankkausten väliltä ja kertoo, paljon ajaminen maksaa.': 'Log fill-ups or charges. AJOURA works out average consumption between full tanks and shows what driving costs.',
