@@ -1,3 +1,9 @@
+# AJOURA has moved
+
+AJOURA now lives in its own repository, MestariHannes/Ajoura (https://mestarihannes.github.io/Ajoura/), since 12 October 2026. `index.html` and `app.html` here only redirect there, and `sw.js` unregisters the old service worker. The other files are the last version before the move.
+
+---
+
 # AJOURA — independent product and interactive prototype
 
 ## Existing concept and scope
