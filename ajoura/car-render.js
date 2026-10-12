@@ -231,7 +231,7 @@
 
   // Model drawings made with an image generator (white car on white, facing right). The drawn car stays as the
   // fallback until the drawing has loaded; then the background is cut out and the body tinted to the chosen colour.
-  const photo = (url, c, f) => `<image class="car-photo" x="16" y="22" width="368" height="130" preserveAspectRatio="xMidYMax meet" opacity="0" ` +
+  const photo = (url, c, f) => `<image class="car-model-img" x="16" y="22" width="368" height="130" preserveAspectRatio="xMidYMax meet" opacity="0" ` +
     `data-src="${String(url).replace(/"/g, '')}" data-c="${c}" data-d="${[f.L, f.WB, f.fo, f.wd].join(',')}"/>`;
   const bases = new Map(), tints = new Map();
   const load = url => new Promise((ok, fail) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => ok(im); im.onerror = fail; im.src = url; });
@@ -307,7 +307,7 @@
   };
   const hydrate = root => {
     if (!root.querySelectorAll) return;
-    root.querySelectorAll('image.car-photo[data-src]:not([data-done])').forEach(el => {
+    root.querySelectorAll('image.car-model-img[data-src]:not([data-done])').forEach(el => {
       el.setAttribute('data-done', '1');
       tinted(el.dataset.src, el.dataset.d, el.dataset.c).then(src => {
         el.setAttribute('href', src);
