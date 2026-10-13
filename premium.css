@@ -332,3 +332,9 @@
 /* Quiet scroll reveal, added by site.js only when motion is welcome. */
 .reveal-ready .reveal { opacity: 0; transform: translateY(22px); transition: opacity 800ms ease, transform 900ms cubic-bezier(.2, .8, .2, 1); transition-delay: var(--reveal-delay, 0ms); }
 .reveal-ready .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Direct link to the phone app under the hero buttons. */
+.hero-app-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 22px; padding: 6px 16px 6px 6px; border: 1px solid #b8a06a55; border-radius: 999px; background: #b8a06a0d; color: #d4c08f; font-size: 13px; letter-spacing: .04em; transition: background 220ms ease, border-color 220ms ease; }
+.hero-app-link:hover { background: #b8a06a1f; border-color: #d4c08f; }
+.hero-app-badge { padding: 5px 10px; border-radius: 999px; background: #b8a06a; color: #0a0b0d; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.nav-arrow { margin-left: 6px; color: #d4c08f; }

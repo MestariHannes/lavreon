@@ -334,5 +334,7 @@ Object.assign(window.LAVREON_FI, {
   'LAVREON app preview. Tap Unlock to try it.': 'LAVREON-sovelluksen esikatselu. Kokeile napauttamalla Avaa.',
   'Try it here · tap Unlock': 'Kokeile tässä · napauta Avaa',
   'LAVREON app · Demo': 'LAVREON-sovellus · Demo',
-  'Open the phone app': 'Avaa puhelinsovellus'
+  'Open the phone app': 'Avaa puhelinsovellus',
+  'New': 'Uutta',
+  'Open the LAVREON app': 'Avaa LAVREON-sovellus'
 });
