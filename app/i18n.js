@@ -54,7 +54,7 @@ window.LAVREON_APP_FI = {
   'Demo: no notifications are sent from this app.': 'Demo: sovellus ei lähetä ilmoituksia.', 'App': 'Sovellus',
   'Install on your phone': 'Asenna puhelimeen', 'Installed on this device': 'Asennettu tähän laitteeseen', 'Add LAVREON to your home screen': 'Lisää LAVREON kotivalikkoon',
   'Client portal on a computer': 'Asiakasportaali tietokoneella', 'Visit public website': 'Siirry julkiselle sivustolle',
-  'About this demo': 'Tietoa demosta', 'Disclaimer and data': 'Vastuuvapaus ja tiedot', 'Reset demo': 'Nollaa demo', 'Clear reviews, messages and preferences': 'Tyhjennä läpikäynnit, viestit ja asetukset',
+  'About this demo': 'Tietoa demosta', 'Disclaimer and data': 'Vastuuvapaus ja tiedot', 'Reset demo': 'Nollaa demo', 'Clear reviews, messages and preferences': 'Tyhjennä läpikäynnit, viestit ja asetukset', 'Clear reviews, messages, requests and preferences': 'Tyhjennä läpikäynnit, viestit, pyynnöt ja asetukset',
   'App prototype': 'Sovellusprototyyppi', 'All content is fictional sample data.': 'Kaikki sisältö on kuvitteellista esimerkkidataa.',
   'On': 'Päällä', 'Off': 'Pois',
 
@@ -98,7 +98,7 @@ window.LAVREON_APP_FI = {
   'There is no account, authentication or connection to any financial service. Unlock is simulated.': 'Tiliä, tunnistautumista tai yhteyttä mihinkään rahoituspalveluun ei ole. Avaus on simuloitu.',
   'Preferences, reviews and demo messages are stored only in this browser.': 'Asetukset, läpikäynnit ja demoviestit tallentuvat vain tähän selaimeen.',
   'Nothing here is investment, legal, insurance or tax advice.': 'Mikään tässä ei ole sijoitus-, laki-, vakuutus- tai veroneuvontaa.',
-  'Reset demo?': 'Nollataanko demo?', 'This clears reviewed items, your demo messages and preferences on this device.': 'Tämä tyhjentää läpikäydyt kohteet, demoviestisi ja asetukset tästä laitteesta.',
+  'Reset demo?': 'Nollataanko demo?', 'This clears reviewed items, your demo messages, requests and preferences on this device.': 'Tämä tyhjentää läpikäydyt kohteet, demoviestisi, pyyntösi ja asetukset tästä laitteesta.',
   'Cancel': 'Peruuta', 'Demo reset': 'Demo nollattu',
 
   // Lock screen
@@ -113,5 +113,38 @@ window.LAVREON_APP_FI = {
   'Hide balances with the eye': 'Piilota saldot silmästä',
   'Message your office or add a meeting to your calendar': 'Lähetä viesti toimistolle tai lisää tapaaminen kalenteriin',
   'Fictional sample data. No account, no live prices and no advice.': 'Kuvitteellista esimerkkidataa. Ei tiliä, ei reaaliaikaisia hintoja eikä neuvontaa.',
-  '← Back to LAVREON': '← Takaisin LAVREONiin'
+  '← Back to LAVREON': '← Takaisin LAVREONiin',
+
+  // Research requests
+  'Research requests': 'Tutkimuspyynnöt', '{used} of {total} this month': '{used}/{total} tässä kuussa',
+  'Received': 'Vastaanotettu', 'Scoped': 'Rajattu', 'In research': 'Tutkittavana', 'Delivered': 'Toimitettu',
+  'Needed by': 'Tarvitaan', '1 week': '1 viikko', '2 weeks': '2 viikkoa', '1 month': '1 kuukausi',
+  'Quick answer': 'Pikavastaus', 'Deep brief': 'Syväanalyysi', 'Sent': 'Lähetetty', 'Depth': 'Laajuus', 'optional': 'valinnainen',
+  'Ask a research question': 'Esitä tutkimuskysymys',
+  'Quick answer or deep brief, with a date you need it by': 'Pikavastaus tai syväanalyysi, ja päivä, johon mennessä tarvitset sen',
+  'Sample allowance agreed in the mandate. Deep briefs are scoped with you first.': 'Esimerkkikiintiö on sovittu toimeksiannossa. Syväanalyysin laajuus sovitaan ensin kanssasi.',
+  'Your office has the question.': 'Toimistosi on vastaanottanut kysymyksen.',
+  'Scope, sources and depth are agreed.': 'Laajuus, lähteet ja syvyys on sovittu.',
+  'Sources are reviewed and checked by a person.': 'Lähteet käydään läpi ja ihminen tarkistaa ne.',
+  'The answer is in your documents and messages.': 'Vastaus on asiakirjoissasi ja viesteissäsi.',
+  'Answer from your office': 'Toimistosi vastaus',
+  'Demo: this request stays on this device and nobody receives it.': 'Demo: tämä pyyntö pysyy tällä laitteella, eikä kukaan vastaanota sitä.',
+  'Fictional sample request. No research has been carried out.': 'Kuvitteellinen esimerkkipyyntö. Tutkimusta ei ole tehty.',
+  'Your office turns it into evidence, interpretation and a clear next step.': 'Toimistosi muuttaa sen näytöksi, tulkinnaksi ja selkeäksi seuraavaksi askeleeksi.',
+  'Your question': 'Kysymyksesi', 'What do you need to understand or decide?': 'Mitä sinun tarvitsee ymmärtää tai päättää?',
+  'The decision, asset or deadline it relates to': 'Päätös, omaisuus tai määräaika, johon se liittyy',
+  'A short answer with sources': 'Lyhyt vastaus lähteineen', 'A scoped brief, counts as two': 'Rajattu analyysi, lasketaan kahdeksi',
+  'Send request': 'Lähetä pyyntö', 'Request sent · demo': 'Pyyntö lähetetty · demo',
+  'Demo: requests stay on this device and nobody receives them. Keep sensitive details out.': 'Demo: pyynnöt pysyvät tällä laitteella, eikä kukaan vastaanota niitä. Älä kirjoita arkaluonteisia tietoja.',
+  'Ask what it means for me': 'Kysy, mitä tämä tarkoittaa minulle',
+  'What could “{title}” mean for my priorities?': 'Mitä ”{title}” voisi tarkoittaa prioriteeteilleni?',
+  'About my request “{q}”: ': 'Pyynnöstäni ”{q}”: ',
+  'Is the property sum insured in line with the latest valuation?': 'Vastaako kiinteistön vakuutusmäärä viimeisintä arvonmääritystä?',
+  'How could more granular weather forecasts change property-risk planning?': 'Miten tarkemmat sääennusteet voisivat muuttaa kiinteistöriskien suunnittelua?',
+  'Prepare questions for the holding company board meeting.': 'Valmistele kysymykset holdingyhtiön hallituksen kokoukseen.',
+  'The real-estate register values the sample property at €2.88M against a sum insured of €2.10M. Ask the insurer for an updated valuation and renewal quote before the renewal date. This is a fictional answer derived from the sample data.': 'Kiinteistörekisteri arvostaa esimerkkikiinteistön 2,88 M€:oon, kun vakuutusmäärä on 2,10 M€. Pyydä vakuutusyhtiöltä päivitetty arvonmääritys ja uusimistarjous ennen uusimispäivää. Tämä on kuvitteellinen, esimerkkidatasta johdettu vastaus.',
+
+  // App tour film
+  'Watch the app tour': 'Katso esittelyvideo', 'A 30-second film of the app': '30 sekunnin video sovelluksesta',
+  'Start exploring': 'Aloita tutustuminen', 'Watch again': 'Katso uudelleen'
 };

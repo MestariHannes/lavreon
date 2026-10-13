@@ -24,12 +24,13 @@
     settings: {...defaults, ...(saved.settings || {})},
     reviewed: saved.reviewed && typeof saved.reviewed === 'object' ? saved.reviewed : {},
     sent: Array.isArray(saved.sent) ? saved.sent.filter(m => m && typeof m.text === 'string') : [],
+    requests: Array.isArray(saved.requests) ? saved.requests.filter(r => r && typeof r.question === 'string' && typeof r.at === 'string') : [],
     readMessages: saved.readMessages === true,
     tab: 'today', period: '1Y', intel: 'priorities', focus: null, hidden: false, locked: true
   };
   if (!['en', 'fi'].includes(state.lang)) state.lang = 'en';
   state.hidden = state.settings.hideOnLaunch;
-  const persist = () => write(STORE, JSON.stringify({settings: state.settings, reviewed: state.reviewed, sent: state.sent.slice(-40), readMessages: state.readMessages}));
+  const persist = () => write(STORE, JSON.stringify({settings: state.settings, reviewed: state.reviewed, sent: state.sent.slice(-40), requests: state.requests.slice(-20), readMessages: state.readMessages}));
 
   // ---------- language and formats ----------
   const fi = () => state.lang === 'fi';
@@ -84,6 +85,8 @@
     info: svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.4"/>'),
     reset: svg('<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v3.8h3.8"/>'),
     shield: svg('<path d="M12 3.5 19 6v5.5c0 4.3-2.9 7.6-7 9-4.1-1.4-7-4.7-7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>'),
+    play: svg('<path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/>'),
+    request: svg('<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5M10.5 8v5M8 10.5h5"/>'),
     portal: svg('<rect x="3" y="4.5" width="18" height="12.5" rx="2"/><path d="M9 20.5h6M12 17v3.5"/>'),
     up: svg('<path d="M7 17 17 7M9 7h8v8"/>'),
     home: svg('<path d="M4 11.2 12 4.8l8 6.4V20H4z"/>'),
@@ -266,6 +269,7 @@
       <button type="button" class="card msg-card press" data-act="messages">
         <span class="msg-top"><span class="office-avatar"><img src="${SYMBOL}" alt="" width="26" height="14"></span><span class="msg-who"><b>${T('Your office')}</b><small>${T('Private messages · demo')}</small></span>${unread ? `<span class="badge">${unread}</span>` : I.chevron}</span>
         <span class="msg-preview">${esc(messageText(last))}</span></button>
+      ${requestsSection()}
       ${head('Agenda', T('Sample agenda'))}
       <div class="list">${D.agenda.map(meetingRow).join('')}</div>
       ${head('Insurance', T('Illustrative sample'))}
@@ -302,10 +306,11 @@
       <h2 class="group-title">${T('App')}</h2>
       <div class="group">
         ${linkRow('download', 'Install on your phone', STANDALONE ? 'Installed on this device' : 'Add LAVREON to your home screen', {'data-act': 'install'})}
+        ${linkRow('play', 'Watch the app tour', 'A 30-second film of the app', {'data-act': 'tour'})}
         ${linkRow('portal', 'Client portal on a computer', '', {href: '../dashboard.html', target: '_top'})}
         ${linkRow('globe', 'Visit public website', '', {href: '../index.html', target: '_top'})}
         ${linkRow('info', 'About this demo', 'Disclaimer and data', {'data-act': 'about'})}
-        ${linkRow('reset', 'Reset demo', 'Clear reviews, messages and preferences', {'data-act': 'reset'})}
+        ${linkRow('reset', 'Reset demo', 'Clear reviews, messages, requests and preferences', {'data-act': 'reset'})}
       </div>
       <p class="version"><img src="${SYMBOL}" alt="" width="40" height="22"><br>LAVREON · ${T('App prototype')} 01<br>${T('All content is fictional sample data.')}</p>
     </div>`;
@@ -339,6 +344,64 @@
         <button type="submit" class="send" aria-label="${T('Send')}">${I.send}</button></form>`;
   }
 
+  // ---------- research requests ----------
+  const REQUEST_STAGES = ['Received', 'Scoped', 'In research', 'Delivered'];
+  const NEEDED = [['7', '1 week'], ['14', '2 weeks'], ['30', '1 month']];
+  // Sample requests come from data.js; requests sent in this demo are kept in this browser and stay at "Received".
+  function allRequests() {
+    const mine = state.requests.map((r, i) => {
+      const sent = new Date(r.at); sent.setHours(12, 0, 0, 0);
+      const day = Math.round((sent - shift()) / 864e5);
+      return {id: `mine-${i}`, question: r.question, why: r.why || '', depth: r.depth, day, due: day + r.days, stage: 0, mine: true};
+    });
+    return [...mine.reverse(), ...D.requests.items];
+  }
+  const requestRow = r => `<button type="button" class="row press" data-act="request" data-id="${r.id}"><span class="row-icon">${r.stage === 3 ? I.check : I.request}</span>
+    <span class="row-main"><b class="clamp">${r.mine ? esc(r.question) : T(r.question)}</b><small>${T(r.depth)} · ${r.stage === 3 ? T('Delivered') : `${T('Needed by')} ${esc(fmt(shift(r.due), 'short'))}`}</small></span>
+    <span class="row-end"><span class="stage-track" aria-label="${T(REQUEST_STAGES[r.stage])}">${REQUEST_STAGES.map((_, i) => `<i${i <= r.stage ? ' class="on"' : ''}></i>`).join('')}</span><small>${T(REQUEST_STAGES[r.stage])}</small></span></button>`;
+  function requestsSection() {
+    const items = allRequests();
+    const used = items.filter(r => r.day > -30).reduce((sum, r) => sum + (r.depth === 'Deep brief' ? 2 : 1), 0), allowance = D.requests.allowance;
+    return `${head('Research requests', tf('{used} of {total} this month', {used, total: allowance}))}
+      <div class="allowance" aria-hidden="true"><i style="width:${Math.min(100, Math.round(used / allowance * 100))}%"></i></div>
+      <div class="list">${items.slice(0, 4).map(requestRow).join('')}
+        <button type="button" class="row press new-request" data-act="new-request"><span class="row-icon">${I.message}</span><span class="row-main"><b>${T('Ask a research question')}</b><small>${T('Quick answer or deep brief, with a date you need it by')}</small></span>${I.chevron}</button></div>
+      <p class="group-note">${T('Sample allowance agreed in the mandate. Deep briefs are scoped with you first.')}</p>`;
+  }
+  function requestSheet(r) {
+    const steps = REQUEST_STAGES.map((stage, i) => `<li class="${i < r.stage ? 'past' : i === r.stage ? 'now' : 'next'}"><span class="step-dot">${i < r.stage ? I.check : i + 1}</span><div><span class="step-label">${T(stage)}</span><p>${T(['Your office has the question.', 'Scope, sources and depth are agreed.', 'Sources are reviewed and checked by a person.', 'The answer is in your documents and messages.'][i])}</p></div></li>`).join('');
+    return `<div class="sheet-meta"><span class="chip chip-deadline">${T(r.depth)}</span><span class="meta">${T('Sent')} ${esc(fmt(shift(r.day), 'short'))}</span></div>
+      <h2 class="sheet-title">${r.mine ? esc(r.question) : T(r.question)}</h2>
+      ${r.why ? `<div class="why"><span class="step-label">${T('Why it matters')}</span><p>${esc(r.why)}</p></div>` : ''}
+      ${r.stage === 3 ? `<div class="paper"><span class="paper-label">${T('Answer from your office')}</span><p>${T(r.answer)}</p></div>` : `<div class="countdown"><span>${T('Needed by')}</span><b>${esc(fmt(shift(r.due)))}</b><small>${esc(relative(r.due))}</small></div>`}
+      <ol class="steps request-steps">${steps}</ol>
+      <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-act="ask-request" data-id="${r.id}">${I.message}${T('Message the office')}</button></div>
+      <p class="footnote">${r.mine ? T('Demo: this request stays on this device and nobody receives it.') : T('Fictional sample request. No research has been carried out.')}</p>`;
+  }
+  function newRequestSheet(prefill = '') {
+    const depth = (value, label, note, checked) => `<label class="choice"><input type="radio" name="depth" value="${value}"${checked ? ' checked' : ''}><span><b>${T(label)}</b><small>${T(note)}</small></span></label>`;
+    return `<h2 class="sheet-title">${T('Ask a research question')}</h2>
+      <p class="sheet-text">${T('Your office turns it into evidence, interpretation and a clear next step.')}</p>
+      <form class="request-form" data-form="request" autocomplete="off">
+        <label class="field"><span>${T('Your question')}</span><textarea name="question" rows="3" maxlength="300" required placeholder="${T('What do you need to understand or decide?')}">${esc(prefill)}</textarea></label>
+        <label class="field"><span>${T('Why it matters')} <small>${T('optional')}</small></span><textarea name="why" rows="2" maxlength="300" placeholder="${T('The decision, asset or deadline it relates to')}"></textarea></label>
+        <fieldset class="field"><legend>${T('Depth')}</legend><div class="choices">${depth('Quick answer', 'Quick answer', 'A short answer with sources', true)}${depth('Deep brief', 'Deep brief', 'A scoped brief, counts as two', false)}</div></fieldset>
+        <fieldset class="field"><legend>${T('Needed by')}</legend><div class="segmented" role="radiogroup">${NEEDED.map(([days, label], i) => `<label class="seg-radio"><input type="radio" name="days" value="${days}"${i === 1 ? ' checked' : ''}><span>${T(label)}</span></label>`).join('')}</div></fieldset>
+        <button type="submit" class="btn btn-primary">${I.send}${T('Send request')}</button>
+      </form>
+      <p class="footnote">${T('Demo: requests stay on this device and nobody receives them. Keep sensitive details out.')}</p>`;
+  }
+  function sendRequest(form) {
+    const data = new FormData(form);
+    const question = String(data.get('question') || '').trim();
+    if (!question) { form.querySelector('textarea').focus(); return; }
+    state.requests.push({question: question.slice(0, 300), why: String(data.get('why') || '').trim().slice(0, 300), depth: data.get('depth') === 'Deep brief' ? 'Deep brief' : 'Quick answer', days: Number(data.get('days')) || 14, at: new Date().toISOString()});
+    persist(); buzz();
+    closeSheet();
+    refresh();
+    toast(t('Request sent · demo'));
+  }
+
   // ---------- sheets ----------
   const STAGES = ['Data', 'Context', 'Intelligence', 'Action'];
   function prioritySheet(p) {
@@ -358,7 +421,8 @@
       <h2 class="sheet-title">${T(s.title)}</h2>
       <p class="sheet-text">${T(s.summary)}</p>
       <div class="why"><span class="step-label">${T('Why it matters')}</span><p>${T(s.why)}</p></div>
-      <a class="btn btn-ghost" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${T('Read the source')} · ${esc(s.source)} ${I.arrow}</a>
+      <div class="sheet-actions"><a class="btn btn-ghost" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${T('Read the source')} · ${esc(s.source)} ${I.arrow}</a>
+      <button type="button" class="btn btn-ghost" data-act="new-request" data-id="${s.id}">${I.request}${T('Ask what it means for me')}</button></div>
       <p class="footnote">${T('Publication date is real. The implication is a LAVREON interpretation, not a prediction or advice.')}</p>`;
   }
   function meetingSheet(m) {
@@ -420,7 +484,7 @@
       <li>${T('Nothing here is investment, legal, insurance or tax advice.')}</li></ul>`;
   }
   function resetSheet() {
-    return `<h2 class="sheet-title">${T('Reset demo?')}</h2><p class="sheet-text">${T('This clears reviewed items, your demo messages and preferences on this device.')}</p>
+    return `<h2 class="sheet-title">${T('Reset demo?')}</h2><p class="sheet-text">${T('This clears reviewed items, your demo messages, requests and preferences on this device.')}</p>
       <div class="sheet-actions"><button type="button" class="btn btn-primary" data-act="reset-confirm">${T('Reset demo')}</button><button type="button" class="btn btn-ghost" data-act="close">${T('Cancel')}</button></div>`;
   }
 
@@ -436,7 +500,8 @@
     <div class="sheet-layer" hidden><div class="scrim" data-act="close"></div>
       <div class="sheet" role="dialog" aria-modal="true" tabindex="-1"><div class="sheet-grip"><span></span></div>
       <button type="button" class="sheet-close" data-act="close"></button><div class="sheet-body"></div></div></div>
-    <div class="lock" hidden></div>`;
+    <div class="lock" hidden></div>
+    <div class="tour" hidden role="dialog" aria-modal="true"></div>`;
   const $ = selector => root.querySelector(selector);
   const tabbar = $('.tabbar'), layer = $('.sheet-layer'), sheet = $('.sheet'), sheetBody = $('.sheet-body'), lock = $('.lock'), banner = $('.banner'), toastEl = $('.toast');
 
@@ -605,11 +670,39 @@
     toast(t('Calendar file downloaded'));
   }
 
+  // ---------- app tour film ----------
+  // A 33-second screen recording of the demo (app/media, MP4 with a WebM fallback), one per language. Opened from the lock screen and Profile.
+  const tourEl = $('.tour');
+  let tourFocus = null;
+  function openTour() {
+    tourFocus = document.activeElement;
+    const lang = fi() ? 'fi' : 'en';
+    tourEl.setAttribute('aria-label', t('Watch the app tour'));
+    tourEl.innerHTML = `<video class="tour-video" poster="media/tour-poster-${lang}.jpg" playsinline muted autoplay controls preload="auto"><source src="media/lavreon-app-tour-${lang}.mp4?v=tour-1" type="video/mp4"><source src="media/lavreon-app-tour-${lang}.webm?v=tour-1" type="video/webm"></video>
+      <button type="button" class="tour-close" data-act="tour-close" aria-label="${T('Close')}">${I.close}</button>
+      <div class="tour-end" hidden><button type="button" class="btn btn-primary" data-act="tour-close">${T('Start exploring')}</button><button type="button" class="btn btn-ghost" data-act="tour-replay">${I.reset}${T('Watch again')}</button></div>`;
+    const video = tourEl.querySelector('video');
+    video.addEventListener('ended', () => { video.controls = false; tourEl.querySelector('.tour-end').hidden = false; tourEl.classList.add('ended'); });
+    tourEl.hidden = false;
+    requestAnimationFrame(() => tourEl.classList.add('open'));
+    video.play?.().catch(() => {});
+    setTimeout(() => tourEl.querySelector('.tour-close').focus({preventScroll: true}), 60);
+  }
+  function closeTour() {
+    if (tourEl.hidden) return;
+    tourEl.querySelector('video')?.pause();
+    tourEl.classList.remove('open', 'ended');
+    setTimeout(() => { tourEl.hidden = true; tourEl.innerHTML = ''; }, motion() ? 300 : 0);
+    if (tourFocus && root.contains(tourFocus)) tourFocus.focus({preventScroll: true});
+  }
+  tourEl.addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); closeTour(); } });
+
   // ---------- lock screen ----------
   function renderLock() {
     lock.innerHTML = `<div class="lock-top"><img class="lock-symbol" src="${SYMBOL}" alt="" width="148" height="80"><p class="lock-word">LAVREON</p><p class="lock-sub">${T('PRIVATE INTELLIGENCE OFFICE')}</p></div>
       <div class="lock-bottom"><p class="lock-greet">${T('Welcome back')}, <em>${esc(D.client.name)}.</em></p>
       <button type="button" class="unlock" data-act="unlock"><span class="faceid">${I.faceid}<svg class="scan-ring" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="34" pathLength="1"/></svg>${I.check.replace('<svg', '<svg class="unlock-check"')}</span><span class="unlock-label">${T('Unlock')}</span></button>
+      <button type="button" class="tour-link" data-act="tour">${I.play}<span>${T('Watch the app tour')}</span><small>0:33</small></button>
       <p class="lock-note">${T('Demo · biometric unlock is simulated. No account is signed in.')}</p></div>`;
   }
   let unlocking = false;
@@ -707,7 +800,7 @@
     reset: () => openSheet(resetSheet, {label: t('Reset demo?')}),
     'reset-confirm': () => {
       try { localStorage.removeItem(STORE); } catch {}
-      Object.assign(state, {settings: {...defaults}, reviewed: {}, sent: [], readMessages: false, focus: null, period: '1Y', intel: 'priorities', hidden: false});
+      Object.assign(state, {settings: {...defaults}, reviewed: {}, sent: [], requests: [], readMessages: false, focus: null, period: '1Y', intel: 'priorities', hidden: false});
       replied = false;
       closeSheet();
       renderAll();
@@ -721,9 +814,20 @@
     },
     ask: el => { const p = priority(el.dataset.id); closeSheet(); setTimeout(() => openMessages(tf('Could we look at this together: “{title}”?', {title: t(p.title)})), motion() ? 360 : 0); },
     'ask-meeting': el => { const m = D.agenda.find(x => x.id === el.dataset.id); closeSheet(); setTimeout(() => openMessages(tf('About the {title} on {date}: ', {title: t(m.title).toLowerCase(), date: fmt(shift(m.day), 'short')})), motion() ? 360 : 0); },
+    request: el => { const r = allRequests().find(x => x.id === el.dataset.id); if (r) openSheet(() => requestSheet(r), {label: r.mine ? r.question : t(r.question)}); },
+    'new-request': el => {
+      const signal = D.signals.find(x => x.id === el.dataset.id);
+      const prefill = signal ? tf('What could “{title}” mean for my priorities?', {title: t(signal.title)}) : '';
+      const open = () => openSheet(() => newRequestSheet(prefill), {label: t('Ask a research question')});
+      if (sheetOpen) { closeSheet(); setTimeout(open, motion() ? 360 : 0); } else open();
+    },
+    'ask-request': el => { const r = allRequests().find(x => x.id === el.dataset.id); closeSheet(); setTimeout(() => openMessages(tf('About my request “{q}”: ', {q: r.mine ? r.question : t(r.question)})), motion() ? 360 : 0); },
     ics: el => downloadIcs(D.agenda.find(x => x.id === el.dataset.id)),
     lang: el => { state.lang = el.dataset.lang; write('lavreon-language', state.lang); renderAll(); rerenderSheet(); },
     unlock: () => unlock(),
+    tour: () => { if (sheetOpen) closeSheet(); openTour(); },
+    'tour-close': () => closeTour(),
+    'tour-replay': () => { const video = tourEl.querySelector('video'); tourEl.querySelector('.tour-end').hidden = true; tourEl.classList.remove('ended'); video.controls = true; video.currentTime = 0; video.play().catch(() => {}); },
     close: () => closeSheet()
   };
   document.addEventListener('click', e => {
@@ -741,7 +845,10 @@
     if (key === 'notifyPriority') renderView('today');
     toast(t(e.target.checked ? 'On' : 'Off') + ' · ' + t({hideOnLaunch: 'Hide balances on launch', requireUnlock: 'Biometric unlock', notifyPriority: 'Priority alerts', notifyBrief: 'Weekly intelligence brief'}[key]));
   });
-  root.addEventListener('submit', e => { if (e.target.dataset.form === 'message') { e.preventDefault(); sendMessage(e.target); } });
+  root.addEventListener('submit', e => {
+    if (e.target.dataset.form === 'message') { e.preventDefault(); sendMessage(e.target); }
+    if (e.target.dataset.form === 'request') { e.preventDefault(); sendRequest(e.target); }
+  });
   root.addEventListener('input', e => { if (e.target.matches('.composer textarea')) autosize(e.target); });
   root.addEventListener('keydown', e => { if (e.target.matches('.composer textarea') && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); sendMessage(e.target.form); } });
   // Language buttons on the desktop presentation beside the phone.

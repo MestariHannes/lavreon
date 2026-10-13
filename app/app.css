@@ -77,6 +77,8 @@ html.mode-device .device-screen::after { content: ''; position: absolute; z-inde
 .stage-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
 .stage-button { min-height: 46px; padding: 0 22px; border: 0; border-radius: 2px; background: var(--text); color: var(--bg); font-size: 13px; font-weight: 600; letter-spacing: .04em; transition: background .2s; }
 .stage-button:hover { background: var(--gold-2); }
+.stage-button-ghost { border: 1px solid var(--gold-line); background: transparent; color: var(--gold-2); }
+.stage-button-ghost:hover { background: var(--gold-soft); }
 .stage-lang { display: inline-flex; border: 1px solid var(--line-2); border-radius: 2px; }
 .stage-lang button { min-width: 44px; min-height: 44px; border: 0; background: none; color: var(--muted); font-size: 12px; letter-spacing: .12em; }
 .stage-lang button[aria-pressed="true"] { color: var(--gold-2); background: var(--gold-soft); }
@@ -455,3 +457,49 @@ html.mode-device .lock, html.mode-embed .lock { padding-top: calc(var(--safe-top
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Research requests: allowance meter, status track and the request form. */
+.allowance { height: 3px; margin: -4px 2px 12px; border-radius: 2px; background: var(--s4); overflow: hidden; }
+.allowance i { display: block; height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-2)); }
+.stage-track { display: inline-flex; gap: 3px; }
+.stage-track i { width: 10px; height: 3px; border-radius: 2px; background: var(--s4); }
+.stage-track i.on { background: var(--gold); }
+.new-request .row-main b { color: var(--gold-2); }
+.request-steps li.next .step-dot { border-color: var(--line-2); color: var(--faint); }
+.request-steps li.next p, .request-steps li.next .step-label { color: var(--faint); }
+.request-steps li.past .step-dot { border-color: var(--gold-line); background: var(--gold-soft); }
+.request-steps li.past .step-dot svg { width: 14px; height: 14px; }
+.request-steps li.now .step-dot { border-color: var(--gold); background: var(--gold); color: #0a0b0d; }
+.request-steps li:last-child:not(.now) .step-dot { background: transparent; }
+.request-steps li:last-child.next .step-dot { border-color: var(--line-2); color: var(--faint); }
+.request-form { display: grid; gap: 16px; margin: 6px 0 4px; }
+.field { display: grid; gap: 7px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.field > span, .field > legend { padding: 0; color: var(--gold); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; }
+.field > span small { color: var(--faint); letter-spacing: .08em; }
+.field textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--s2); font-size: 16px; line-height: 1.4; resize: none; outline: none; }
+.field textarea:focus { border-color: var(--gold-line); }
+.field textarea::placeholder { color: var(--faint); }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.choice { position: relative; display: block; cursor: pointer; }
+.choice input, .seg-radio input { position: absolute; opacity: 0; pointer-events: none; }
+.choice span { display: block; height: 100%; padding: 12px 13px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--s1); transition: border-color .2s, background .2s; }
+.choice b { display: block; font-weight: 400; font-size: 14.5px; }
+.choice small { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+.choice input:checked + span { border-color: var(--gold); background: var(--gold-soft); }
+.choice input:focus-visible + span, .seg-radio input:focus-visible + span { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.field .segmented { margin: 0; }
+.seg-radio { flex: 1; position: relative; display: flex; cursor: pointer; }
+.seg-radio span { flex: 1; display: grid; place-items: center; min-height: 34px; border-radius: 10px; color: var(--muted); font-size: 13px; transition: background .2s, color .2s; }
+.seg-radio input:checked + span { background: var(--s4); color: var(--text); }
+
+/* App tour film: a full-screen player above the lock screen. */
+.tour-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: none; color: var(--gold-2); font-size: 13.5px; }
+.tour-link svg { width: 14px; height: 14px; }
+.tour-link small { color: var(--faint); font-size: 12px; font-variant-numeric: tabular-nums; }
+.tour { position: absolute; inset: 0; z-index: 80; display: grid; place-items: center; background: #050506; opacity: 0; transition: opacity .3s var(--ease); }
+.tour.open { opacity: 1; }
+.tour-video { width: 100%; height: 100%; object-fit: contain; background: #050506; }
+.tour-close { position: absolute; top: calc(var(--safe-top) + 14px); right: 14px; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(21, 23, 27, .8); color: var(--text); backdrop-filter: blur(10px); }
+.tour-close svg { width: 18px; height: 18px; }
+.tour-end { position: absolute; left: 28px; right: 28px; bottom: calc(var(--safe-bottom) + 40px); display: grid; gap: 10px; text-align: center; }
+.tour.ended .tour-video { opacity: .6; transition: opacity .4s; }

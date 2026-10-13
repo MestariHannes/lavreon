@@ -37,11 +37,12 @@ Three manually selected developments from public sources, checked 15 September 2
 ## Phone app (`app/`)
 `app/` is a phone-first client app on the same fictional data as the portal. It can be installed to a home screen (iPhone: Safari → Share → Add to Home Screen; Android: Chrome menu → Install app) and then opens full screen from its own icon and works offline (`sw.js`, network first, scope `app/` only).
 
-- Tabs: Today (greeting, net worth, priorities, AI Signal Brief, agenda), Wealth (scrubbable investment chart, allocation, activity, markets), Intelligence (priorities, brief and opportunities, each as DATA → CONTEXT → INTELLIGENCE → ACTION), Office (messages, agenda with .ics download, insurance, report, documents) and Profile (language, privacy and notification settings, install, reset).
-- Simulated: biometric unlock, the priority notification banner and the office's messages. Sent messages never leave the browser.
+- Tabs: Today (greeting, net worth, priorities, AI Signal Brief, agenda), Wealth (scrubbable investment chart, allocation, activity, markets), Intelligence (priorities, brief and opportunities, each as DATA → CONTEXT → INTELLIGENCE → ACTION), Office (messages, research requests with a monthly allowance and status, agenda with .ics download, insurance, report, documents) and Profile (language, privacy and notification settings, install, reset).
+- Simulated: biometric unlock, the priority notification banner, the office's messages and research requests. Sent messages and requests never leave the browser.
 - Data lives in `app/data.js` and matches `dashboard.html` and `intelligence-feed.js`; change all three together. Finnish strings are in `app/i18n.js` on top of `translations-fi.js`; the language is shared with the website (`lavreon-language`).
-- Stored only in this browser: `lavreon-app-v1` (settings, reviewed priorities, demo messages).
+- Stored only in this browser: `lavreon-app-v1` (settings, reviewed priorities, demo messages, demo requests).
 - Modes: on a phone or installed it fills the screen; on a wide screen it is drawn inside a phone beside a short introduction; `?embed=1` is the live preview in the public page's App section (no history entries, no service worker). `?nolock` skips the lock screen and `?install=1` opens the install steps.
+- App tour: a 33-second film of the demo (`app/media/lavreon-app-tour-en|fi`, MP4 with WebM fallback) plays from the lock screen, Profile and the desktop presentation, in the current language. The service worker leaves `media/` to the network. Re-record it when the app changes visibly.
 - When an app file changes, bump its `?v=` in `app/index.html` and the `CACHE` name and asset list in `app/sw.js`.
 
 ## Pricing
@@ -51,4 +52,4 @@ The public page shows illustrative launch retainers (Personal from €990, Signa
 Not implemented: real authentication, server-enforced authorisation and row-level security, client provisioning, protected document storage, audit logging, live financial or policy integrations, licensed market data, a monitored news pipeline, a contact channel and a privacy notice. Local presentation preferences are not security. Never put real client information into these public files.
 
 ## Verification checklist
-Desktop (1440 px) and mobile (375 px), English and Finnish: no console errors, no horizontal overflow, the intro plays once and never blocks the page, the mobile menu opens and closes, every anchor lands below the header, the language switch translates both pages, the App section's live preview loads and unlocks, portal routes, editor toggles and reset work, balance masking hides amounts only, and chart periods redraw.
+Desktop (1440 px) and mobile (375 px), English and Finnish: no console errors, no horizontal overflow, the intro plays once and never blocks the page, the mobile menu opens and closes, every anchor lands below the header, the language switch translates both pages, the App section's live preview loads and unlocks, the Questions items open and close, the header never overflows between 901 and 1320 px, portal routes, editor toggles and reset work, balance masking hides amounts only, and chart periods redraw.
