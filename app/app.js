@@ -85,6 +85,7 @@
     info: svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.4"/>'),
     reset: svg('<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v3.8h3.8"/>'),
     shield: svg('<path d="M12 3.5 19 6v5.5c0 4.3-2.9 7.6-7 9-4.1-1.4-7-4.7-7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>'),
+    play: svg('<path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/>'),
     request: svg('<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5M10.5 8v5M8 10.5h5"/>'),
     portal: svg('<rect x="3" y="4.5" width="18" height="12.5" rx="2"/><path d="M9 20.5h6M12 17v3.5"/>'),
     up: svg('<path d="M7 17 17 7M9 7h8v8"/>'),
@@ -305,6 +306,7 @@
       <h2 class="group-title">${T('App')}</h2>
       <div class="group">
         ${linkRow('download', 'Install on your phone', STANDALONE ? 'Installed on this device' : 'Add LAVREON to your home screen', {'data-act': 'install'})}
+        ${linkRow('play', 'Watch the app tour', 'A 30-second film of the app', {'data-act': 'tour'})}
         ${linkRow('portal', 'Client portal on a computer', '', {href: '../dashboard.html', target: '_top'})}
         ${linkRow('globe', 'Visit public website', '', {href: '../index.html', target: '_top'})}
         ${linkRow('info', 'About this demo', 'Disclaimer and data', {'data-act': 'about'})}
@@ -498,7 +500,8 @@
     <div class="sheet-layer" hidden><div class="scrim" data-act="close"></div>
       <div class="sheet" role="dialog" aria-modal="true" tabindex="-1"><div class="sheet-grip"><span></span></div>
       <button type="button" class="sheet-close" data-act="close"></button><div class="sheet-body"></div></div></div>
-    <div class="lock" hidden></div>`;
+    <div class="lock" hidden></div>
+    <div class="tour" hidden role="dialog" aria-modal="true"></div>`;
   const $ = selector => root.querySelector(selector);
   const tabbar = $('.tabbar'), layer = $('.sheet-layer'), sheet = $('.sheet'), sheetBody = $('.sheet-body'), lock = $('.lock'), banner = $('.banner'), toastEl = $('.toast');
 
@@ -667,11 +670,39 @@
     toast(t('Calendar file downloaded'));
   }
 
+  // ---------- app tour film ----------
+  // A 33-second screen recording of the demo (app/media, MP4 with a WebM fallback), one per language. Opened from the lock screen and Profile.
+  const tourEl = $('.tour');
+  let tourFocus = null;
+  function openTour() {
+    tourFocus = document.activeElement;
+    const lang = fi() ? 'fi' : 'en';
+    tourEl.setAttribute('aria-label', t('Watch the app tour'));
+    tourEl.innerHTML = `<video class="tour-video" poster="media/tour-poster-${lang}.jpg" playsinline muted autoplay controls preload="auto"><source src="media/lavreon-app-tour-${lang}.mp4?v=tour-1" type="video/mp4"><source src="media/lavreon-app-tour-${lang}.webm?v=tour-1" type="video/webm"></video>
+      <button type="button" class="tour-close" data-act="tour-close" aria-label="${T('Close')}">${I.close}</button>
+      <div class="tour-end" hidden><button type="button" class="btn btn-primary" data-act="tour-close">${T('Start exploring')}</button><button type="button" class="btn btn-ghost" data-act="tour-replay">${I.reset}${T('Watch again')}</button></div>`;
+    const video = tourEl.querySelector('video');
+    video.addEventListener('ended', () => { video.controls = false; tourEl.querySelector('.tour-end').hidden = false; tourEl.classList.add('ended'); });
+    tourEl.hidden = false;
+    requestAnimationFrame(() => tourEl.classList.add('open'));
+    video.play?.().catch(() => {});
+    setTimeout(() => tourEl.querySelector('.tour-close').focus({preventScroll: true}), 60);
+  }
+  function closeTour() {
+    if (tourEl.hidden) return;
+    tourEl.querySelector('video')?.pause();
+    tourEl.classList.remove('open', 'ended');
+    setTimeout(() => { tourEl.hidden = true; tourEl.innerHTML = ''; }, motion() ? 300 : 0);
+    if (tourFocus && root.contains(tourFocus)) tourFocus.focus({preventScroll: true});
+  }
+  tourEl.addEventListener('keydown', e => { if (e.key === 'Escape') { e.stopPropagation(); closeTour(); } });
+
   // ---------- lock screen ----------
   function renderLock() {
     lock.innerHTML = `<div class="lock-top"><img class="lock-symbol" src="${SYMBOL}" alt="" width="148" height="80"><p class="lock-word">LAVREON</p><p class="lock-sub">${T('PRIVATE INTELLIGENCE OFFICE')}</p></div>
       <div class="lock-bottom"><p class="lock-greet">${T('Welcome back')}, <em>${esc(D.client.name)}.</em></p>
       <button type="button" class="unlock" data-act="unlock"><span class="faceid">${I.faceid}<svg class="scan-ring" viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="34" pathLength="1"/></svg>${I.check.replace('<svg', '<svg class="unlock-check"')}</span><span class="unlock-label">${T('Unlock')}</span></button>
+      <button type="button" class="tour-link" data-act="tour">${I.play}<span>${T('Watch the app tour')}</span><small>0:33</small></button>
       <p class="lock-note">${T('Demo · biometric unlock is simulated. No account is signed in.')}</p></div>`;
   }
   let unlocking = false;
@@ -794,6 +825,9 @@
     ics: el => downloadIcs(D.agenda.find(x => x.id === el.dataset.id)),
     lang: el => { state.lang = el.dataset.lang; write('lavreon-language', state.lang); renderAll(); rerenderSheet(); },
     unlock: () => unlock(),
+    tour: () => { if (sheetOpen) closeSheet(); openTour(); },
+    'tour-close': () => closeTour(),
+    'tour-replay': () => { const video = tourEl.querySelector('video'); tourEl.querySelector('.tour-end').hidden = true; tourEl.classList.remove('ended'); video.controls = true; video.currentTime = 0; video.play().catch(() => {}); },
     close: () => closeSheet()
   };
   document.addEventListener('click', e => {

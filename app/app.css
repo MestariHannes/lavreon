@@ -77,6 +77,8 @@ html.mode-device .device-screen::after { content: ''; position: absolute; z-inde
 .stage-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
 .stage-button { min-height: 46px; padding: 0 22px; border: 0; border-radius: 2px; background: var(--text); color: var(--bg); font-size: 13px; font-weight: 600; letter-spacing: .04em; transition: background .2s; }
 .stage-button:hover { background: var(--gold-2); }
+.stage-button-ghost { border: 1px solid var(--gold-line); background: transparent; color: var(--gold-2); }
+.stage-button-ghost:hover { background: var(--gold-soft); }
 .stage-lang { display: inline-flex; border: 1px solid var(--line-2); border-radius: 2px; }
 .stage-lang button { min-width: 44px; min-height: 44px; border: 0; background: none; color: var(--muted); font-size: 12px; letter-spacing: .12em; }
 .stage-lang button[aria-pressed="true"] { color: var(--gold-2); background: var(--gold-soft); }
@@ -489,3 +491,15 @@ html.mode-device .lock, html.mode-embed .lock { padding-top: calc(var(--safe-top
 .seg-radio { flex: 1; position: relative; display: flex; cursor: pointer; }
 .seg-radio span { flex: 1; display: grid; place-items: center; min-height: 34px; border-radius: 10px; color: var(--muted); font-size: 13px; transition: background .2s, color .2s; }
 .seg-radio input:checked + span { background: var(--s4); color: var(--text); }
+
+/* App tour film: a full-screen player above the lock screen. */
+.tour-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: none; color: var(--gold-2); font-size: 13.5px; }
+.tour-link svg { width: 14px; height: 14px; }
+.tour-link small { color: var(--faint); font-size: 12px; font-variant-numeric: tabular-nums; }
+.tour { position: absolute; inset: 0; z-index: 80; display: grid; place-items: center; background: #050506; opacity: 0; transition: opacity .3s var(--ease); }
+.tour.open { opacity: 1; }
+.tour-video { width: 100%; height: 100%; object-fit: contain; background: #050506; }
+.tour-close { position: absolute; top: calc(var(--safe-top) + 14px); right: 14px; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(21, 23, 27, .8); color: var(--text); backdrop-filter: blur(10px); }
+.tour-close svg { width: 18px; height: 18px; }
+.tour-end { position: absolute; left: 28px; right: 28px; bottom: calc(var(--safe-bottom) + 40px); display: grid; gap: 10px; text-align: center; }
+.tour.ended .tour-video { opacity: .6; transition: opacity .4s; }

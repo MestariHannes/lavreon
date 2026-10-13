@@ -42,6 +42,7 @@ Three manually selected developments from public sources, checked 15 September 2
 - Data lives in `app/data.js` and matches `dashboard.html` and `intelligence-feed.js`; change all three together. Finnish strings are in `app/i18n.js` on top of `translations-fi.js`; the language is shared with the website (`lavreon-language`).
 - Stored only in this browser: `lavreon-app-v1` (settings, reviewed priorities, demo messages, demo requests).
 - Modes: on a phone or installed it fills the screen; on a wide screen it is drawn inside a phone beside a short introduction; `?embed=1` is the live preview in the public page's App section (no history entries, no service worker). `?nolock` skips the lock screen and `?install=1` opens the install steps.
+- App tour: a 33-second film of the demo (`app/media/lavreon-app-tour-en|fi`, MP4 with WebM fallback) plays from the lock screen, Profile and the desktop presentation, in the current language. The service worker leaves `media/` to the network. Re-record it when the app changes visibly.
 - When an app file changes, bump its `?v=` in `app/index.html` and the `CACHE` name and asset list in `app/sw.js`.
 
 ## Pricing

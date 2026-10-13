@@ -142,5 +142,9 @@ window.LAVREON_APP_FI = {
   'Is the property sum insured in line with the latest valuation?': 'Vastaako kiinteistön vakuutusmäärä viimeisintä arvonmääritystä?',
   'How could more granular weather forecasts change property-risk planning?': 'Miten tarkemmat sääennusteet voisivat muuttaa kiinteistöriskien suunnittelua?',
   'Prepare questions for the holding company board meeting.': 'Valmistele kysymykset holdingyhtiön hallituksen kokoukseen.',
-  'The real-estate register values the sample property at €2.88M against a sum insured of €2.10M. Ask the insurer for an updated valuation and renewal quote before the renewal date. This is a fictional answer derived from the sample data.': 'Kiinteistörekisteri arvostaa esimerkkikiinteistön 2,88 M€:oon, kun vakuutusmäärä on 2,10 M€. Pyydä vakuutusyhtiöltä päivitetty arvonmääritys ja uusimistarjous ennen uusimispäivää. Tämä on kuvitteellinen, esimerkkidatasta johdettu vastaus.'
+  'The real-estate register values the sample property at €2.88M against a sum insured of €2.10M. Ask the insurer for an updated valuation and renewal quote before the renewal date. This is a fictional answer derived from the sample data.': 'Kiinteistörekisteri arvostaa esimerkkikiinteistön 2,88 M€:oon, kun vakuutusmäärä on 2,10 M€. Pyydä vakuutusyhtiöltä päivitetty arvonmääritys ja uusimistarjous ennen uusimispäivää. Tämä on kuvitteellinen, esimerkkidatasta johdettu vastaus.',
+
+  // App tour film
+  'Watch the app tour': 'Katso esittelyvideo', 'A 30-second film of the app': '30 sekunnin video sovelluksesta',
+  'Start exploring': 'Aloita tutustuminen', 'Watch again': 'Katso uudelleen'
 };
