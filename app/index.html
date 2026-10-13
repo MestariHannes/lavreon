@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LAVREON — Private Office App · Demo</title>
+<meta name="description" content="The LAVREON app demo: your private office in your pocket. Net worth, priority intelligence, AI Signal Brief, agenda, documents and messages on fictional sample data.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0b0d">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LAVREON">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>
+  // Presentation mode: "native" fills a phone or the installed app, "device" draws a phone on wide screens,
+  // "embed" fills the phone frame on the public website.
+  (() => {
+    const html = document.documentElement;
+    const query = new URLSearchParams(location.search);
+    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true || query.has('pwa');
+    if (standalone) html.classList.add('is-standalone');
+    const wide = matchMedia('(min-width: 760px) and (min-height: 620px)');
+    const set = () => {
+      const mode = query.has('embed') ? 'embed' : standalone ? 'native' : wide.matches ? 'device' : 'native';
+      html.classList.remove('mode-embed', 'mode-native', 'mode-device');
+      html.classList.add(`mode-${mode}`);
+    };
+    set();
+    wide.addEventListener('change', set);
+  })();
+</script>
+<link rel="stylesheet" href="app.css?v=app-1">
+<script src="../translations-fi.js?v=app-1" defer></script>
+<script src="i18n.js?v=app-1" defer></script>
+<script src="data.js?v=app-1" defer></script>
+<script src="app.js?v=app-1" defer></script>
+</head>
+<body>
+<div class="stage">
+  <aside class="stage-intro">
+    <a class="stage-brand" href="../index.html"><img src="../assets/lavreon-symbol.svg" alt="" width="46" height="25"><span>LAVREON</span></a>
+    <p class="stage-eyebrow" data-t="LAVREON APP · DEMO">LAVREON APP · DEMO</p>
+    <h1 class="stage-title"><span data-t="Your private office,">Your private office,</span><br><em data-t="in your pocket.">in your pocket.</em></h1>
+    <p class="stage-copy" data-t="Net worth, priority intelligence, the AI Signal Brief, your agenda, documents and a direct line to your office. Designed for one hand and a few quiet minutes.">Net worth, priority intelligence, the AI Signal Brief, your agenda, documents and a direct line to your office. Designed for one hand and a few quiet minutes.</p>
+    <ul class="stage-list">
+      <li data-t="Unlock, then open a priority alert">Unlock, then open a priority alert</li>
+      <li data-t="Drag across the investment chart">Drag across the investment chart</li>
+      <li data-t="Hide balances with the eye">Hide balances with the eye</li>
+      <li data-t="Message your office or add a meeting to your calendar">Message your office or add a meeting to your calendar</li>
+    </ul>
+    <div class="stage-actions">
+      <button type="button" class="stage-button" data-open-install data-t="Install on your phone">Install on your phone</button>
+      <div class="stage-lang" data-lang-switch role="group" aria-label="Language"><button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button><button type="button" data-lang="fi" lang="fi" aria-pressed="false">FI</button></div>
+    </div>
+    <p class="stage-note" data-t="Fictional sample data. No account, no live prices and no advice.">Fictional sample data. No account, no live prices and no advice.</p>
+    <a class="stage-back" href="../index.html" data-t="← Back to LAVREON">← Back to LAVREON</a>
+  </aside>
+  <div class="device">
+    <div class="device-screen">
+      <div id="app" class="app"><noscript><p class="noscript">LAVREON needs JavaScript to run. All content is fictional sample data.</p></noscript></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

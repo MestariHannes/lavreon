@@ -29,11 +29,11 @@
   <script>try{if(sessionStorage.getItem('lavreon-intro-seen'))document.documentElement.classList.add('intro-skip')}catch{}</script>
   <link rel="stylesheet" href="styles.css?v=a11y-2">
 <link rel="stylesheet" href="language.css?v=mobile-header-1">
-<script src="translations-fi.js?v=fi-portal-1" defer></script>
+<script src="translations-fi.js?v=app-1" defer></script>
 <script src="language.js?v=fi-numbers-1" defer></script>
   <script src="intro.js?v=intro-short-1" defer></script>
-  <script src="site.js?v=scope-1" defer></script>
-<link rel="stylesheet" href="premium.css?v=contact-dark-1">
+  <script src="site.js?v=app-1" defer></script>
+<link rel="stylesheet" href="premium.css?v=app-1">
 </head>
 
 <body class="public-site">
@@ -53,7 +53,7 @@
       <a href="#services">Intelligence</a>
       <a href="#brief">Brief</a>
       <a href="#pricing">Retainers</a>
-      <a href="ajoura/" translate="no">Ajoura</a>
+      <a href="#app">App</a>
       <a class="nav-portal" href="dashboard.html">Client Portal · Demo</a>
     </nav>
 
@@ -317,6 +317,32 @@
       </article>
     </section>
 
+    <!-- The LAVREON phone app (installable demo in app/). -->
+    <section class="section app-section" id="app" aria-labelledby="app-heading">
+      <div class="app-copy">
+        <p class="eyebrow">THE LAVREON APP · DEMO</p>
+        <h2 id="app-heading">Your office.<br><em>In your pocket.</em></h2>
+        <p class="app-lede">The same discipline, designed for one hand: priorities with a date to act by, the AI Signal Brief, your agenda, documents and a private line to your office.</p>
+        <ol class="app-features">
+          <li><span class="app-feature-number">01</span><div><strong>Priority alerts</strong><p>Each alert walks from data to context, intelligence and a clear next action.</p></div></li>
+          <li><span class="app-feature-number">02</span><div><strong>Private by default</strong><p>Biometric unlock and one tap to hide every balance.</p></div></li>
+          <li><span class="app-feature-number">03</span><div><strong>Installs like an app</strong><p>Add it to your home screen. It opens full screen and works offline.</p></div></li>
+        </ol>
+        <div class="app-actions">
+          <a class="button button-primary" href="app/">Open the app · Demo</a>
+          <a class="button button-secondary" href="app/?install=1">Install on your phone <span aria-hidden="true">&nbsp;↗</span></a>
+        </div>
+        <p class="app-caption">Prototype on fictional sample data. Unlock and notifications are simulated.</p>
+      </div>
+      <div class="app-showcase">
+        <div class="app-glow" aria-hidden="true"></div>
+        <div class="app-phone">
+          <iframe src="app/?embed=1" title="LAVREON app preview. Tap Unlock to try it." loading="lazy"></iframe>
+        </div>
+        <p class="app-try" aria-hidden="true">Try it here · tap Unlock</p>
+      </div>
+    </section>
+
     <!-- Who we serve -->
     <section class="section" id="about">
 
@@ -450,7 +476,7 @@
       Nothing presented constitutes investment, legal or financial advice.
     </p>
 
-    <div class="footer-trust" aria-label="Website information"><span aria-disabled="true">Privacy · in preparation</span><span aria-disabled="true">Terms · in preparation</span><a href="#disclaimer">Disclaimer</a><a href="#contact">Contact</a><a href="#about">About LAVREON</a></div>
+    <div class="footer-trust" aria-label="Website information"><span aria-disabled="true">Privacy · in preparation</span><span aria-disabled="true">Terms · in preparation</span><a href="#disclaimer">Disclaimer</a><a href="#contact">Contact</a><a href="#about">About LAVREON</a><a href="app/">LAVREON app · Demo</a></div>
     <p class="copyright">
       © 2026 LAVREON. All rights reserved.
     </p>
