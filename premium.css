@@ -338,3 +338,56 @@
 .hero-app-link:hover { background: #b8a06a1f; border-color: #d4c08f; }
 .hero-app-badge { padding: 5px 10px; border-radius: 999px; background: #b8a06a; color: #0a0b0d; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .nav-arrow { margin-left: 6px; color: #d4c08f; }
+
+/* How an engagement begins: four proposed steps on a timeline. */
+.engagement-steps { list-style: none; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; position: relative; }
+.engagement-steps::before { content: ''; position: absolute; left: 0; right: 0; top: 5px; height: 1px; background: linear-gradient(90deg, var(--premium-gold), #b8a06a33); }
+.engagement-steps li { position: relative; padding: 34px 28px 0 0; }
+.engagement-steps li::before { content: ''; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: #15171b; border: 1px solid var(--premium-gold); }
+.engagement-steps li:first-child::before { background: var(--premium-gold); }
+.engagement-when { display: block; margin-bottom: 14px; color: var(--premium-gold); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+.engagement-steps h3 { margin: 0 0 12px; font-size: 24px; }
+.engagement-steps p { margin: 0; color: var(--text-muted); font-size: 15px; line-height: 1.7; max-width: 300px; }
+.engagement-section .section-caption { margin-top: 48px; }
+
+/* Questions: native disclosure list, works without JavaScript. */
+.faq-section { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(40px, 7vw, 110px); align-items: start; }
+.faq-intro h2 { margin-bottom: 20px; }
+.faq-list { border-top: 1px solid var(--border); }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 24px; align-items: baseline; padding: 24px 0; font-family: Georgia, 'Times New Roman', serif; font-size: 20px; line-height: 1.35; color: var(--premium-ivory); transition: color var(--transition); }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: '+'; flex: none; color: var(--premium-gold); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 22px; line-height: 1; transition: transform var(--transition); }
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item summary:hover { color: var(--premium-light); }
+.faq-item summary:focus-visible { outline: 2px solid var(--premium-light); outline-offset: 4px; }
+.faq-item p { margin: -6px 0 24px; max-width: 640px; color: var(--text-muted); font-size: 16px; line-height: 1.75; }
+.faq-links { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+
+@media (max-width: 900px) {
+  .engagement-steps { grid-template-columns: 1fr; margin-top: 40px; }
+  .engagement-steps::before { left: 5px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; background: linear-gradient(180deg, var(--premium-gold), #b8a06a33); }
+  .engagement-steps li { padding: 0 0 34px 34px; }
+  .engagement-steps li:last-child { padding-bottom: 0; }
+  .engagement-steps p { max-width: 560px; }
+  .faq-section { grid-template-columns: 1fr; gap: 28px; }
+  .faq-item summary { font-size: 18px; padding: 20px 0; }
+}
+
+/* Desktop header between the mobile menu and full width: tighter navigation so it never overflows. */
+@media (min-width: 901px) and (max-width: 1320px) {
+  .public-site .site-header { gap: 14px; }
+  .public-site .navigation { gap: clamp(10px, 1.4vw, 20px); }
+  .public-site .navigation a { font-size: 14px; letter-spacing: 0; }
+  .public-site .header-cta { font-size: 12px; padding-inline: 12px; letter-spacing: .04em; }
+}
+@media (min-width: 901px) and (max-width: 1040px) {
+  .public-site .brand-wordmark { letter-spacing: .14em; font-size: 18px; }
+  .public-site .navigation a { font-size: 13px; }
+}
+@media (min-width: 901px) and (max-width: 980px) {
+  .public-site .site-header { gap: 10px; }
+  .public-site .navigation { gap: 9px; }
+  .public-site .navigation a { font-size: 12.5px; }
+  .public-site .header-cta { font-size: 11px; padding-inline: 9px; letter-spacing: .02em; }
+}

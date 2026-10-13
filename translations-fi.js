@@ -338,3 +338,33 @@ Object.assign(window.LAVREON_FI, {
   'New': 'Uutta',
   'Open the LAVREON app': 'Avaa LAVREON-sovellus'
 });
+
+// How an engagement begins and Questions on the public page.
+Object.assign(window.LAVREON_FI, {
+  'HOW AN ENGAGEMENT BEGINS': 'NÄIN YHTEISTYÖ ALKAA',
+  'Four steps.': 'Neljä vaihetta.',
+  'No surprises.': 'Ei yllätyksiä.',
+  'Every engagement starts small and private. Scope, cadence and information handling are agreed before anything sensitive is shared.': 'Jokainen yhteistyö alkaa pienesti ja luottamuksellisesti. Laajuus, rytmi ja tietojen käsittely sovitaan ennen kuin mitään arkaluonteista jaetaan.',
+  'Week 1': 'Viikko 1', 'Weeks 2–3': 'Viikot 2–3', 'First 30 days': 'Ensimmäiset 30 päivää', 'Ongoing': 'Jatkuva',
+  'Introduction': 'Tutustuminen', 'Mandate': 'Toimeksianto', 'Onboarding': 'Käyttöönotto', 'Rhythm': 'Rytmi',
+  'A private conversation about the decisions you face. No documents or account details are needed at this stage.': 'Luottamuksellinen keskustelu edessäsi olevista päätöksistä. Asiakirjoja tai tilitietoja ei tässä vaiheessa tarvita.',
+  'A written mandate sets what LAVREON watches, how often you hear from us, the request allowance and how information is handled.': 'Kirjallinen toimeksianto määrittää, mitä LAVREON seuraa, kuinka usein kuulet meistä, pyyntökiintiön ja sen, miten tietoja käsitellään.',
+  'Holdings, entities, properties and policies are mapped into one structure, using only the information the mandate needs.': 'Omistukset, yhtiöt, kiinteistöt ja vakuutukset kootaan yhteen rakenteeseen käyttäen vain toimeksiannon edellyttämiä tietoja.',
+  'Priority alerts when something changes, briefs on the agreed cadence and a regular private review to adjust the focus.': 'Prioriteettihälytykset, kun jokin muuttuu, katsaukset sovitussa rytmissä ja säännöllinen yksityinen katselmointi painopisteen tarkentamiseksi.',
+  'Proposed process. Timings are indicative and agreed per mandate.': 'Ehdotettu prosessi. Aikataulut ovat suuntaa-antavia ja sovitaan toimeksiannoittain.',
+  'QUESTIONS': 'KYSYMYKSIÄ', 'Questions': 'Kysymyksiä',
+  'Before the first': 'Ennen ensimmäistä', 'conversation.': 'keskustelua.',
+  'Straight answers to what people usually ask first.': 'Suorat vastaukset siihen, mitä yleensä kysytään ensimmäisenä.',
+  'Is LAVREON a wealth manager or an adviser?': 'Onko LAVREON varainhoitaja tai neuvonantaja?',
+  'No. LAVREON is a proposed intelligence service. It does not manage money, place insurance or give investment, legal or tax advice. It prepares evidence and questions for you and your advisers.': 'Ei. LAVREON on ehdotettu analyysipalvelu. Se ei hoida varoja, välitä vakuutuksia eikä anna sijoitus-, laki- tai veroneuvontaa. Se valmistelee näyttöä ja kysymyksiä sinulle ja neuvonantajillesi.',
+  'What information would LAVREON need?': 'Mitä tietoja LAVREON tarvitsisi?',
+  'Only what the agreed mandate needs. Initial discussions stay high-level, and sensitive material is shared only after scope and information-handling arrangements are agreed.': 'Vain sen, mitä sovittu toimeksianto edellyttää. Alkukeskustelut pysyvät yleisellä tasolla, ja arkaluonteista aineistoa jaetaan vasta, kun laajuus ja tietojen käsittely on sovittu.',
+  'How is intelligence different from news?': 'Miten analyysi eroaa uutisista?',
+  'Each item is tied to something you own or are responsible for, separates reported fact from interpretation, and ends with a question or a date to act by.': 'Jokainen havainto liittyy johonkin, jonka omistat tai josta vastaat, erottaa raportoidut tosiasiat tulkinnasta ja päättyy kysymykseen tai päivämäärään, johon mennessä toimia.',
+  'What role does AI play?': 'Mikä rooli tekoälyllä on?',
+  'AI is designed to help scan and structure sources. Every brief is meant to be checked by a person, with sources cited and uncertainty stated.': 'Tekoäly on suunniteltu auttamaan lähteiden seulonnassa ja jäsentämisessä. Jokainen katsaus on tarkoitus tarkistaa ihmisen toimesta, lähteet mainiten ja epävarmuus todeten.',
+  'Can the retainer change later?': 'Voiko palvelutasoa muuttaa myöhemmin?',
+  'Yes. Scope, cadence and request allowance are designed to be reviewed at the private review, and an engagement can move between retainers.': 'Kyllä. Laajuus, rytmi ja pyyntökiintiö on tarkoitus käydä läpi yksityisessä katselmoinnissa, ja yhteistyö voi siirtyä palvelutasolta toiselle.',
+  'Can I see how it works first?': 'Voinko nähdä ensin, miten se toimii?',
+  'Yes. The client portal and the phone app are public demos on fictional sample data for an invented client, Alex Morgan.': 'Kyllä. Asiakasportaali ja puhelinsovellus ovat julkisia demoja, joissa on kuvitteellista esimerkkidataa keksitylle asiakkaalle, Alex Morganille.'
+});
