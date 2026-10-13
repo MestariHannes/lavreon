@@ -1,6 +1,6 @@
 # LAVREON
 
-Public presentation site and client-portal prototype for LAVREON, a private intelligence office. Plain HTML, CSS and JavaScript with no build step. Published with GitHub Pages: https://mestarihannes.github.io/lavreon/
+Public presentation site, client-portal prototype and installable phone app demo for LAVREON, a private intelligence office. Plain HTML, CSS and JavaScript with no build step. Published with GitHub Pages: https://mestarihannes.github.io/lavreon/
 
 ## Files
 | File | Purpose |
@@ -16,6 +16,7 @@ Public presentation site and client-portal prototype for LAVREON, a private inte
 | `intelligence-feed.js` | Fictional priority intelligence and opportunities (DATA → CONTEXT → INTELLIGENCE → ACTION) |
 | `demo-dates.js` | Keeps fictional demo dates relative to today |
 | `assets/` | Official symbol, favicon, touch icon and link-preview image |
+| `app/` | LAVREON phone app demo (installable PWA), see below |
 
 ## Local preview
 Serve the folder with any static server and open `index.html` or `dashboard.html`. When a CSS or JS file changes, update its `?v=` query in both HTML files so returning visitors get the new version.
@@ -33,6 +34,16 @@ All financial values, policies, companies, meetings and scenarios are fictional 
 ### Curated AI Signal Brief
 Three manually selected developments from public sources, checked 15 September 2026. No live search, backend, API keys or automatic refresh. Publication dates are real and stay static; implications are editorial interpretations.
 
+## Phone app (`app/`)
+`app/` is a phone-first client app on the same fictional data as the portal. It can be installed to a home screen (iPhone: Safari → Share → Add to Home Screen; Android: Chrome menu → Install app) and then opens full screen from its own icon and works offline (`sw.js`, network first, scope `app/` only).
+
+- Tabs: Today (greeting, net worth, priorities, AI Signal Brief, agenda), Wealth (scrubbable investment chart, allocation, activity, markets), Intelligence (priorities, brief and opportunities, each as DATA → CONTEXT → INTELLIGENCE → ACTION), Office (messages, agenda with .ics download, insurance, report, documents) and Profile (language, privacy and notification settings, install, reset).
+- Simulated: biometric unlock, the priority notification banner and the office's messages. Sent messages never leave the browser.
+- Data lives in `app/data.js` and matches `dashboard.html` and `intelligence-feed.js`; change all three together. Finnish strings are in `app/i18n.js` on top of `translations-fi.js`; the language is shared with the website (`lavreon-language`).
+- Stored only in this browser: `lavreon-app-v1` (settings, reviewed priorities, demo messages).
+- Modes: on a phone or installed it fills the screen; on a wide screen it is drawn inside a phone beside a short introduction; `?embed=1` is the live preview in the public page's App section (no history entries, no service worker). `?nolock` skips the lock screen and `?install=1` opens the install steps.
+- When an app file changes, bump its `?v=` in `app/index.html` and the `CACHE` name and asset list in `app/sw.js`.
+
 ## Pricing
 The public page shows illustrative launch retainers (Personal from €990, Signature €9,500 and Private Office €18,000 per month). They are not final and nothing can be purchased on the site.
 
@@ -40,4 +51,4 @@ The public page shows illustrative launch retainers (Personal from €990, Signa
 Not implemented: real authentication, server-enforced authorisation and row-level security, client provisioning, protected document storage, audit logging, live financial or policy integrations, licensed market data, a monitored news pipeline, a contact channel and a privacy notice. Local presentation preferences are not security. Never put real client information into these public files.
 
 ## Verification checklist
-Desktop (1440 px) and mobile (375 px), English and Finnish: no console errors, no horizontal overflow, the intro plays once and never blocks the page, the mobile menu opens and closes, every anchor lands below the header, the language switch translates both pages, portal routes, editor toggles and reset work, balance masking hides amounts only, and chart periods redraw.
+Desktop (1440 px) and mobile (375 px), English and Finnish: no console errors, no horizontal overflow, the intro plays once and never blocks the page, the mobile menu opens and closes, every anchor lands below the header, the language switch translates both pages, the App section's live preview loads and unlocks, portal routes, editor toggles and reset work, balance masking hides amounts only, and chart periods redraw.

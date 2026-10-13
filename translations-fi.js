@@ -314,3 +314,27 @@ Object.assign(window.LAVREON_FI, {
   "Curated AI brief · updated 15 Sep 2026": "Kuratoitu tekoälykatsaus · päivitetty 15.9.2026",
   "Sample financial data & curated AI brief · 15 Sep 2026": "Taloustietojen esimerkki ja kuratoitu tekoälykatsaus · 15.9.2026"
 });
+
+// LAVREON app section on the public page and the portal link to the app.
+Object.assign(window.LAVREON_FI, {
+  'App': 'Sovellus',
+  'THE LAVREON APP · DEMO': 'LAVREON-SOVELLUS · DEMO',
+  'Your office.': 'Toimistosi.',
+  'In your pocket.': 'Taskussasi.',
+  'The same discipline, designed for one hand: priorities with a date to act by, the AI Signal Brief, your agenda, documents and a private line to your office.': 'Sama kurinalaisuus yhdelle kädelle suunniteltuna: prioriteetit toimintapäivineen, tekoälykatsaus, kalenteri, asiakirjat ja yksityinen yhteys toimistoosi.',
+  'Priority alerts': 'Prioriteettihälytykset',
+  'Each alert walks from data to context, intelligence and a clear next action.': 'Jokainen hälytys etenee datasta kontekstiin, analyysiin ja selkeään seuraavaan toimenpiteeseen.',
+  'Private by default': 'Yksityinen oletuksena',
+  'Biometric unlock and one tap to hide every balance.': 'Biometrinen avaus ja yksi napautus piilottaa kaikki saldot.',
+  'Installs like an app': 'Asentuu kuin sovellus',
+  'Add it to your home screen. It opens full screen and works offline.': 'Lisää se kotivalikkoon. Se aukeaa koko näytölle ja toimii ilman verkkoa.',
+  'Open the app · Demo': 'Avaa sovellus · Demo',
+  'Install on your phone': 'Asenna puhelimeen',
+  'Prototype on fictional sample data. Unlock and notifications are simulated.': 'Prototyyppi kuvitteellisella esimerkkidatalla. Avaus ja ilmoitukset ovat simuloituja.',
+  'LAVREON app preview. Tap Unlock to try it.': 'LAVREON-sovelluksen esikatselu. Kokeile napauttamalla Avaa.',
+  'Try it here · tap Unlock': 'Kokeile tässä · napauta Avaa',
+  'LAVREON app · Demo': 'LAVREON-sovellus · Demo',
+  'Open the phone app': 'Avaa puhelinsovellus',
+  'New': 'Uutta',
+  'Open the LAVREON app': 'Avaa LAVREON-sovellus'
+});

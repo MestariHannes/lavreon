@@ -300,3 +300,41 @@
   .service-card:hover { background: #b8a06a06; }
 }
 @media (prefers-reduced-motion: reduce) { .stat, .panel, .editorial { transition: none; transform: none !important; } }
+
+/* LAVREON app section: copy beside a live, scaled preview of app/ in a phone frame. */
+.app-section { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: clamp(48px, 8vw, 120px); align-items: center; position: relative; overflow: hidden; }
+.app-section h2 { margin-bottom: 26px; }
+.app-lede { max-width: 520px; margin: 0 0 34px; color: var(--text-soft); font-size: 18px; }
+.app-features { list-style: none; margin: 0 0 38px; padding: 0; border-top: 1px solid var(--border); max-width: 560px; }
+.app-features li { display: grid; grid-template-columns: 54px 1fr; gap: 8px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+.app-feature-number { color: var(--gold); font-size: 11px; letter-spacing: .16em; padding-top: 4px; }
+.app-features strong { display: block; margin-bottom: 4px; font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 400; color: #f1ede4; }
+.app-features p { margin: 0; color: var(--text-muted); font-size: 15px; }
+.app-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; }
+.app-caption { margin: 0; color: var(--text-muted); font-size: 13px; }
+.app-showcase { position: relative; display: flex; flex-direction: column; align-items: center; }
+.app-glow { position: absolute; inset: 8% -10% 14%; background: radial-gradient(closest-side, #b8a06a2e, transparent); filter: blur(20px); pointer-events: none; }
+.app-phone {
+  --phone-width: min(330px, 78vw);
+  position: relative; width: calc(var(--phone-width) + 22px); height: calc(var(--phone-width) * 844 / 390 + 22px); padding: 11px; border-radius: 58px; overflow: hidden;
+  background: linear-gradient(150deg, #34363b 0%, #121316 22%, #0b0c0e 60%, #2a2c31 100%);
+  box-shadow: 0 0 0 1px #ffffff12 inset, 0 0 0 2px #050506, 0 50px 110px -30px #000000e6, 0 30px 60px -40px #b8a06a55;
+}
+.app-phone::before { content: ''; position: absolute; z-index: 2; top: 21px; left: 50%; width: 30%; height: 28px; transform: translateX(-50%); border-radius: 18px; background: #000; pointer-events: none; }
+.app-phone iframe { display: block; width: 390px; height: 844px; border: 0; border-radius: 48px; background: #08090b; transform: scale(var(--scale-js, .9)); transform-origin: 0 0; }
+.app-try { margin: 22px 0 0; color: var(--text-muted); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+@media (max-width: 900px) {
+  .app-section { grid-template-columns: 1fr; }
+  .app-showcase { order: 2; }
+}
+.sidebar-bottom a + a { margin-top: 0; }
+
+/* Quiet scroll reveal, added by site.js only when motion is welcome. */
+.reveal-ready .reveal { opacity: 0; transform: translateY(22px); transition: opacity 800ms ease, transform 900ms cubic-bezier(.2, .8, .2, 1); transition-delay: var(--reveal-delay, 0ms); }
+.reveal-ready .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Direct link to the phone app under the hero buttons. */
+.hero-app-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 22px; padding: 6px 16px 6px 6px; border: 1px solid #b8a06a55; border-radius: 999px; background: #b8a06a0d; color: #d4c08f; font-size: 13px; letter-spacing: .04em; transition: background 220ms ease, border-color 220ms ease; }
+.hero-app-link:hover { background: #b8a06a1f; border-color: #d4c08f; }
+.hero-app-badge { padding: 5px 10px; border-radius: 999px; background: #b8a06a; color: #0a0b0d; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.nav-arrow { margin-left: 6px; color: #d4c08f; }
