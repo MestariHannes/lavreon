@@ -85,6 +85,13 @@ window.LAVREON_APP_DATA = {
   report: {title: 'A moment to take stock.', day: -3, body: [
     'The fictional asset snapshot totals €12.43M. The next sample priority is the upcoming property renewal. The current intelligence brief explores AI forecasting, everyday assistance and agent safeguards.',
     'Prepared for Alex Morgan, a fictional client. All financial values are illustrative and no recommendation is made.']},
+  // Research requests to the office. stage: 0 received, 1 scoped, 2 in research, 3 delivered. day = sent (offset), due = needed by.
+  requests: {allowance: 8, items: [
+    {id: 'r1', question: 'Is the property sum insured in line with the latest valuation?', depth: 'Quick answer', day: -9, due: -2, stage: 3,
+      answer: 'The real-estate register values the sample property at €2.88M against a sum insured of €2.10M. Ask the insurer for an updated valuation and renewal quote before the renewal date. This is a fictional answer derived from the sample data.'},
+    {id: 'r2', question: 'How could more granular weather forecasts change property-risk planning?', depth: 'Deep brief', day: -4, due: 10, stage: 2},
+    {id: 'r3', question: 'Prepare questions for the holding company board meeting.', depth: 'Quick answer', day: -1, due: 14, stage: 1}
+  ]},
   messages: [
     {from: 'office', day: -3, time: '09:12', text: 'Good morning, Alex. Your monthly office note is ready under Reports.'},
     {from: 'office', day: -1, time: '16:40', text: 'The property policy renews in three weeks. The schedule is in your documents whenever you want to look at it together.'}

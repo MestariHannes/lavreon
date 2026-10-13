@@ -37,10 +37,10 @@ Three manually selected developments from public sources, checked 15 September 2
 ## Phone app (`app/`)
 `app/` is a phone-first client app on the same fictional data as the portal. It can be installed to a home screen (iPhone: Safari → Share → Add to Home Screen; Android: Chrome menu → Install app) and then opens full screen from its own icon and works offline (`sw.js`, network first, scope `app/` only).
 
-- Tabs: Today (greeting, net worth, priorities, AI Signal Brief, agenda), Wealth (scrubbable investment chart, allocation, activity, markets), Intelligence (priorities, brief and opportunities, each as DATA → CONTEXT → INTELLIGENCE → ACTION), Office (messages, agenda with .ics download, insurance, report, documents) and Profile (language, privacy and notification settings, install, reset).
-- Simulated: biometric unlock, the priority notification banner and the office's messages. Sent messages never leave the browser.
+- Tabs: Today (greeting, net worth, priorities, AI Signal Brief, agenda), Wealth (scrubbable investment chart, allocation, activity, markets), Intelligence (priorities, brief and opportunities, each as DATA → CONTEXT → INTELLIGENCE → ACTION), Office (messages, research requests with a monthly allowance and status, agenda with .ics download, insurance, report, documents) and Profile (language, privacy and notification settings, install, reset).
+- Simulated: biometric unlock, the priority notification banner, the office's messages and research requests. Sent messages and requests never leave the browser.
 - Data lives in `app/data.js` and matches `dashboard.html` and `intelligence-feed.js`; change all three together. Finnish strings are in `app/i18n.js` on top of `translations-fi.js`; the language is shared with the website (`lavreon-language`).
-- Stored only in this browser: `lavreon-app-v1` (settings, reviewed priorities, demo messages).
+- Stored only in this browser: `lavreon-app-v1` (settings, reviewed priorities, demo messages, demo requests).
 - Modes: on a phone or installed it fills the screen; on a wide screen it is drawn inside a phone beside a short introduction; `?embed=1` is the live preview in the public page's App section (no history entries, no service worker). `?nolock` skips the lock screen and `?install=1` opens the install steps.
 - When an app file changes, bump its `?v=` in `app/index.html` and the `CACHE` name and asset list in `app/sw.js`.
 

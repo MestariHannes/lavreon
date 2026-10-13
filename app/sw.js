@@ -1,10 +1,10 @@
 'use strict';
 // LAVREON app: network first, cached copy when offline. Scope is app/ only.
-const CACHE = 'lavreon-app-1';
+const CACHE = 'lavreon-app-2';
 const ASSETS = [
-  './', './index.html', './app.css?v=app-1', './app.js?v=app-1', './data.js?v=app-1', './i18n.js?v=app-1',
+  './', './index.html', './app.css?v=requests-1', './app.js?v=requests-1', './data.js?v=requests-1', './i18n.js?v=requests-1',
   './manifest.webmanifest', './icons/icon-192.png', './icons/apple-touch-icon.png',
-  '../translations-fi.js?v=app-1', '../assets/lavreon-symbol.svg', '../assets/favicon.svg'
+  '../translations-fi.js?v=engagement-1', '../assets/lavreon-symbol.svg', '../assets/favicon.svg'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
