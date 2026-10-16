@@ -338,3 +338,17 @@
 .hero-app-link:hover { background: #b8a06a1f; border-color: #d4c08f; }
 .hero-app-badge { padding: 5px 10px; border-radius: 999px; background: #b8a06a; color: #0a0b0d; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .nav-arrow { margin-left: 6px; color: #d4c08f; }
+/* Seven header links (App and Ajoura included) fit on narrow desktops in both languages. */
+@media (min-width: 901px) and (max-width: 1280px) {
+  .public-site .site-header { gap: 16px; }
+  .public-site .navigation { gap: 14px; }
+  .public-site .navigation a { font-size: 13px; letter-spacing: .02em; }
+  .public-site .header-cta { padding-inline: 14px; }
+}
+@media (min-width: 901px) and (max-width: 1060px) {
+  .public-site .site-header { gap: 12px; }
+  .public-site .brand-wordmark { font-size: 19px; letter-spacing: .18em; }
+  .public-site .navigation { gap: 10px; }
+  .public-site .navigation a { font-size: 12.5px; letter-spacing: 0; }
+  .public-site .header-cta { padding-inline: 10px; font-size: 12px; letter-spacing: .04em; }
+}
